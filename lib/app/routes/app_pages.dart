@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/bindings/home_binding.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/home_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/login/bindings/login_binding.dart';
@@ -29,13 +31,21 @@ class AppPages {
           ),
           GetPage(
               name: _Paths.HOME,
-              page: () => const HomeView(),
+              page: () => HomeView(),
               transition: Transition.noTransition,
               bindings: [
                 HomeBinding(),
               ],
               title: null,
-              children: [])
+              children: [
+                GetPage(
+                  name: _Paths.DASHBOARD,
+                  page: () => const DashboardView(),
+                  binding: DashboardBinding(),
+                  transition: Transition.noTransition,
+                  children: const [],
+                ),
+              ])
         ])
   ];
 }

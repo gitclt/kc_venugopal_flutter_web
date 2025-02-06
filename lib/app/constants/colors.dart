@@ -12,7 +12,7 @@ class AppColor {
   static Color red = const Color(0xffff0000);
   static Color violet = const Color(0xff673698);
   static Color grey = const Color(0xffF7F7F8);
-  static Color black = const Color(0xff484848);
+  static Color black = const Color(0xff202224);
   static Color orange = const Color(0xffFF8A5A);
   static Color peal = const Color(0xff79C7B8);
   static Color matteBlue = const Color(0xff707FBE);

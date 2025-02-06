@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 
 class SimpleContainer extends StatelessWidget {
   final Widget child;
-  const SimpleContainer({super.key, required this.child});
+  final Color? color;
+  const SimpleContainer({super.key, required this.child, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-          border: Border.all(color: AppColor.boxBorderColor),
+          border: Border.all(color: color ?? AppColor.boxBorderColor),
           borderRadius: BorderRadius.circular(8),
           color: Colors.white),
       child: child,
@@ -34,3 +35,4 @@ class PageContainer extends StatelessWidget {
     );
   }
 }
+

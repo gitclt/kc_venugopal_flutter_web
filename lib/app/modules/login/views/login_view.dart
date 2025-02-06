@@ -5,7 +5,6 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/login_textfield.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
-import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 
 import '../controllers/login_controller.dart';
@@ -26,7 +25,7 @@ class LoginView extends GetView<LoginController> {
         Align(
           alignment: Alignment.center,
           child: Form(
-            //  key: controller.formkey,
+            key: controller.formkey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,11 +127,10 @@ class LoginView extends GetView<LoginController> {
                             child: CommonButton(
                               isLoading: controller.isLoading.value,
                               onClick: () {
-                                Get.rootDelegate.toNamed(Routes.DASHBOARD);
-                                // if (controller.formkey.currentState!
-                                //     .validate()) {
-                                //   controller.login();
-                                //}
+                                if (controller.formkey.currentState!
+                                    .validate()) {
+                                  controller.login();
+                                }
                               },
                               label: 'login'.tr,
                             ).paddingSymmetric(vertical: 10),

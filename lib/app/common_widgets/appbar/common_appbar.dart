@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
@@ -19,11 +18,9 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: AppColor.white,
       automaticallyImplyLeading: false,
-
       centerTitle: false,
       elevation: .2,
-    
-      leading: !ResponsiveWidget.isDesktop(context)
+      leading: !Responsive.isDesktop(context)
           ? IconButton(
               onPressed: () {
                 //if(scaffoldKey.currentState=null )

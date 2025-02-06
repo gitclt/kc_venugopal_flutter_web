@@ -10,8 +10,8 @@ import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/utils.dart';
 
 class LoginController extends GetxController {
-  final emailController = TextEditingController(text: '').obs;
-  final passwordController = TextEditingController(text: '').obs;
+  final emailController = TextEditingController(text: 'admin').obs;
+  final passwordController = TextEditingController(text: 'admin123').obs;
   final isLoading = false.obs;
   final isVisiblePassword = false.obs;
   final formkey = GlobalKey<FormState>();

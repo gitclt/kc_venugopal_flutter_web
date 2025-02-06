@@ -29,24 +29,28 @@ class AuthModel {
 }
 
 class Data {
-  int? empId;
-  String? token;
+  String? encKey;
+  int? accountId;
 
   Data({
-    this.empId,
-    this.token,
+    this.encKey,
+    this.accountId,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        empId: json["emp_id"],
-        token: json["token"],
+        encKey: json["enc_key"],
+        accountId: json["account_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "emp_id": empId,
-        "token": token,
+        "enc_key": encKey,
+        "account_id": accountId,
       };
 }
+
+// To parse this JSON data, do
+//
+//     final userResponse = userResponseFromJson(jsonString);
 
 UserResponse userResponseFromJson(String str) =>
     UserResponse.fromJson(json.decode(str));
@@ -84,44 +88,44 @@ class UserResponse {
 
 class UserData {
   int? id;
-  String? studentname;
-  String? academicYear;
-  String? courseName;
-  String? mobile;
+  String? username;
+  int? accountId;
+  dynamic name;
+  dynamic mobile;
+  String? account;
   String? email;
-  String? location;
-  String? image;
+  String? description;
 
   UserData({
     this.id,
-    this.studentname,
-    this.academicYear,
-    this.courseName,
+    this.username,
+    this.accountId,
+    this.name,
     this.mobile,
+    this.account,
     this.email,
-    this.location,
-    this.image,
+    this.description,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"],
-        studentname: json["studentname"],
-        academicYear: json["academic_year"],
-        courseName: json["course_name"],
+        username: json["username"],
+        accountId: json["account_id"],
+        name: json["name"],
         mobile: json["mobile"],
+        account: json["account"],
         email: json["email"],
-        location: json["location"],
-        image: json["image"],
+        description: json["description"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "studentname": studentname,
-        "academic_year": academicYear,
-        "course_name": courseName,
+        "username": username,
+        "account_id": accountId,
+        "name": name,
         "mobile": mobile,
+        "account": account,
         "email": email,
-        "location": location,
-        "image": image,
+        "description": description,
       };
 }

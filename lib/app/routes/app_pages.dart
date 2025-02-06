@@ -5,6 +5,8 @@ import 'package:kc_venugopal_flutter_web/app/modules/home/bindings/home_binding.
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/home_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/login/bindings/login_binding.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/login/views/login_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/master/bindings/master_binding.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/master/views/master_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/root/bindings/root_binding.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/root/views/root_view.dart';
 part 'app_routes.dart';
@@ -45,6 +47,12 @@ class AppPages {
                   transition: Transition.noTransition,
                   children: const [],
                 ),
+                 GetPage(
+                  name: _Paths.MASTER,
+                  page: () => const MasterView(),
+                  binding: MasterBinding(),
+                ),
+
               ])
         ])
   ];

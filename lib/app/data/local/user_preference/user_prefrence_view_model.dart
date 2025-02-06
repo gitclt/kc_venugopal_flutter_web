@@ -8,8 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class UserPreference {
   Future<bool> saveUser(
     UserData userData,
-    // List<Branch> branch,
-    // List<Privilage> privilages,
+   
   ) async {
     LocalStorageKey.userData = userData;
 

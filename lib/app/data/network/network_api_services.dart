@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -152,16 +151,11 @@ class NetworkApiServices extends BaseApiServices {
             Uri.parse(url),
             body: data,
           )
-          .timeout(const Duration(seconds: 10));
+          .timeout(const Duration(seconds: 15));
 
       responseJson = returnResponse(response);
-    } on SocketException {
-      throw InternetException('');
-    } on RequestTimeOut {
-      throw RequestTimeOut('');
-    }
-    if (kDebugMode) {
-      print(responseJson);
+    } catch (e) {
+      print(e);
     }
     return responseJson;
   }

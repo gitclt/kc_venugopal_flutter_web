@@ -42,11 +42,11 @@ class LoginController extends GetxController {
         Utils.snackBar('Login', failure.message);
       }, (sucess) async {
         if (sucess.data != null) {
-          await userPreference.addToken(sucess.data!.token ?? '');
+          await userPreference.addToken(sucess.data!.encKey ?? '');
 
           if (sucess.data != null) {
-            final res =
-                await profileRepo.getProfileView(sucess.data!.token.toString());
+            final res = await profileRepo
+                .getProfileView(sucess.data!.encKey.toString());
 
             res.fold(
               (failure) {

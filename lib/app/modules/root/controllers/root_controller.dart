@@ -39,7 +39,7 @@ class RootController extends GetxController {
               if (res.data != null) {
                 userPreference
                     .saveUser(
-                  res.data!.first,
+                  res.data!,
                 )
                     .then(
                   (s) {

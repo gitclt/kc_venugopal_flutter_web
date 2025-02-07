@@ -1,14 +1,25 @@
 import 'package:get/get.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/dashboard/bindings/dashboard_binding.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/dashboard/views/dashboard_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/home/bindings/home_binding.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/home/views/home_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/login/bindings/login_binding.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/login/views/login_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/master/bindings/master_binding.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/master/views/master_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/root/bindings/root_binding.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/root/views/root_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/master/category/views/category_add_view.dart';
+
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
+import '../modules/master/assembly/bindings/assembly_binding.dart';
+import '../modules/master/assembly/views/assembly_view.dart';
+import '../modules/master/bindings/master_binding.dart';
+import '../modules/master/category/bindings/category_binding.dart';
+import '../modules/master/category/views/category_view.dart';
+import '../modules/master/priority/bindings/priority_binding.dart';
+import '../modules/master/priority/views/priority_view.dart';
+import '../modules/master/sub_admin/bindings/sub_admin_binding.dart';
+import '../modules/master/sub_admin/views/sub_admin_view.dart';
+import '../modules/master/views/master_view.dart';
+import '../modules/root/bindings/root_binding.dart';
+import '../modules/root/views/root_view.dart';
+
 part 'app_routes.dart';
 
 class AppPages {
@@ -32,28 +43,51 @@ class AppPages {
             transition: Transition.fade,
           ),
           GetPage(
-              name: _Paths.HOME,
-              page: () => HomeView(),
-              transition: Transition.noTransition,
-              bindings: [
-                HomeBinding(),
-              ],
-              title: null,
-              children: [
-                GetPage(
-                  name: _Paths.DASHBOARD,
-                  page: () => const DashboardView(),
-                  binding: DashboardBinding(),
+            name: _Paths.HOME,
+            page: () => HomeView(),
+            transition: Transition.noTransition,
+            bindings: [
+              HomeBinding(),
+            ],
+            title: null,
+            children: [
+              GetPage(
+                name: _Paths.DASHBOARD,
+                page: () => const DashboardView(),
+                binding: DashboardBinding(),
+                transition: Transition.noTransition,
+                children: const [],
+              ),
+              GetPage(
+                  name: _Paths.CATEGORY,
+                  page: () => const CategoryView(),
                   transition: Transition.noTransition,
-                  children: const [],
-                ),
-                 GetPage(
-                  name: _Paths.MASTER,
-                  page: () => const MasterView(),
-                  binding: MasterBinding(),
-                ),
-
-              ])
+                  binding: CategoryBinding(),
+                  children: [
+                    GetPage(
+                      name: _Paths.ADD_CATEGORY,
+                      page: () => const CategoryAddView(),
+                      transition: Transition.noTransition,
+                      binding: CategoryBinding(),
+                    )
+                  ]),
+              GetPage(
+                name: _Paths.PRIORITY,
+                page: () => const PriorityView(),
+                binding: PriorityBinding(),
+              ),
+              GetPage(
+                name: _Paths.ASSEMBLY,
+                page: () => const AssemblyView(),
+                binding: AssemblyBinding(),
+              ),
+              GetPage(
+                name: _Paths.SUB_ADMIN,
+                page: () => const SubAdminView(),
+                binding: SubAdminBinding(),
+              ),
+            ],
+          ),
         ])
   ];
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
+import 'package:sizer/sizer.dart';
 
 Text boldText(String label,
     {FontWeight? fontWeight = FontWeight.w600,
@@ -12,7 +13,7 @@ Text boldText(String label,
     style: TextStyle(
         fontWeight: fontWeight,
         fontFamily: 'Neue Montreal',
-        fontSize: fontSize ?? 13,
+        fontSize: fontSize ?? 13.sp,
         color: color),
   );
 }
@@ -42,6 +43,23 @@ Text columnText(String label, double fontSize,
         fontWeight: fontWeight,
         fontFamily: 'Neue Montreal',
         fontSize: fontSize,
+        color: color),
+  );
+}
+
+Text subTitleText(String label,
+    {TextAlign? textAlign = TextAlign.center,
+    double? fontSize,
+    FontWeight? fontWeight = FontWeight.w400,
+    Color? color = AppColor.subTitleColor}) {
+  return Text(
+    label,
+    textAlign: textAlign,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+        fontWeight: fontWeight,
+        fontFamily: 'Neue Montreal',
+        fontSize: fontSize ?? 14.sp,
         color: color),
   );
 }

@@ -55,7 +55,7 @@ class LoginController extends GetxController {
               },
               (resData) {
                 if (resData.data != null) {
-                  userPreference.saveUser(resData.data!.first).then(
+                  userPreference.saveUser(resData.data!).then(
                     (s) {
                       Get.rootDelegate.offNamed(Routes.HOME);
                     },

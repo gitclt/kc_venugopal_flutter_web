@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/menu_entity.dart';
-import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 
 class SidemenuState {
   final RxInt _selectedIndex = 0.obs;
@@ -59,16 +58,17 @@ class SidemenuState {
         },
       ),
     );
-    menus.add(
-      MenuEntity(
-        id: 1,
-        menu: 'Master Settings',
-        svgIcon: SvgAssets.master,
-        items: [],
-        onClick: () {
-          //Get.rootDelegate.toNamed(Routes.SETTINGS);
-        },
-      ),
-    );
+
+    // menus.add(
+    //   MenuEntity(
+    //     id: 1,
+    //     menu: 'Master Settings',
+    //     svgIcon: SvgAssets.master,
+    //     items: [],
+    //     onClick: () {
+    //       //Get.rootDelegate.toNamed(Routes.SETTINGS);
+    //     },
+    //   ),
+    // );
   }
 }

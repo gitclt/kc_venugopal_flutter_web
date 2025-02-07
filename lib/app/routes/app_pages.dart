@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/master/assembly/views/assembly_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/master/category/views/category_add_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/master/priority/views/priority_add_view.dart';
 
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
@@ -73,17 +75,41 @@ class AppPages {
                 name: _Paths.PRIORITY,
                 page: () => const PriorityView(),
                 binding: PriorityBinding(),
+                children: [
+                   GetPage(
+                      name: _Paths.ADD_PRIORITY,
+                      page: () => const PriorityAddView(),
+                      transition: Transition.noTransition,
+                      binding: PriorityBinding(),
+                    )
+                ]
               ),
               GetPage(
                 name: _Paths.ASSEMBLY,
                 page: () => const AssemblyView(),
                 binding: AssemblyBinding(),
+                children: [
+                   GetPage(
+                      name: _Paths.ADD_ASSEMBLY,
+                      page: () => const AssemblyAddView(),
+                      transition: Transition.noTransition,
+                      binding: AssemblyBinding(),
+                    )
+                ]
               ),
-              GetPage(
-                name: _Paths.SUB_ADMIN,
-                page: () => const SubAdminView(),
-                binding: SubAdminBinding(),
-              ),
+              // GetPage(
+              //   name: _Paths.SUB_ADMIN,
+              //   page: () => const SubAdminView(),
+              //   binding: SubAdminBinding(),
+              //   children: [
+              //      GetPage(
+              //         name: _Paths.ADD_PRIORITY,
+              //         page: () => const SubAdminAddView(),
+              //         transition: Transition.noTransition,
+              //         binding: PriorityBinding(),
+              //       )
+              //   ]
+              // ),
             ],
           ),
         ])

@@ -13,11 +13,12 @@ abstract class Routes {
   static const PRIORITY = _Paths.HOME + _Paths.PRIORITY;
   static const ADD_PRIORITY =
       _Paths.HOME + _Paths.PRIORITY + _Paths.ADD_PRIORITY;
-  static const ASSEMBLY = _Paths.HOME + _Paths.MASTER + _Paths.ASSEMBLY;
-  static const ADD_ASSEMBLY = _Paths.HOME + _Paths.MASTER + _Paths.ADD_ASSEMBLY;
-  static const SUB_ADMIN = _Paths.HOME + _Paths.MASTER + _Paths.SUB_ADMIN;
+  static const ASSEMBLY = _Paths.HOME + _Paths.ASSEMBLY;
+  static const ADD_ASSEMBLY =
+      _Paths.HOME + _Paths.ASSEMBLY + _Paths.ADD_ASSEMBLY;
+  static const SUB_ADMIN = _Paths.HOME + _Paths.SUB_ADMIN;
   static const ADD_SUBADMIN =
-      _Paths.HOME + _Paths.MASTER + _Paths.ADD_SUB_ADMIN;
+      _Paths.HOME + _Paths.SUB_ADMIN + _Paths.ADD_SUB_ADMIN;
 }
 
 abstract class _Paths {

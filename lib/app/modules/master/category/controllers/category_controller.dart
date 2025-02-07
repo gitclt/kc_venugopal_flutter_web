@@ -110,7 +110,23 @@ class CategoryController extends GetxController {
     });
   }
 
-  void editClick(CategoryData data){
+  void editClick(CategoryData data) {
+    nameController = TextEditingController(text: data.name);
+    editId = data.id ?? '';
+    Get.rootDelegate.toNamed(Routes.ADD_CATEGORY);
+  }
 
+  void searchData(String value) {
+    data.clear();
+
+    if (value.isEmpty) {
+      data.addAll(dataCopy);
+    } else {
+      data.clear();
+      data.addAll(dataCopy
+          .where(
+              (data) => data.name!.toLowerCase().contains(value.toLowerCase()))
+          .toList());
+    }
   }
 }

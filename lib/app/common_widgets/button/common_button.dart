@@ -3,7 +3,6 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/svg_icons/svg_widget
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 
-
 class CommonButton extends StatelessWidget {
   final Function onClick;
   final String label;
@@ -79,18 +78,20 @@ class CommonButton extends StatelessWidget {
 }
 
 class SmallIconButton extends StatelessWidget {
-  final String icon;
+  final String? svgIcon;
+  final IconData? iconData;
   final VoidCallback? onTap;
   final Color? color;
   final double size;
   final String toolmessage;
   const SmallIconButton({
     super.key,
-    required this.icon,
+    this.svgIcon,
     this.onTap,
     this.color,
     this.size = 20,
     required this.toolmessage,
+    this.iconData,
   });
   @override
   Widget build(BuildContext context) {
@@ -104,7 +105,9 @@ class SmallIconButton extends StatelessWidget {
               border: Border.all(color: AppColor.greyColor),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: svgWidget(icon, size: size)),
+            child: svgIcon != null
+                ? svgWidget(svgIcon!, size: size)
+                : Icon(iconData)),
       ),
     );
   }

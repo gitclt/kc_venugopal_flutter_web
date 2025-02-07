@@ -63,3 +63,20 @@ Text subTitleText(String label,
         color: color),
   );
 }
+
+Text columnHeaderText(String label,
+    {TextAlign? textAlign = TextAlign.center,
+    double? fontSize,
+    FontWeight? fontWeight = FontWeight.w400,
+    Color? color = AppColor.columnHeadColor}) {
+  return Text(
+    label,
+    textAlign: textAlign,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+        fontWeight: fontWeight,
+        fontFamily: 'Plus Jakarta Sans',
+        fontSize: fontSize ?? 10.2.sp,
+        color: color),
+  );
+}

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class AppColor {
@@ -30,6 +29,6 @@ class AppColor {
   static const Color appointTextColor = Color(0xFFDD1D2E);
   static const Color boxBorderColor = Color(0xFFE9ECEF);
   static const Color subTitleColor = Color(0xFF212529);
-  static const Color columnHeadColor = Color(0xFF807F94);
+  static const Color columnHeadColor = Color(0xFF6C757D);
   static const Color borderColor = Color(0xFFEEEEF1);
 }

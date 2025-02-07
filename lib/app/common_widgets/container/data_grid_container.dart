@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 
-
 class DataGridContainer extends StatelessWidget {
   final String dataCell;
   final Color? bgColor;
@@ -16,7 +15,7 @@ class DataGridContainer extends StatelessWidget {
             border: Border.symmetric(
               horizontal: BorderSide(color: AppColor.grey, width: 1.0),
             )),
-        alignment: Alignment.center,
+        // alignment: Alignment.center,
         padding: const EdgeInsets.all(8.0),
         child: columnText(dataCell, 12));
   }

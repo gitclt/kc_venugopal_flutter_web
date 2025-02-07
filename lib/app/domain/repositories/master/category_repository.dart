@@ -54,7 +54,7 @@ class CategoryRepository {
     try {
       var data = json.encode({"id": id, "name": name, "account_id": accountId});
       dynamic response = await _apiServices
-          .postApi(data, MasterUrl.updateCategory, isJson: true);
+          .putApi(data, MasterUrl.updateCategory, isJson: true);
 
       if (response != null && response["status"] == true) {
         ApiModel res = ApiModel.fromJson(response);
@@ -75,7 +75,7 @@ class CategoryRepository {
     var body = {"id": id};
     try {
       dynamic response =
-          await _apiServices.postApi(body, MasterUrl.deleteCategory);
+          await _apiServices.deleteApi(body, MasterUrl.deleteCategory);
 
       if (response != null && response["status"] == true) {
         ApiModel res = ApiModel.fromJson(response);

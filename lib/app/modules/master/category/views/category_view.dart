@@ -8,14 +8,15 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/container/data_grid_
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/general_exception.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/internet_exceptions_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/popup/common_popup.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/shimmer/shimmer_builder.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/table/table_serch_bar.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
-import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 import '../controllers/category_controller.dart';
@@ -24,6 +25,7 @@ class CategoryView extends GetView<CategoryController> {
   const CategoryView({super.key});
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     var fontSize = MediaQuery.of(context).size.width * .008;
     return Scaffold(
         backgroundColor: AppColor.scaffoldBgColor,
@@ -41,44 +43,42 @@ class CategoryView extends GetView<CategoryController> {
                 },
               ),
               20.height,
-              LayoutBuilder(builder: (context, s) {
-                return Obx(() {
-                  switch (controller.rxRequestStatus.value) {
-                    case Status.loading:
-                      return Expanded(
-                        child: ShimmerBuilder(
+              Expanded(
+                child: LayoutBuilder(builder: (context, s) {
+                  return Obx(() {
+                    switch (controller.rxRequestStatus.value) {
+                      case Status.loading:
+                        return ShimmerBuilder(
                           rowCount: 3,
                           sizes: [
                             s.maxWidth * 0.05,
                             s.maxWidth * 0.3,
                             s.maxWidth * 0.055,
                           ],
-                        ).paddingAll(10),
-                      );
-                    case Status.error:
-                      if (controller.error.value == 'No internet') {
-                        return InterNetExceptionWidget(
-                          onPress: () {
+                        ).paddingAll(10);
+                      case Status.error:
+                        if (controller.error.value == 'No internet') {
+                          return InterNetExceptionWidget(
+                            onPress: () {
+                              controller.getCategory();
+                            },
+                          );
+                        } else {
+                          return GeneralExceptionWidget(onPress: () {
                             controller.getCategory();
-                          },
-                        );
-                      } else {
-                        return GeneralExceptionWidget(onPress: () {
-                          controller.getCategory();
-                        });
-                      }
-                    case Status.completed:
-                      return Expanded(
-                        child: Obx(
+                          });
+                        }
+                      case Status.completed:
+                        return Obx(
                           () => PageContainer(
                             child: Column(
                               children: [
-                                // TableSerchBar(
-                                //   size: size,
-                                //   onSearchChanged: (value) {
-                                //     controller.searchData(value);
-                                //   },
-                                // ),
+                                TableSerchBar(
+                                  size: size,
+                                  onSearchChanged: (value) {
+                                    controller.searchData(value);
+                                  },
+                                ),
                                 10.height,
                                 controller.data.isEmpty
                                     ? Center(child: boldText('No Data Found'))
@@ -97,18 +97,32 @@ class CategoryView extends GetView<CategoryController> {
                                                 controller.editClick(
                                                     controller.data[index]);
                                               },
-                                              onDelTap: (index) {},
+                                              onDelTap: (index) async {
+                                                dynamic response =
+                                                    await commonDialog(
+                                                        title: "Delete",
+                                                        subTitle:
+                                                            "Are you sure want to delete this item?",
+                                                        titleIcon: Icons.delete,
+                                                        theamColor:
+                                                            AppColor.red);
+                                                if (response == true) {
+                                                  controller.delete(controller
+                                                      .data[index].id
+                                                      .toString());
+                                                }
+                                              },
                                             ),
                                             columns: _buildColumns(fontSize))
                                         .paddingOnly(bottom: 15),
                               ],
                             ),
                           ),
-                        ),
-                      );
-                  }
-                });
-              })
+                        );
+                    }
+                  });
+                }),
+              )
             ],
           ),
         ));
@@ -122,19 +136,19 @@ class CategoryView extends GetView<CategoryController> {
         allowSorting: false,
         columnName: 'Sl No.',
         width: 90,
-        label: Center(child: columnText('Sl No.', 10.sp)),
+        label: Center(child: columnHeaderText('Sl No.')),
         // width: 80,
       ),
       GridColumn(
         columnName: 'Name',
         allowSorting: true,
-        label: Center(child: columnText('Name', 10.sp)),
+        label: Center(child: columnHeaderText('NAME')),
       ),
       GridColumn(
         allowSorting: false,
         columnName: 'Actions',
         width: 150,
-        label: Center(child: columnText('Actions', 10.sp)),
+        label: Center(child: columnHeaderText('ACTIONS')),
       ),
     ];
   }
@@ -166,19 +180,19 @@ class CategoryDataSource extends DataGridSource {
         DataGridCell<Widget>(
             columnName: 'Actions',
             value: DataGridIconContainer(
-              //  bgColor: getBgColor(index),
+              bgColor: getBgColor(index),
               dataCell: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SmallIconButton(
-                    icon: SvgAssets.editIcon,
+                    svgIcon: SvgAssets.editIcon,
                     toolmessage: '',
                     onTap: () {
                       onEditTap(index); // Pass the row index to handle actions
                     },
                   ),
                   SmallIconButton(
-                    icon: SvgAssets.deleteIcon,
+                    svgIcon: SvgAssets.deleteIcon,
                     toolmessage: '',
                     onTap: () {
                       onDelTap(index); // Pass the row index to handle actions

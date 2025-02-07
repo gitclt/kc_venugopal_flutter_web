@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
+import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -34,7 +35,7 @@ class HomeAppBar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            columnText(title, 14.sp),
+            columnText(title, 15.sp),
           ],
         ),
         const Spacer(),
@@ -43,6 +44,7 @@ class HomeAppBar extends StatelessWidget {
             height: 8,
           ),
         if (subTitle != null) subTitleText(subTitle!),
+        10.width,
         if (onClick != null)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),

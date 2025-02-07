@@ -59,7 +59,7 @@ Text subTitleText(String label,
     style: TextStyle(
         fontWeight: fontWeight,
         fontFamily: 'Neue Montreal',
-        fontSize: fontSize ?? 14.sp,
+        fontSize: fontSize ?? 11.sp,
         color: color),
   );
 }

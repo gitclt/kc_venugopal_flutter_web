@@ -43,6 +43,7 @@ dependencies:
   sizer: ^3.0.5
   table_calendar: ^3.2.0
   syncfusion_flutter_datagrid: ^28.2.4
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -79,41 +79,32 @@ class CommonButton extends StatelessWidget {
 }
 
 class SmallIconButton extends StatelessWidget {
-  final String? icon;
-  final IconData? iconData;
+  final String icon;
   final VoidCallback? onTap;
   final Color? color;
   final double size;
   final String toolmessage;
-  final bool? visible;
   const SmallIconButton({
     super.key,
-    this.icon,
+    required this.icon,
     this.onTap,
-    this.color = Colors.black,
-    this.size = 24,
-    this.visible = true,
+    this.color,
+    this.size = 20,
     required this.toolmessage,
-    this.iconData,
   });
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: visible!,
-      child: Tooltip(
-        message: toolmessage,
-        child: InkWell(
-            onTap: onTap,
-            child: Center(
-                child: iconData != null
-                    ? Icon(
-                        iconData,
-                        color: color,
-                        size: 20,
-                      )
-                    : icon != ''
-                        ? svgWidget(icon!, color: color, size: 20)
-                        : const SizedBox())),
+    return InkWell(
+      onTap: onTap,
+      child: Center(
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: AppColor.greyColor),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: svgWidget(icon, size: size)),
       ),
     );
   }

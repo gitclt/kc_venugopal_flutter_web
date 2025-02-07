@@ -43,7 +43,7 @@ class RootController extends GetxController {
                 )
                     .then(
                   (s) {
-                    if (LocalStorageKey.roleId.isNotEmpty) {
+                    if (LocalStorageKey.accountId.isNotEmpty) {
                       Get.rootDelegate.offNamed(Routes.HOME);
                     } else {
                       gotoLogin();

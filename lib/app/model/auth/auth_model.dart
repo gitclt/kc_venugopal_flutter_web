@@ -79,9 +79,9 @@ class UserResponse {
 }
 
 class UserData {
-    int? id;
+    String? id;
     String? username;
-    int? accountId;
+    String? accountId;
     dynamic name;
     dynamic mobile;
     String? account;
@@ -100,14 +100,14 @@ class UserData {
     });
 
     factory UserData.fromJson(Map<String, dynamic> json) => UserData(
-        id: json["id"],
-        username: json["username"],
-        accountId: json["account_id"],
-        name: json["name"],
-        mobile: json["mobile"],
-        account: json["account"],
-        email: json["email"],
-        description: json["description"],
+        id: json["id"]?.toString(),
+        username: json["username"]?.toString(),
+        accountId: json["account_id"]?.toString(),
+        name: json["name"]?.toString(),
+        mobile: json["mobile"]?.toString(),
+        account: json["account"]?.toString(),
+        email: json["email"]?.toString(),
+        description: json["description"]?.toString(),
     );
 
     Map<String, dynamic> toJson() => {

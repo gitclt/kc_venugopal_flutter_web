@@ -11,11 +11,8 @@ const String s1 = "http://kc.gitonline.in/api";
 
 class LocalStorageKey {
   static String token = "USER_TOKEN";
-  static String type = "USER_TYPE";
-  static String roleId = "ROLE_ID";
-  static String roleName = "ROLE_NAME";
-  static String userName = "USER_NAME";
-  static String empId = "EMP_ID";
+
+  static String accountId = "ACCOUNT_ID";
   static UserData userData = UserData();
 
   // static List<Branch> userBranch = [];

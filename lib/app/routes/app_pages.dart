@@ -9,14 +9,12 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/master/assembly/bindings/assembly_binding.dart';
 import '../modules/master/assembly/views/assembly_view.dart';
-import '../modules/master/bindings/master_binding.dart';
 import '../modules/master/category/bindings/category_binding.dart';
 import '../modules/master/category/views/category_view.dart';
 import '../modules/master/priority/bindings/priority_binding.dart';
 import '../modules/master/priority/views/priority_view.dart';
 import '../modules/master/sub_admin/bindings/sub_admin_binding.dart';
 import '../modules/master/sub_admin/views/sub_admin_view.dart';
-import '../modules/master/views/master_view.dart';
 import '../modules/root/bindings/root_binding.dart';
 import '../modules/root/views/root_view.dart';
 

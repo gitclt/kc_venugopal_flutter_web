@@ -97,19 +97,19 @@ class CommonTextField extends StatelessWidget {
         suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: borderColor ?? const Color(0xFF939393).withOpacity(0.5),
+              color: borderColor ?? const Color.fromRGBO(147, 147, 147, 0.5),
               width: .5),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide(
-              color: borderColor ?? const Color(0xFF939393).withOpacity(0.5),
+              color: borderColor ?? const Color.fromRGBO(147, 147, 147, 0.5),
               width: .5),
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: borderColor ?? const Color(0xFF939393).withOpacity(0.5),
+              color: borderColor ?? const Color.fromRGBO(147, 147, 147, 0.5),
               width: .5),
           borderRadius: BorderRadius.circular(borderRadius),
         ),

@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:get/get.dart';
+
 AssemblyModel assemblyModelFromJson(String str) =>
     AssemblyModel.fromJson(json.decode(str));
 
@@ -42,18 +44,15 @@ class AssemblyData {
   String? id;
   String? name;
   String? accountId;
+  RxBool? isSelect;
 
-  AssemblyData({
-    this.id,
-    this.name,
-    this.accountId,
-  });
+  AssemblyData({this.id, this.name, this.accountId, this.isSelect});
 
   factory AssemblyData.fromJson(Map<String, dynamic> json) => AssemblyData(
-        id: json["id"],
-        name: json["name"],
-        accountId: json["account_id"]?.toString(),
-      );
+      id: json["id"],
+      name: json["name"],
+      accountId: json["account_id"]?.toString(),
+      isSelect: false.obs);
 
   Map<String, dynamic> toJson() => {
         "id": id,

@@ -54,14 +54,16 @@ class SidemenuWidget extends StatelessWidget {
                       size: 24,
                     ),
                   const SizedBox(width: 10),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: !isSelected
-                          ? AppColor.primary
-                          : AppColor.textGrayColor,
-                      fontSize: 14,
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: !isSelected
+                            ? AppColor.primary
+                            : AppColor.textGrayColor,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ],

@@ -23,7 +23,11 @@ class MasterUrl {
 
   //Sub Admin
   static String addSubAdmin = '$baseUrl/case_subadmin/Postsubadmin';
+  static String addSubadminAssemly =
+      '$baseUrl/subadmin_assembly/Post_subadmin_assembly';
   static String subAdminListApi = '$baseUrl/case_subadmin/get_subadmin';
   static String updateSubAdmin = '$baseUrl/case_subadmin/update_subadmin';
-  static String deleteSubADmin = '$baseUrl/case_subadmin/delete_subadmin';
+  static String deleteSubAdmin = '$baseUrl/case_subadmin/delete_subadmin';
+  static String deleteSubAdminAssembly =
+      '$baseUrl/subadmin_assembly/delete_subadmin_assembly';
 }

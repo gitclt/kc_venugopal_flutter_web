@@ -62,7 +62,7 @@ class PriorityController extends GetxController {
         if (resData.status!) {
           isLoading(false);
           Get.rootDelegate.toNamed(Routes.PRIORITY);
-          Utils.snackBar('Category', resData.message ?? '', type: 'success');
+          Utils.snackBar('Priority', resData.message ?? '', type: 'success');
 
           getPriority();
         }
@@ -86,8 +86,8 @@ class PriorityController extends GetxController {
       (resData) {
         if (resData.status!) {
           isLoading(false);
-          Get.rootDelegate.toNamed(Routes.CATEGORY);
-          Utils.snackBar('Category', resData.message ?? '', type: 'success');
+          Get.rootDelegate.toNamed(Routes.PRIORITY);
+          Utils.snackBar('Priority', resData.message ?? '', type: 'success');
 
           getPriority();
 
@@ -104,7 +104,7 @@ class PriorityController extends GetxController {
       Utils.snackBar('Error', failure.message);
       setError(error.toString());
     }, (resData) {
-      Utils.snackBar('Category', resData.message!, type: 'success');
+      Utils.snackBar('Priority', resData.message!, type: 'success');
       getPriority();
     });
   }

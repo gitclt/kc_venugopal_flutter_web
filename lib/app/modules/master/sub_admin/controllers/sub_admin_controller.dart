@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/master/assembly_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/add_subadmin_assembly.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/subadmin_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/assembly_repository.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/subadmin_repository.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/master/assembly/controllers/assembly_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/utils.dart';
 
@@ -26,6 +26,7 @@ class SubAdminController extends GetxController {
   TextEditingController mobileController = TextEditingController();
   RxBool isLoading = false.obs;
   String editId = '';
+  String subAdminId = '';
   final filterItem = ''.obs;
 
   List<AssemblyData> assemblyData = <AssemblyData>[].obs;
@@ -89,6 +90,7 @@ class SubAdminController extends GetxController {
       },
       (resData) {
         if (resData.status!) {
+
           isLoading(false);
           Get.rootDelegate.toNamed(Routes.SUB_ADMIN);
           Utils.snackBar('Sub Admin', resData.message ?? '', type: 'success');
@@ -99,6 +101,7 @@ class SubAdminController extends GetxController {
     );
   }
 
+  
   //edit
   editSubAdmin() async {
     isLoading(true);

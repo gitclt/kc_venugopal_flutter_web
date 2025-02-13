@@ -18,40 +18,21 @@ class SubadminRepository {
       String? password,
       String? contact,
       String? mobile,
-      String? status}) async {
+      String? status,
+      List<AddAssembly>? data}) async {
     try {
-      var data = json.encode({
+      var body = json.encode({
         "name": name,
         "account_id": accountId,
         "username": username,
         "password": password,
         "contact_person": contact,
         "mobile": mobile,
-        "active_status": status
+        "active_status": status,
+        "assemblies": data
       });
       dynamic response =
-          await _apiServices.postApi(data, MasterUrl.addSubAdmin, isJson: true);
-
-      if (response != null && response["status"] == true) {
-        ApiModel res = ApiModel.fromJson(response);
-
-        return Right(res);
-      } else {
-        return Left(Failure(response["message"].toString()));
-      }
-    } catch (e) {
-      return Left(Failure(e.toString()));
-    }
-  }
-
-  Future<Either<Failure, ApiModel>> addSubAdminAssembly(
-      {List<AddSubAdminAssemblyModel>? data
-     }) async {
-    try {
-      final body = json.encode(data);
-
-      dynamic response =
-          await _apiServices.postApi(body, MasterUrl.addSubadminAssemly, isJson: true);
+          await _apiServices.postApi(body, MasterUrl.addSubAdmin, isJson: true);
 
       if (response != null && response["status"] == true) {
         ApiModel res = ApiModel.fromJson(response);
@@ -139,7 +120,7 @@ class SubadminRepository {
     }
   }
 
-   //delete subadmin assembly
+  //delete subadmin assembly
   Future<Either<Failure, ApiModel>> deleteSubAdminAssembly({
     required String id,
   }) async {

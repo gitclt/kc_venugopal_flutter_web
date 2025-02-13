@@ -107,11 +107,13 @@ class SubAdminAddView extends GetView<SubAdminController> {
                       width: MediaQuery.of(context).size.width * 0.15,
                       child: Row(
                         children: [
-                          CheckBoxButton(
-                            selectItem: item.isSelect!.value,
-                            act: () {
-                              item.isSelect!.value = !item.isSelect!.value;
-                            },
+                          Obx(
+                            () => CheckBoxButton(
+                              selectItem: item.isSelect!.value,
+                              act: () {
+                                item.isSelect!.value = !item.isSelect!.value;
+                              },
+                            ),
                           ),
                           8.width,
                           columnText(item.name.toString(), 11.sp)

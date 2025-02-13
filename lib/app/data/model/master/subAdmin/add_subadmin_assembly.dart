@@ -4,30 +4,26 @@
 
 import 'dart:convert';
 
-List<AddSubAdminAssemblyModel> addSubAdminAssemblyModelFromJson(String str) => List<AddSubAdminAssemblyModel>.from(json.decode(str).map((x) => AddSubAdminAssemblyModel.fromJson(x)));
+List<AddAssembly> addSubAdminAssemblyModelFromJson(String str) => List<AddAssembly>.from(json.decode(str).map((x) => AddAssembly.fromJson(x)));
 
-String addSubAdminAssemblyModelToJson(List<AddSubAdminAssemblyModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String addSubAdminAssemblyModelToJson(List<AddAssembly> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class AddSubAdminAssemblyModel {
-    int? subadminId;
-    int? accountId;
-    int? assemblyId;
+class AddAssembly {
+    String? assemblyId;
+    String? assembly;
 
-    AddSubAdminAssemblyModel({
-        this.subadminId,
-        this.accountId,
+    AddAssembly({
         this.assemblyId,
+        this.assembly,
     });
 
-    factory AddSubAdminAssemblyModel.fromJson(Map<String, dynamic> json) => AddSubAdminAssemblyModel(
-        subadminId: json["subadmin_id"],
-        accountId: json["account_id"],
+    factory AddAssembly.fromJson(Map<String, dynamic> json) => AddAssembly(
         assemblyId: json["assembly_id"],
+        assembly: json["assembly"],
     );
 
     Map<String, dynamic> toJson() => {
-        "subadmin_id": subadminId,
-        "account_id": accountId,
         "assembly_id": assemblyId,
+        "assembly": assembly,
     };
 }

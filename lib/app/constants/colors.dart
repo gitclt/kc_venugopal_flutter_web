@@ -30,5 +30,5 @@ class AppColor {
   static const Color boxBorderColor = Color(0xFFE9ECEF);
   static const Color subTitleColor = Color(0xFF212529);
   static const Color columnHeadColor = Color(0xFF6C757D);
-  static const Color borderColor = Color(0xFFEEEEF1);
+  static const Color borderColor = Color(0xFFD5D5D5);
 }

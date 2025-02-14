@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/menu_entity.dart';
+import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 
 class SidemenuState {
   final RxInt _selectedIndex = 0.obs;
@@ -21,7 +22,7 @@ class SidemenuState {
         svgIcon: SvgAssets.dashboardIcon,
         items: [],
         onClick: () {
-          // Get.rootDelegate.toNamed(Routes.dashboard);
+          Get.rootDelegate.toNamed(Routes.DASHBOARD);
         },
       ),
     );
@@ -32,7 +33,7 @@ class SidemenuState {
         svgIcon: SvgAssets.supportReq,
         items: [],
         onClick: () {
-          //Get.rootDelegate.toNamed(Routes.USERS);
+          Get.rootDelegate.toNamed(Routes.SUPPORT_REQUEST);
         },
       ),
     );
@@ -43,7 +44,7 @@ class SidemenuState {
         svgIcon: SvgAssets.programSchedule,
         items: [],
         onClick: () {
-          //Get.rootDelegate.toNamed(Routes.ALUMNI);
+          Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
         },
       ),
     );

@@ -19,6 +19,8 @@ abstract class Routes {
   static const SUB_ADMIN = _Paths.HOME + _Paths.SUB_ADMIN;
   static const ADD_SUBADMIN =
       _Paths.HOME + _Paths.SUB_ADMIN + _Paths.ADD_SUB_ADMIN;
+  static const SUPPORT_REQUEST = _Paths.HOME + _Paths.SUPPORT_REQUEST;
+  static const PROGRAM_SCHEDULE = _Paths.HOME + _Paths.PROGRAM_SCHEDULE;
 }
 
 abstract class _Paths {
@@ -36,4 +38,6 @@ abstract class _Paths {
   static const ADD_ASSEMBLY = '/add-assembly';
   static const SUB_ADMIN = '/sub-admin';
   static const ADD_SUB_ADMIN = '/add-sub_admin';
+  static const SUPPORT_REQUEST = '/support-request';
+  static const PROGRAM_SCHEDULE = '/program-schedule';
 }

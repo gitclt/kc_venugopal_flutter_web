@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/master/assembly_model.dart';
-import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/add_subadmin_assembly.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/add_subadmin.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/subadmin_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/assembly_repository.dart';
@@ -41,6 +41,16 @@ class SubAdminController extends GetxController {
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
   void setError(String value) => error.value = value;
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    contactController.dispose();
+    mobileController.dispose();
+    userNameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   void getSubAdmins() async {
     setRxRequestStatus(Status.loading);
     data.clear();
@@ -78,10 +88,21 @@ class SubAdminController extends GetxController {
 
 //add
   void addSubAdmin() async {
+    final selectedAssembly =
+        assemblyData.where((e) => e.isSelect!.value == true).toList();
     isLoading(true);
+
     final res = await repo.addSubAdmin(
         name: nameController.text.trim(),
-        accountId: LocalStorageKey.userData.accountId);
+        accountId: LocalStorageKey.userData.accountId,
+        username: userNameController.text.trim(),
+        password: passwordController.text.trim(),
+        contact: contactController.text.trim(),
+        mobile: mobileController.text.trim(),
+        status: "active",
+        data: selectedAssembly
+            .map((e) => AddAssembly(assemblyId: e.id))
+            .toList());
     res.fold(
       (failure) {
         isLoading(false);
@@ -90,8 +111,8 @@ class SubAdminController extends GetxController {
       },
       (resData) {
         if (resData.status!) {
-
           isLoading(false);
+          clear();
           Get.rootDelegate.toNamed(Routes.SUB_ADMIN);
           Utils.snackBar('Sub Admin', resData.message ?? '', type: 'success');
 
@@ -101,14 +122,23 @@ class SubAdminController extends GetxController {
     );
   }
 
-  
   //edit
   editSubAdmin() async {
+    final selectedAssembly =
+        assemblyData.where((e) => e.isSelect!.value == true).toList();
     isLoading(true);
     final res = await repo.editSubAdmin(
         id: editId,
-        name: nameController.text,
-        accountId: LocalStorageKey.userData.accountId.toString());
+        name: nameController.text.trim(),
+        accountId: LocalStorageKey.userData.accountId.toString(),
+        username: userNameController.text.trim(),
+        password: passwordController.text.trim(),
+        contactPerson: contactController.text.trim(),
+        mobile: mobileController.text.trim(),
+        status: "active",
+        data: selectedAssembly
+            .map((e) => AddAssembly(assemblyId: e.id))
+            .toList());
     res.fold(
       (failure) {
         isLoading(false);
@@ -119,7 +149,7 @@ class SubAdminController extends GetxController {
         if (resData.status!) {
           isLoading(false);
           Get.rootDelegate.toNamed(Routes.SUB_ADMIN);
-          Utils.snackBar('Priority', resData.message ?? '', type: 'success');
+          Utils.snackBar('Sub Admin', resData.message ?? '', type: 'success');
 
           getSubAdmins();
 
@@ -136,15 +166,40 @@ class SubAdminController extends GetxController {
       Utils.snackBar('Error', failure.message);
       setError(error.toString());
     }, (resData) {
-      Utils.snackBar('Priority', resData.message!, type: 'success');
+      Utils.snackBar('Sub Admin', resData.message!, type: 'success');
       getSubAdmins();
     });
   }
 
   void editClick(SubAdminData data) {
     nameController = TextEditingController(text: data.name);
+    userNameController = TextEditingController(text: data.username);
+    passwordController = TextEditingController(text: data.password);
+    contactController = TextEditingController(text: data.contactPerson);
+    mobileController = TextEditingController(text: data.mobile);
+    for (var assembly in assemblyData) {
+      assembly.isSelect?.value = false;
+    }
+    for (var subAdminAssembly in data.assemblies!) {
+      for (var assembly in assemblyData) {
+        if (assembly.name == subAdminAssembly.assembly) {
+          assembly.isSelect?.value = true;
+        }
+      }
+    }
     editId = data.id ?? '';
     Get.rootDelegate.toNamed(Routes.ADD_SUBADMIN);
+  }
+
+  clear() {
+    nameController.clear();
+    contactController.clear();
+    mobileController.clear();
+    userNameController.clear();
+    passwordController.clear();
+    for (var assembly in assemblyData) {
+      assembly.isSelect?.value = false;
+    }
   }
 
   void searchData(String value) {

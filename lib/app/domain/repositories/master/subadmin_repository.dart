@@ -4,22 +4,24 @@ import 'package:dartz/dartz.dart';
 import 'package:kc_venugopal_flutter_web/app/core/failure/failure.dart';
 import 'package:kc_venugopal_flutter_web/app/data/app_url/master/master_url.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/api_model.dart';
-import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/add_subadmin_assembly.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/add_subadmin.dart';
+
 import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/subadmin_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/network/network_api_services.dart';
 
 class SubadminRepository {
   final _apiServices = NetworkApiServices();
 
-  Future<Either<Failure, ApiModel>> addSubAdmin(
-      {String? name,
-      String? accountId,
-      String? username,
-      String? password,
-      String? contact,
-      String? mobile,
-      String? status,
-      List<AddAssembly>? data}) async {
+  Future<Either<Failure, ApiModel>> addSubAdmin({
+    String? name,
+    String? accountId,
+    String? username,
+    String? password,
+    String? contact,
+    String? mobile,
+    String? status,
+    required List<AddAssembly?> data,
+  }) async {
     try {
       var body = json.encode({
         "name": name,
@@ -66,15 +68,16 @@ class SubadminRepository {
 
   Future<Either<Failure, ApiModel>> editSubAdmin(
       {required String id,
-      required String name,
+      String? name,
       String? username,
       String? password,
       String? status,
       String? contactPerson,
       String? mobile,
-      required String accountId}) async {
+      required String accountId,
+      List<AddAssembly?>? data}) async {
     try {
-      var data = json.encode({
+      var body = json.encode({
         "id": id,
         "name": name,
         "account_id": accountId,
@@ -83,9 +86,10 @@ class SubadminRepository {
         "active_status": status,
         "contact_person": contactPerson,
         "mobile": mobile,
+        "assemblies": data
       });
       dynamic response = await _apiServices
-          .putApi(data, MasterUrl.updateSubAdmin, isJson: true);
+          .putApi(body, MasterUrl.updateSubAdmin, isJson: true);
 
       if (response != null && response["status"] == true) {
         ApiModel res = ApiModel.fromJson(response);

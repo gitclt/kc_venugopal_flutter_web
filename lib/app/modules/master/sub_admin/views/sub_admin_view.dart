@@ -15,6 +15,7 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.da
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/master/subAdmin/subadmin_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -39,6 +40,7 @@ class SubAdminView extends GetView<SubAdminController> {
                 subTitle: 'Home > Master > Sub Admin',
                 isAdd: true,
                 onClick: () {
+                  controller.clear();
                   Get.rootDelegate.toNamed(Routes.ADD_SUBADMIN);
                 },
               ),
@@ -74,6 +76,7 @@ class SubAdminView extends GetView<SubAdminController> {
                         return Obx(
                           () => PageContainer(
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TableSerchBar(
                                   size: size,
@@ -84,39 +87,44 @@ class SubAdminView extends GetView<SubAdminController> {
                                 10.height,
                                 controller.data.isEmpty
                                     ? Center(child: boldText('No Data Found'))
-                                    : SfDataGrid(
-                                            allowSorting: true,
-                                            columnWidthMode:
-                                                ColumnWidthMode.fill,
-                                            headerGridLinesVisibility:
-                                                GridLinesVisibility.both,
-                                            gridLinesVisibility:
-                                                GridLinesVisibility.both,
-                                            isScrollbarAlwaysShown: true,
-                                            source: PriorityDataSource(
-                                              dataList: controller.data,
-                                              onEditTap: (index) {
-                                                // controller.editClick(
-                                                //     controller.data[index]);
-                                              },
-                                              onDelTap: (index) async {
-                                                dynamic response =
-                                                    await commonDialog(
-                                                        title: "Delete",
-                                                        subTitle:
-                                                            "Are you sure want to delete this item?",
-                                                        titleIcon: Icons.delete,
-                                                        theamColor:
-                                                            AppColor.red);
-                                                if (response == true) {
-                                                  // controller.delete(controller
-                                                  //     .data[index].id
-                                                  //     .toString());
-                                                }
-                                              },
-                                            ),
-                                            columns: _buildColumns(fontSize))
-                                        .paddingOnly(bottom: 15),
+                                    : Expanded(
+                                        child: SfDataGrid(
+                                                allowSorting: true,
+                                                columnWidthMode:
+                                                    ColumnWidthMode.fill,
+                                                headerGridLinesVisibility:
+                                                    GridLinesVisibility.both,
+                                                gridLinesVisibility:
+                                                    GridLinesVisibility.both,
+                                                isScrollbarAlwaysShown: true,
+                                                source: PriorityDataSource(
+                                                  dataList: controller.data,
+                                                  onEditTap: (index) {
+                                                    controller.editClick(
+                                                        controller.data[index]);
+                                                  },
+                                                  onDelTap: (index) async {
+                                                    dynamic response =
+                                                        await commonDialog(
+                                                            title: "Delete",
+                                                            subTitle:
+                                                                "Are you sure want to delete this item?",
+                                                            titleIcon:
+                                                                Icons.delete,
+                                                            theamColor:
+                                                                AppColor.red);
+                                                    if (response == true) {
+                                                      controller.delete(
+                                                          controller
+                                                              .data[index].id
+                                                              .toString());
+                                                    }
+                                                  },
+                                                ),
+                                                columns:
+                                                    _buildColumns(fontSize))
+                                            .paddingOnly(bottom: 15),
+                                      ),
                               ],
                             ),
                           ),
@@ -148,6 +156,28 @@ class SubAdminView extends GetView<SubAdminController> {
             header: 'NAME',
           )),
       GridColumn(
+          columnName: 'Username',
+          allowSorting: true,
+          label: Center(
+            child: columnHeaderText('USERNAME'),
+          )),
+      GridColumn(
+          columnName: 'Contact Person',
+          label: Center(
+            child: columnHeaderText('CONTACT PERSON'),
+          )),
+      GridColumn(
+          columnName: 'Mobile',
+          allowSorting: true,
+          label: Center(
+            child: columnHeaderText('MOBILE NUMBER'),
+          )),
+      GridColumn(
+          columnName: 'Assembly',
+          label: Center(
+            child: columnHeaderText('ASSEMBLY'),
+          )),
+      GridColumn(
         allowSorting: false,
         columnName: 'Actions',
         width: 180,
@@ -158,7 +188,7 @@ class SubAdminView extends GetView<SubAdminController> {
 }
 
 class PriorityDataSource extends DataGridSource {
-  final List<dynamic> dataList;
+  final List<SubAdminData> dataList;
   final Function(int) onEditTap;
   final Function(int) onDelTap;
 
@@ -179,7 +209,15 @@ class PriorityDataSource extends DataGridSource {
 
       return DataGridRow(cells: [
         DataGridCell<int>(columnName: 'Sl No.', value: index + 1),
-        DataGridCell<String>(columnName: 'Name', value: item.name.toString()),
+        DataGridCell<String>(columnName: 'Name', value: item.name ?? ''),
+        DataGridCell<String>(
+            columnName: 'Username', value: item.username ?? ''),
+        DataGridCell<String>(
+            columnName: 'Contact Person', value: item.contactPerson ?? ''),
+        DataGridCell<String>(columnName: 'Mobile', value: item.mobile ?? ''),
+        DataGridCell<String>(
+            columnName: 'Assembly',
+            value: item.assemblies!.map((e) => e.assembly).toList().join(',')),
         DataGridCell<Widget>(
             columnName: 'Actions',
             value: DataGridIconContainer(
@@ -191,14 +229,14 @@ class PriorityDataSource extends DataGridSource {
                     svgIcon: SvgAssets.editIcon,
                     toolmessage: '',
                     onTap: () {
-                      onEditTap(index); // Pass the row index to handle actions
+                      onEditTap(index);
                     },
                   ),
                   SmallIconButton(
                     svgIcon: SvgAssets.deleteIcon,
                     toolmessage: '',
                     onTap: () {
-                      onDelTap(index); // Pass the row index to handle actions
+                      onDelTap(index);
                     },
                   ),
                 ],

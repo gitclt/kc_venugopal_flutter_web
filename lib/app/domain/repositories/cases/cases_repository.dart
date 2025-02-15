@@ -34,8 +34,8 @@ class CasesRepository {
         "status": status,
         "category_id": categoryId,
         "priority_id": priorityId,
-        "timeRange": timeRange,
-        "month": month,
+        "timeRange": timeRange ?? '',
+        "month": month ?? '',
         "keyword": keyword
       };
       dynamic response = await _apiServices.postApi(body, CasesUrl.viewCases);
@@ -81,17 +81,17 @@ class CasesRepository {
         "date": date,
         "time": time,
         "location": location,
-        "title":title,
-        "comment":comment,
-        "subject":subject,
-        "name":name,
-        "address":address,
-        "email":email,
-        "mobile":mobile,
-        "description":description,
-        "reminder_date":reminderDate,
-        "addedby":addedBy,
-        "addedtype":addedType,
+        "title": title,
+        "comment": comment,
+        "subject": subject,
+        "name": name,
+        "address": address,
+        "email": email,
+        "mobile": mobile,
+        "description": description,
+        "reminder_date": reminderDate,
+        "addedby": addedBy,
+        "addedtype": addedType,
         "account_id": accountId
       });
       dynamic response =
@@ -108,5 +108,4 @@ class CasesRepository {
       return Left(Failure(e.toString()));
     }
   }
-  
 }

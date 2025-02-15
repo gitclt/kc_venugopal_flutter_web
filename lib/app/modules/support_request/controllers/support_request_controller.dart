@@ -29,6 +29,8 @@ class SupportRequestController extends GetxController {
   final priorRepo = PriorityRepository();
   var pageIndex = 1.obs;
   var pageSize = 10.obs;
+  var totalCount = 1.obs;
+
   RxString error = ''.obs;
 
   @override
@@ -40,6 +42,14 @@ class SupportRequestController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
   void setError(String value) => error.value = value;
+
+  @override
+  void dispose() {
+    super.dispose();
+    fromDateController.dispose();
+    toDateController.dispose();
+    keywordController.dispose();
+  }
 
   void getCategory() async {
     isDropLoading(true);
@@ -93,24 +103,35 @@ class SupportRequestController extends GetxController {
     dataCopy.clear();
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
-        page: pageIndex.toString(),
-        pageSize: pageSize.toString(),
+        page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
+        pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
         type: ConstValues.typeSupport,
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
-        status: statusFilter.name,
-        categoryId: categoryFilter.id.toString(),
-        priorityId: priorityFilter.id.toString(),
+        status: statusFilter.name ?? '',
+        categoryId: categoryFilter.id ?? '',
+        priorityId: priorityFilter.id ?? '',
         keyword: keywordController.text.trim());
     response.fold((failure) {
       setRxRequestStatus(Status.completed);
       setError(error.toString());
     }, (resData) {
       setRxRequestStatus(Status.completed);
+      if (pageSize.value != 0) {
+        totalCount.value =
+            (int.parse(resData.totalCount!) / pageSize.value).ceil();
+      }
       if (resData.data != null) {
         data.addAll(resData.data!);
         dataCopy.addAll(resData.data!);
       }
     });
+  }
+
+  void changePage(int page) {
+    if (page > 0 && page <= totalCount.value) {
+      pageIndex.value = page; // Update current page
+      getSupportRequests(); // Fetch the employee list for the new page
+    }
   }
 }

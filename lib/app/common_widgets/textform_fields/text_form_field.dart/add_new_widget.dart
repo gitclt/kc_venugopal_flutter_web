@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
-import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
-
 
 class AddTextFieldWidget extends StatelessWidget {
   final String? label;
@@ -25,7 +21,6 @@ class AddTextFieldWidget extends StatelessWidget {
   final bool? readonly;
   final bool obscureText;
   final double? width;
-
   final int? minLines;
 
   const AddTextFieldWidget({
@@ -41,7 +36,7 @@ class AddTextFieldWidget extends StatelessWidget {
     this.visible = false,
     this.onChanged,
     this.fontSize,
-    this.borderRadius = 5,
+    this.borderRadius = 8.0,
     this.fillColor,
     this.hintText,
     this.onTap,
@@ -50,92 +45,78 @@ class AddTextFieldWidget extends StatelessWidget {
     this.width,
     this.minLines,
     this.obscureText = false,
-    // this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      if (label != null)
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label!,
-              style: const TextStyle(
-                  fontWeight: FontWeight.w600, color: AppColor.textGrayColor),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (label != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 5),
+            child: Row(
+              children: [
+                Text(
+                  label!,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                if (visible == true)
+                  const Text("*", style: TextStyle(color: Colors.red)),
+              ],
             ),
-            if (visible == true)
-              Text(
-                "*",
-                style: TextStyle(color: AppColor.primary),
-              ).paddingOnly(left: 3),
-          ],
-        ),
-      SizedBox(
-          width: Responsive.isDesktop(context)
-              ? width ?? size.width * 0.73 / 2
-              : size.width * .8,
-          height: height ?? size.height * 0.066,
+          ),
+        SizedBox(
+          width: width ?? size.width * 0.8,
+          // height: height ?? 50,
           child: TextFormField(
-            //  initialValue: initialValue,
             controller: textController,
             validator: validator,
             readOnly: readonly!,
-            onTap: onTap == null
-                ? null
-                : () {
-                    onTap!();
-                  },
-            onChanged: onChanged == null
-                ? null
-                : (String? value) {
-                    onChanged!(value);
-                  },
-            style: TextStyle(fontSize: fontSize ?? 12),
-            inputFormatters: inputFormat == null
-                ? null
-                : [
-                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
-                    LengthLimitingTextInputFormatter(maxLengthLimit)
-                  ],
+            onTap: onTap as void Function()?,
+            onChanged: onChanged as void Function(String)?,
+            style: TextStyle(fontSize: fontSize ?? 14, color: Colors.black87),
+            inputFormatters: inputFormat == true
+                ? [
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'^[0-9]*\.?[0-9]*')),
+                    LengthLimitingTextInputFormatter(maxLengthLimit),
+                  ]
+                : null,
             keyboardType: keyboard ?? TextInputType.text,
-            minLines: obscureText
-                ? 1
-                : minLines, // Ensure single line when obscureText is true
-            maxLines: obscureText ? 1 : minLines,
+            minLines: obscureText ? 1 : minLines,
+            maxLines: obscureText ? 1 : minLines ?? 1,
             obscureText: obscureText,
             decoration: InputDecoration(
-                fillColor: fillColor ?? Colors.white,
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                hintStyle: const TextStyle(
-                  fontSize: 11,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                labelStyle: const TextStyle(fontSize: 12, color: Colors.grey),
-                filled: true,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                      color: AppColor.textGrayColor, width: .5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                      color: AppColor.textGrayColor, width: .5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                      color: AppColor.textGrayColor, width: .5),
-                  borderRadius: BorderRadius.circular(borderRadius),
-                ),
-                hintText: hintText,
-                labelText: labelText,
-                suffixIcon: suffixIcon),
-          ).paddingOnly(top: 10))
-    ]);
+              filled: true,
+              fillColor: fillColor ?? Colors.grey[100],
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              hintText: hintText,
+              hintStyle: const TextStyle(fontSize: 13, color: Colors.grey),
+              labelText: labelText,
+              labelStyle: const TextStyle(fontSize: 14, color: Colors.black54),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(borderRadius),
+                borderSide: BorderSide(color: Colors.blueAccent, width: 1.5),
+              ),
+              suffixIcon: suffixIcon,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

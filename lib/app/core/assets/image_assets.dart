@@ -11,4 +11,7 @@ class SvgAssets {
   static const String master = 'assets/svg/master_icon.svg';
   static const String editIcon = 'assets/svg/edit.svg';
   static const String deleteIcon = 'assets/svg/trash.svg';
+  static const String casesDate = 'assets/svg/case_date.svg';
+  static const String casesTime = 'assets/svg/case_time.svg';
+  static const String caseLocation = 'assets/svg/location.svg';
 }

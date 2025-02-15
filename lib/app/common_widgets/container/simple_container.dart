@@ -10,7 +10,7 @@ class SimpleContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       decoration: BoxDecoration(
           border: Border.all(color: color ?? AppColor.boxBorderColor),
           borderRadius: BorderRadius.circular(8),
@@ -35,4 +35,3 @@ class PageContainer extends StatelessWidget {
     );
   }
 }
-

@@ -4,6 +4,7 @@ import 'package:kc_venugopal_flutter_web/app/modules/master/category/views/categ
 import 'package:kc_venugopal_flutter_web/app/modules/master/priority/views/priority_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/master/sub_admin/views/sub_admin_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/bindings/program_schedule_binding.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/program_schedule_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/program_schedule_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/bindings/support_request_binding.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_view.dart';
@@ -121,12 +122,19 @@ class AppPages {
                 binding: SupportRequestBinding(),
                 transition: Transition.noTransition,
               ),
-               GetPage(
-                name: _Paths.PROGRAM_SCHEDULE,
-                page: () => const ProgramScheduleView(),
-                binding: ProgramScheduleBinding(),
-                transition: Transition.noTransition,
-              ),
+              GetPage(
+                  name: _Paths.PROGRAM_SCHEDULE,
+                  page: () => const ProgramScheduleView(),
+                  binding: ProgramScheduleBinding(),
+                  transition: Transition.noTransition,
+                  children: [
+                    GetPage(
+                      name: _Paths.ADD_PROGRAM_SCHEDULE,
+                      page: () => const ProgramScheduleAddView(),
+                      binding: ProgramScheduleBinding(),
+                      transition: Transition.noTransition,
+                    )
+                  ]),
             ],
           ),
         ]),

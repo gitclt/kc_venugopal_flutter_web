@@ -161,8 +161,9 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                               ),
                             ],
                           ),
-                          10.height,
-                          columnText('Contact Person Details', 18),
+                          15.height,
+                          columnText('Contact Person Details', 18)
+                              .paddingOnly(left: 5),
                           10.height,
                           Obx(
                             () => Wrap(
@@ -236,7 +237,7 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                               ],
                             ),
                           ),
-                          15.height,
+                          20.height,
                           Obx(() => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -264,12 +265,14 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                         )
                                       : const SizedBox(),
                                 ],
-                              )),
+                              ).paddingOnly(left: 5)),
                           15.height,
                           Align(
                               alignment: Alignment.bottomRight,
                               child: CommonButton(
-                                  width: width, onClick: () {}, label: 'ADD'))
+                                  width: width, onClick: () {
+                                    
+                                  }, label: 'ADD'))
                         ],
                       ),
                     ),

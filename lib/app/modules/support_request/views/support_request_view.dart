@@ -17,6 +17,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/widget/case_list_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
 
@@ -38,7 +39,7 @@ class SupportRequestView extends GetView<SupportRequestController> {
               subTitle: 'Home > Dashboard > Support Requests',
               isAdd: true,
               onClick: () {
-                // Get.rootDelegate.toNamed(Routes.ADD_PRIORITY);
+                Get.rootDelegate.toNamed(Routes.ADD_SUPPORT_REQUEST);
               },
             ),
             20.height,

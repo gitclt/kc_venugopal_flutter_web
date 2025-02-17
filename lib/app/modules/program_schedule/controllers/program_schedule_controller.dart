@@ -145,6 +145,10 @@ class ProgramScheduleController extends GetxController {
         designation: TextEditingController()));
   }
 
+  void addPrograms() async{
+    
+  }
+
   void getProgramSchedules() async {
     setRxRequestStatus(Status.loading);
     data.clear();
@@ -178,4 +182,6 @@ class ProgramScheduleController extends GetxController {
       getProgramSchedules(); // Fetch the employee list for the new page
     }
   }
+
+  
 }

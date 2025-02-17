@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 
 class AddTextFieldWidget extends StatelessWidget {
   final String? label;
@@ -71,8 +72,9 @@ class AddTextFieldWidget extends StatelessWidget {
             ),
           ),
         SizedBox(
-          width: width ?? size.width * 0.8,
-          // height: height ?? 50,
+          width: Responsive.isDesktop(context)
+              ? width ?? size.width * 0.73 / 2
+              : size.width * .9,
           child: TextFormField(
             controller: textController,
             validator: validator,

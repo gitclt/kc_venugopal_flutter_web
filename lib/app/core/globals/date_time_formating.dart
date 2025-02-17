@@ -107,3 +107,10 @@ String convertUnixTimestampToTime(int timestamp) {
   // Return the formatted time
   return formatter.format(date);
 }
+
+
+  String getFormattedTimestamp() {
+    final now = DateTime.now();
+    final formatted = now.millisecondsSinceEpoch.toString();
+    return formatted;
+  }

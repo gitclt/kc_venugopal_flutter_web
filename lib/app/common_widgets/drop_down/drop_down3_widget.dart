@@ -108,9 +108,10 @@ class DropDown3Widget extends StatelessWidget {
                 ),
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 12),
                     filled: true,
-                    isDense: true,
+                    isDense: false, //Ensures proper spacing
                     fillColor: Color(0xFFF6F6F6),
                     hintText: hint,
                     hintStyle: const TextStyle(
@@ -160,10 +161,6 @@ class DropDown3Widget extends StatelessWidget {
   }
 }
 
-// var outlineInputBorder2 = OutlineInputBorder(
-//   borderSide: const BorderSide(color: AppColor.textGrayColor, width: .5),
-//   borderRadius: BorderRadius.circular(10),
-// );
 var outlineFocusedInputBorder2 = OutlineInputBorder(
   borderSide: BorderSide(color: AppColor.borderColor, width: 0.5),
   borderRadius: BorderRadius.circular(10),

@@ -8,3 +8,8 @@ Color getBgColor(int index) {
   final oddColor = AppColor.grey;
   return index % 2 == 0 ? oddColor : evenColor;
 }
+
+String capitalizeLetter(String input) {
+  if (input.isEmpty) return input; // Handle empty string
+  return input[0].toUpperCase() + input.substring(1).toLowerCase();
+}

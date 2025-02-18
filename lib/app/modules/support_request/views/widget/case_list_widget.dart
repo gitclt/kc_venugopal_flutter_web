@@ -16,6 +16,7 @@ class CaseListWidget extends StatelessWidget {
   final String? mobile;
   final String? date;
   final String? status;
+  final Function onTap;
   const CaseListWidget(
       {super.key,
       required this.lineColor,
@@ -26,104 +27,110 @@ class CaseListWidget extends StatelessWidget {
       this.mobile,
       this.date,
       this.status,
-      this.statusColor});
+      this.statusColor,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColor.borderColor),
-          borderRadius: BorderRadius.circular(6)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 4,
-            height: MediaQuery.of(context).size.height * 0.09,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), color: lineColor),
-          ),
-          10.width,
-          Expanded(
-            // Added this Expanded
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        boldText(title, fontSize: 16),
-                        10.width,
+    return InkWell(
+      onTap: () {
+        onTap();
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+            border: Border.all(color: AppColor.borderColor),
+            borderRadius: BorderRadius.circular(6)),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 4,
+              height: MediaQuery.of(context).size.height * 0.09,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25), color: lineColor),
+            ),
+            10.width,
+            Expanded(
+              // Added this Expanded
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          boldText(title, fontSize: 16),
+                          10.width,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: ColoredBox(
+                              color: Color.fromRGBO(61, 66, 223, 0.1),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: columnText(issue, 12),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (date != '')
+                        Row(
+                          children: [
+                            Icon(Icons.date_range_outlined),
+                            3.width,
+                            columnText(formatDateString(date!), 14)
+                          ],
+                        )
+                    ],
+                  ),
+                  5.height,
+                  if (description != '') columnText(description!, 14),
+                  5.height,
+                  Row(
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween, // Added this
+                    children: [
+                      Row(
+                        children: [
+                          if (person != null)
+                            Row(
+                              children: [
+                                svgWidget('assets/svg/user.svg'),
+                                columnText(person!, 14)
+                              ],
+                            ),
+                          if (mobile != null)
+                            Row(
+                              children: [
+                                10.width,
+                                svgWidget('assets/svg/phone.svg'),
+                                columnText(mobile!, 14)
+                              ],
+                            ),
+                        ],
+                      ),
+                      if (status != '')
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: ColoredBox(
-                            color: Color.fromRGBO(61, 66, 223, 0.1),
+                            color: statusColor!,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: columnText(issue, 12),
+                              child: columnText(status!, 12),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    if (date != null)
-                      Row(
-                        children: [
-                          Icon(Icons.date_range_outlined),
-                          3.width,
-                          columnText(formatDateString(date!), 14)
-                        ],
-                      )
-                  ],
-                ),
-                5.height,
-                if (description != null) columnText(description!, 14),
-                5.height,
-                Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceBetween, // Added this
-                  children: [
-                    Row(
-                      children: [
-                        if (person != null)
-                          Row(
-                            children: [
-                              svgWidget('assets/svg/user.svg'),
-                              columnText(person!, 14)
-                            ],
-                          ),
-                        if (mobile != null)
-                          Row(
-                            children: [
-                              10.width,
-                              svgWidget('assets/svg/phone.svg'),
-                              columnText(mobile!, 14)
-                            ],
-                          ),
-                      ],
-                    ),
-                    if (status != null)
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: ColoredBox(
-                          color: statusColor!,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: columnText(status!, 12),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    ).paddingOnly(bottom: 8);
+          ],
+        ),
+      ).paddingOnly(bottom: 8),
+    );
   }
 }

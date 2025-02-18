@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_add_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_detail_view.dart';
 
 import '../modules/cases/bindings/cases_binding.dart';
 import '../modules/cases/views/cases_view.dart';
@@ -130,7 +131,13 @@ class AppPages {
                       page: () => const SupportRequestAddView(),
                       transition: Transition.noTransition,
                       binding: SupportRequestBinding(),
-                    )
+                    ),
+                    GetPage(
+                      name: _Paths.SUPPORT_REQUEST_DETAIL,
+                      page: () => const SupportRequestDetailView(),
+                      transition: Transition.noTransition,
+                      binding: SupportRequestBinding(),
+                    ),
                   ]),
               GetPage(
                   name: _Paths.PROGRAM_SCHEDULE,

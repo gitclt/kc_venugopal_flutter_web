@@ -85,6 +85,7 @@ class DropDown3Widget extends StatelessWidget {
                   scrollbarProps: const ScrollbarProps(thumbVisibility: true),
                   showSearchBox: isSearchEnable,
                   searchDelay: Duration.zero,
+                  menuProps: MenuProps(backgroundColor: Colors.white),
                   searchFieldProps: TextFieldProps(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 5, vertical: 5),

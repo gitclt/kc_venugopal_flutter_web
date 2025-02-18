@@ -115,7 +115,7 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
                     PickImageBottomsheet(
                       pickImage: (ImageSource? value) {
                         if (value != null) {
-                          controller.pickImage(value);
+                          controller.pickImage(value,"support");
                           Get.back();
                         }
                       },

@@ -196,6 +196,13 @@ class SupportRequestView extends GetView<SupportRequestController> {
                                         itemBuilder: (context, index) {
                                           final item = controller.data[index];
                                           return CaseListWidget(
+                                            onTap: () async {
+                                              controller.supportId =
+                                                  item.id.toString();
+                                              controller.getSupportDetail();
+                                              Get.rootDelegate.toNamed(Routes
+                                                  .SUPPORT_REQUEST_DETAIL);
+                                            },
                                             lineColor:
                                                 AppColor.appointTextColor,
                                             title: item.title ?? '',

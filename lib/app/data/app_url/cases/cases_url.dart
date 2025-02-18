@@ -7,4 +7,16 @@ class CasesUrl {
   static String addCases = '$baseUrl/case_cases/Postcases';
   static String updateCases = '$baseUrl/case_cases/Updatecases';
   static String deleteCases = '$baseUrl/case_cases/delete_cases';
+
+  //add contact person
+  static String addContactPerson =
+      '$baseUrl/case_contactperson/Post_case_contactperson';
+
+  //upload document
+  static String addDocument = '$baseUrl/case_documents/case_documentadd';
+  //detail
+  static String viewCaseDetails = '$baseUrl/case_cases/cases_detail';
+
+  //update status
+  static String updateCaseStatus = '$baseUrl/case_cases/update_status';
 }

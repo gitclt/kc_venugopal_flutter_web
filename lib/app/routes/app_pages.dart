@@ -1,6 +1,4 @@
 import 'package:get/get.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_add_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_detail_view.dart';
 
 import '../modules/cases/bindings/cases_binding.dart';
 import '../modules/cases/views/cases_view.dart';
@@ -25,9 +23,13 @@ import '../modules/master/sub_admin/views/sub_admin_view.dart';
 import '../modules/program_schedule/bindings/program_schedule_binding.dart';
 import '../modules/program_schedule/views/program_schedule_add_view.dart';
 import '../modules/program_schedule/views/program_schedule_view.dart';
+import '../modules/reminder/bindings/reminder_binding.dart';
+import '../modules/reminder/views/reminder_view.dart';
 import '../modules/root/bindings/root_binding.dart';
 import '../modules/root/views/root_view.dart';
 import '../modules/support_request/bindings/support_request_binding.dart';
+import '../modules/support_request/views/support_request_add_view.dart';
+import '../modules/support_request/views/support_request_detail_view.dart';
 import '../modules/support_request/views/support_request_view.dart';
 
 part 'app_routes.dart';
@@ -154,11 +156,16 @@ class AppPages {
                   ]),
             ],
           ),
+          GetPage(
+            name: _Paths.CASES,
+            page: () => const CasesView(),
+            binding: CasesBinding(),
+          ),
+          GetPage(
+            name: _Paths.REMINDER,
+            page: () => const ReminderView(),
+            binding: ReminderBinding(),
+          ),
         ]),
-    GetPage(
-      name: _Paths.CASES,
-      page: () => const CasesView(),
-      binding: CasesBinding(),
-    ),
   ];
 }

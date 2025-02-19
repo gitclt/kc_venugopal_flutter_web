@@ -32,20 +32,20 @@ class CasesAddView extends GetView<CasesController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             HomeAppBar(
-              title: controller.type.value.name == 'support request'
+              title: controller.source.value == 'support request'
                   ? 'Add Support Requests'
-                  : controller.type.value.name == 'program schedule'
+                  : controller.source.value == 'program schedule'
                       ? 'Add Program Schedule'
                       : 'Add Reminders',
               subTitle:
-                  'Home > Dashboard > ${controller.type.value.name == 'support request' ? 'Add Support Requests' : controller.type.value.name == 'program schedule' ? 'Add Program Schedule' : 'Add Reminders'}',
+                  'Home > Dashboard > ${controller.source.value == 'support request' ? 'Add Support Requests' : controller.source.value == 'program schedule' ? 'Add Program Schedule' : 'Add Reminders'}',
               isAdd: true,
               onClick: () {
                 // Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
               },
             ),
             20.height,
-            controller.type.value.name == 'support request'
+            controller.source.value == 'support request'
                 ? SupportRequestAddView()
                 : Expanded(
                     child: SingleChildScrollView(

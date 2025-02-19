@@ -29,247 +29,251 @@ class CasesView extends GetView<CasesController> {
   @override
   Widget build(BuildContext context) {
    var width = MediaQuery.of(context).size.width * 0.25;
-    return Scaffold(
-      backgroundColor: AppColor.scaffoldBgColor,
-      body: CommonPagePadding(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HomeAppBar(
-              title: controller.type.value.name == 'support request' ? 'Support Requests': controller.type.value.name == 'program schedule' ? 'Program Schedule': 'Reminders',
-              subTitle: 'Home > Dashboard > ${controller.type.value.name == 'support request' ? 'Support Requests': controller.type.value.name == 'program schedule' ? 'Program Schedule': 'Reminders'}',
-              isAdd: true,
-              onClick: () {
-                Get.rootDelegate.toNamed(Routes.ADD_SUPPORT_REQUEST);
-              },
-            ),
-            20.height,
-            SimpleContainer(
-                color: AppColor.borderColor,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    columnText('Filter By', 24),
-                    20.height,
-                    Wrap(
-                      spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                      runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                      alignment: WrapAlignment.center,
+    return GetBuilder<CasesController>(
+      builder: (control) {
+        return Scaffold(
+          backgroundColor: AppColor.scaffoldBgColor,
+          body: CommonPagePadding(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HomeAppBar(
+                  title: control.source.value == 'support request' ? 'Support Requests': control.source.value == 'program schedule' ? 'Program Schedule': 'Reminders',
+                  subTitle: 'Home > Dashboard > ${control.source.value == 'support request' ? 'Support Requests': control.source.value == 'program schedule' ? 'Program Schedule': 'Reminders'}',
+                  isAdd: true,
+                  onClick: () {
+                    Get.rootDelegate.toNamed(Routes.ADD_SUPPORT_REQUEST);
+                  },
+                ),
+                20.height,
+                SimpleContainer(
+                    color: AppColor.borderColor,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AddTextFieldWidget(
-                          width: width,
-                          labelText: 'From Date',
-                          hintText: 'From Date',
-                          // readonly: true,
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.calendar_today_outlined,
-                                size: 20),
-                            onPressed: () async {
-                              selectDate(
-                                  context, controller.fromDateController);
-                            },
-                          ),
-                          textController: controller.fromDateController,
+                        columnText('Filter By', 24),
+                        20.height,
+                        Wrap(
+                          spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                          runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            AddTextFieldWidget(
+                              width: width,
+                              labelText: 'From Date',
+                              hintText: 'From Date',
+                              // readonly: true,
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.calendar_today_outlined,
+                                    size: 20),
+                                onPressed: () async {
+                                  selectDate(
+                                      context, controller.fromDateController);
+                                },
+                              ),
+                              textController: controller.fromDateController,
+                            ),
+                            AddTextFieldWidget(
+                              width: width,
+                              labelText: 'To Date',
+                              hintText: 'To Date',
+                              // readonly: true,
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.calendar_today_outlined,
+                                    size: 20),
+                                onPressed: () async {
+                                  selectToDate(
+                                      context, controller.toDateController);
+                                },
+                              ),
+                              textController: controller.toDateController,
+                            ),
+                            DropDown3Widget(
+                              width: width,
+                              hint: '--Select Status--',
+                              selectedItem: controller.statusFilter.id == null
+                                  ? null
+                                  : controller.statusFilter,
+                              items: controller.statusDropList,
+                              onChanged: (data) async {
+                                if (data == null) return;
+                                controller.statusFilter = data;
+                              },
+                            ),
+                            Obx(
+                              () => DropDown3Widget(
+                                width: width,
+                                //label: 'Category',
+                                hint: '--Select Category--',
+                                selectedItem: controller.categoryFilter.id == null
+                                    ? null
+                                    : controller.categoryFilter,
+                                items: controller.categoryDropList,
+                                isLoading: controller.isDropLoading.value,
+                                onChanged: (data) async {
+                                  if (data == null) return;
+                                  controller.categoryFilter = data;
+                                },
+                              ),
+                            ),
+                            Obx(
+                              () => DropDown3Widget(
+                                width: width,
+                                // label: 'Priority',
+                                hint: '--Select Priority--',
+                                isLoading: controller.isDropLoading.value,
+                                selectedItem: controller.priorityFilter.id == null
+                                    ? null
+                                    : controller.priorityFilter,
+                                items: controller.priorityDropList,
+                                onChanged: (data) async {
+                                  if (data == null) return;
+                                  controller.priorityFilter = data;
+                                },
+                              ),
+                            ),
+                            AddTextFieldWidget(
+                              width: width,
+                              labelText: 'Keyword',
+                              hintText: 'Keyword',
+                              // readonly: true,
+        
+                              textController: controller.keywordController,
+                            ),
+                          ],
                         ),
-                        AddTextFieldWidget(
-                          width: width,
-                          labelText: 'To Date',
-                          hintText: 'To Date',
-                          // readonly: true,
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.calendar_today_outlined,
-                                size: 20),
-                            onPressed: () async {
-                              selectToDate(
-                                  context, controller.toDateController);
-                            },
-                          ),
-                          textController: controller.toDateController,
-                        ),
-                        DropDown3Widget(
-                          width: width,
-                          hint: '--Select Status--',
-                          selectedItem: controller.statusFilter.id == null
-                              ? null
-                              : controller.statusFilter,
-                          items: controller.statusDropList,
-                          onChanged: (data) async {
-                            if (data == null) return;
-                            controller.statusFilter = data;
-                          },
-                        ),
-                        Obx(
-                          () => DropDown3Widget(
-                            width: width,
-                            //label: 'Category',
-                            hint: '--Select Category--',
-                            selectedItem: controller.categoryFilter.id == null
-                                ? null
-                                : controller.categoryFilter,
-                            items: controller.categoryDropList,
-                            isLoading: controller.isDropLoading.value,
-                            onChanged: (data) async {
-                              if (data == null) return;
-                              controller.categoryFilter = data;
-                            },
-                          ),
-                        ),
-                        Obx(
-                          () => DropDown3Widget(
-                            width: width,
-                            // label: 'Priority',
-                            hint: '--Select Priority--',
-                            isLoading: controller.isDropLoading.value,
-                            selectedItem: controller.priorityFilter.id == null
-                                ? null
-                                : controller.priorityFilter,
-                            items: controller.priorityDropList,
-                            onChanged: (data) async {
-                              if (data == null) return;
-                              controller.priorityFilter = data;
-                            },
-                          ),
-                        ),
-                        AddTextFieldWidget(
-                          width: width,
-                          labelText: 'Keyword',
-                          hintText: 'Keyword',
-                          // readonly: true,
-
-                          textController: controller.keywordController,
-                        ),
+                        15.height,
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: CommonButton(
+                              width: width,
+                              onClick: () {
+                                controller.getCases();
+                              },
+                              label: 'Search'),
+                        )
                       ],
-                    ),
-                    15.height,
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: CommonButton(
-                          width: width,
-                          onClick: () {
-                            controller.getCases();
-                          },
-                          label: 'Search'),
-                    )
-                  ],
-                )),
-            15.height,
-            Expanded(child: LayoutBuilder(builder: (context, s) {
-              return Obx(() {
-                switch (controller.rxRequestStatus.value) {
-                  case Status.loading:
-                    return ShimmerBuilder(
-                      rowCount: 5,
-                      sizes: [
-                        s.maxWidth * 0.05,
-                        s.maxWidth * 0.3,
-                        s.maxWidth * 0.055,
-                        s.maxWidth * 0.2,
-                        s.maxWidth * 0.3
-                      ],
-                    ).paddingAll(10);
-                  case Status.error:
-                    if (controller.error.value == 'No internet') {
-                      return InterNetExceptionWidget(
-                        onPress: () {
-                          controller.getCases();
-                        },
-                      );
-                    } else {
-                      return GeneralExceptionWidget(onPress: () {
-                         controller.getCases();
-                      });
-                    }
-
-                  case Status.completed:
-                    return Obx(() => SimpleContainer(
-                          child: controller.data.isEmpty
-                              ? Center(
-                                  child: boldText('No Cases Found')
-                                      .paddingOnly(top: 50),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Expanded(
-                                      child: ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: controller.data.length,
-                                        itemBuilder: (context, index) {
-                                          final item = controller.data[index];
-                                       return   controller.type.value.name == 'support request'
-                                         ?  CaseListWidget(
-                                            onTap: () async {
-                                              controller.supportId =
-                                                  item.id.toString();
-                                              controller.getSupportDetail();
-                                              Get.rootDelegate.toNamed(Routes
-                                                  .SUPPORT_REQUEST_DETAIL);
+                    )),
+                15.height,
+                Expanded(child: LayoutBuilder(builder: (context, s) {
+                  return Obx(() {
+                    switch (controller.rxRequestStatus.value) {
+                      case Status.loading:
+                        return ShimmerBuilder(
+                          rowCount: 5,
+                          sizes: [
+                            s.maxWidth * 0.05,
+                            s.maxWidth * 0.3,
+                            s.maxWidth * 0.055,
+                            s.maxWidth * 0.2,
+                            s.maxWidth * 0.3
+                          ],
+                        ).paddingAll(10);
+                      case Status.error:
+                        if (controller.error.value == 'No internet') {
+                          return InterNetExceptionWidget(
+                            onPress: () {
+                              controller.getCases();
+                            },
+                          );
+                        } else {
+                          return GeneralExceptionWidget(onPress: () {
+                             controller.getCases();
+                          });
+                        }
+        
+                      case Status.completed:
+                        return Obx(() => SimpleContainer(
+                              child: controller.data.isEmpty
+                                  ? Center(
+                                      child: boldText('No Cases Found')
+                                          .paddingOnly(top: 50),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: [
+                                        Expanded(
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: controller.data.length,
+                                            itemBuilder: (context, index) {
+                                              final item = controller.data[index];
+                                           return   controller.source.value == 'support request'
+                                             ?  CaseListWidget(
+                                                onTap: () async {
+                                                  controller.supportId =
+                                                      item.id.toString();
+                                                  controller.getSupportDetail();
+                                                  Get.rootDelegate.toNamed(Routes
+                                                      .SUPPORT_REQUEST_DETAIL);
+                                                },
+                                                lineColor:
+                                                    AppColor.appointTextColor,
+                                                title: item.title ?? '',
+                                                issue: item.category ?? '',
+                                                description: item.description ?? '',
+                                                person:
+                                                    item.contactPerson!.isNotEmpty
+                                                        ? item.contactPerson!.first
+                                                            .contactPerson
+                                                        : null,
+                                                date: item.date ?? '',
+                                                mobile: item.mobile ?? '',
+                                                status: item.status ?? '',
+                                                statusColor: Colors.yellow,
+                                              )
+                                              : ProgramListWidget(
+                                                  time: item.time ?? '',
+                                                  address: item.address ?? '',
+                                                  lineColor:
+                                                      AppColor.appointTextColor,
+                                                  title: item.title ?? '',
+                                                  issue: item.category ?? '',
+                                                  description:
+                                                      item.description ?? '',
+                                                  person:
+                                                      item.contactPerson!.isNotEmpty
+                                                          ? item.contactPerson!
+                                                              .first.contactPerson
+                                                          : null,
+                                                  date: item.date ?? '',
+                                                  mobile: item.mobile ?? '',
+                                                  status: item.status ?? '',
+                                                  statusColor: Colors.yellow,
+                                                );
                                             },
-                                            lineColor:
-                                                AppColor.appointTextColor,
-                                            title: item.title ?? '',
-                                            issue: item.category ?? '',
-                                            description: item.description ?? '',
-                                            person:
-                                                item.contactPerson!.isNotEmpty
-                                                    ? item.contactPerson!.first
-                                                        .contactPerson
-                                                    : null,
-                                            date: item.date ?? '',
-                                            mobile: item.mobile ?? '',
-                                            status: item.status ?? '',
-                                            statusColor: Colors.yellow,
-                                          )
-                                          : ProgramListWidget(
-                                              time: item.time ?? '',
-                                              address: item.address ?? '',
-                                              lineColor:
-                                                  AppColor.appointTextColor,
-                                              title: item.title ?? '',
-                                              issue: item.category ?? '',
-                                              description:
-                                                  item.description ?? '',
-                                              person:
-                                                  item.contactPerson!.isNotEmpty
-                                                      ? item.contactPerson!
-                                                          .first.contactPerson
-                                                      : null,
-                                              date: item.date ?? '',
-                                              mobile: item.mobile ?? '',
-                                              status: item.status ?? '',
-                                              statusColor: Colors.yellow,
-                                            );
-                                        },
-                                      ).paddingOnly(top: 10),
+                                          ).paddingOnly(top: 10),
+                                        ),
+                                        10.height,
+                                        Obx(
+                                          () => controller.pageSize.value != 0
+                                              ? Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      bottom: 10),
+                                                  child: PaginationWidget(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    totalPages:
+                                                        controller.totalCount.value,
+                                                    currentPage:
+                                                        controller.pageIndex.value,
+                                                    onPageSelected:
+                                                        controller.changePage,
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                        ),
+                                      ],
                                     ),
-                                    10.height,
-                                    Obx(
-                                      () => controller.pageSize.value != 0
-                                          ? Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 10),
-                                              child: PaginationWidget(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                totalPages:
-                                                    controller.totalCount.value,
-                                                currentPage:
-                                                    controller.pageIndex.value,
-                                                onPageSelected:
-                                                    controller.changePage,
-                                              ),
-                                            )
-                                          : const SizedBox(),
-                                    ),
-                                  ],
-                                ),
-                        ));
-                }
-              });
-            }))
-          ],
-        ),
-      ),
+                            ));
+                    }
+                  });
+                }))
+              ],
+            ),
+          ),
+        );
+      }
     );
   }
 }

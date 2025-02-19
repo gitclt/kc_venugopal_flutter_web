@@ -157,7 +157,9 @@ class AppPages {
                   name: _Paths.CASES,
                   page: () => const CasesView(),
                   binding: CasesBinding(),
-                  preventDuplicates: true,
+                  preventDuplicates: false,
+                  // participatesInRootNavigator: true,
+                  maintainState: false,
                   children: [
                     GetPage(
                       name: _Paths.ADD_CASES,

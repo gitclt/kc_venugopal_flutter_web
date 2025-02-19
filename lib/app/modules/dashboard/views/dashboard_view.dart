@@ -6,6 +6,7 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/container/wrap_conta
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
+import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -94,12 +95,39 @@ class DashboardView extends GetView<DashboardController> {
                     count: '10',
                     label: 'Support Requests',
                     badgeCount: '05',
+                    onTap: () {
+                      
+                      Get.rootDelegate.toNamed(Routes.CASES,
+                          arguments: {'type': 'support request'});
+                    },
                   ),
                   WrapContainer(
-                      count: '08', label: 'Program Schedule', badgeCount: '05'),
+                    count: '08',
+                    label: 'Program Schedule',
+                    badgeCount: '05',
+                    onTap: () {
+                      Get.rootDelegate.toNamed(Routes.CASES,
+                          arguments: {'type': 'program schedule'});
+                    },
+                  ),
                   WrapContainer(
-                      count: '00', label: 'Wedding', badgeCount: '05'),
-                  WrapContainer(count: '00', label: 'Death', badgeCount: '05')
+                    count: '00',
+                    label: 'Wedding',
+                    badgeCount: '05',
+                    onTap: () {
+                      Get.rootDelegate.toNamed(Routes.CASES,
+                          arguments: {'type': 'wedding'});
+                    },
+                  ),
+                  WrapContainer(
+                    count: '00',
+                    label: 'Death',
+                    badgeCount: '05',
+                    onTap: () {
+                      Get.rootDelegate
+                          .toNamed(Routes.CASES, arguments: {'type': 'death'});
+                    },
+                  )
                 ],
               ),
             ],

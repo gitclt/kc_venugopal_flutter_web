@@ -12,7 +12,6 @@ import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_detail_model
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_view_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/dropdown_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
-import 'package:kc_venugopal_flutter_web/app/domain/entity/user_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/cases/cases_repository.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/assembly_repository.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/category_repository.dart';
@@ -89,27 +88,41 @@ class CasesController extends GetxController with GetTickerProviderStateMixin {
   //program schedule
   var persons = <AddPersonModel>[].obs;
 
-  Rx<UserEntity> type = UserEntity().obs;
+  Map<String, String>? type;
+  var source = ''.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
+    getDropDownValues();
+    type = Get.rootDelegate.arguments();
+    if (type != null) {
+      source.value = type!.entries.first.value;
+      setTypeValues();
+    }
+
     tabController = TabController(length: 2, vsync: this);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    getDropDownValues();
-    ever(type, (_) {
-      _loadData();
-    });
-  }
-
-  void _loadData() async {
-    if (Get.rootDelegate.arguments() != null) {
-      type.value = await Get.rootDelegate.arguments();
-      getCases();
+  void setTypeValues() {
+    switch (source.value) {
+      case 'support request':
+        // Handle support request logic
+        getCases();
+        print('Fetching support requests...');
+        break;
+      case 'program schedule':
+        // Handle program schedule logic
+        getCases();
+        print('Fetching program schedule...');
+        break;
+      case 'reminders':
+        // Handle reminders logic
+        getCases();
+        print('Fetching reminders...');
+        break;
+      default:
+        break;
     }
   }
 
@@ -204,9 +217,9 @@ class CasesController extends GetxController with GetTickerProviderStateMixin {
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
         pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
-        type: type.value.name == 'support request'
+        type: source.value == 'support request'
             ? ConstValues.typeSupport
-            : type.value.name == 'program schedule'
+            : source.value == 'program schedule'
                 ? ConstValues.typeProgram
                 : ConstValues.typeWed,
         fromDate: fromDateController.text.trim(),
@@ -263,9 +276,9 @@ class CasesController extends GetxController with GetTickerProviderStateMixin {
   void addCase() async {
     isLoading(true);
     final res = await repo.addCases(
-        type: type.value.name == 'support request'
+        type: source.value == 'support request'
             ? ConstValues.typeSupport
-            : type.value.name == 'program schedule'
+            : source.value == 'program schedule'
                 ? ConstValues.typeProgram
                 : ConstValues.typeWed,
         assemblyId: addAssemblyDrop.id ?? '',

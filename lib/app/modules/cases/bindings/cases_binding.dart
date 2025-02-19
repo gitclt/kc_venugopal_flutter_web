@@ -5,8 +5,10 @@ import '../controllers/cases_controller.dart';
 class CasesBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<CasesController>(
-      () => CasesController(),
+    Get.put<CasesController>(
+      CasesController(),
+       permanent: false,
     );
+   
   }
 }

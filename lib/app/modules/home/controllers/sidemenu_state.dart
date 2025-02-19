@@ -11,6 +11,11 @@ class SidemenuState {
   final RxInt _selectedsubIndex = 0.obs;
   RxInt get selectedsubIndex => _selectedsubIndex;
   List<MenuEntity> menus = [];
+  List<String> menuNames = [
+    'Support Requests',
+    'Program Schedule',
+    'Reminders'
+  ];
 
   void onInit() {
     addMenuItems();
@@ -28,21 +33,19 @@ class SidemenuState {
         },
       ),
     );
+
     menus.add(
       MenuEntity(
         id: 1,
         menu: 'Support Requests',
         svgIcon: SvgAssets.supportReq,
-        items: [],
-        onClick: () {
-          Get.rootDelegate
-              .toNamed(
-            Routes.CASES,
-            arguments: UserEntity(name: 'support_request'),
-          )
-              .then((_) {
-            Get.reload<CasesController>();
-          });
+        // items: [],
+        onClick: () async {
+          if (Get.isRegistered<CasesController>()) {
+            Get.delete<CasesController>();
+          }
+          await Get.rootDelegate.offAndToNamed(Routes.CASES,
+              arguments: {'type': 'support request'});
         },
       ),
     );
@@ -51,16 +54,13 @@ class SidemenuState {
         id: 2,
         menu: 'Program Schedule',
         svgIcon: SvgAssets.programSchedule,
-        items: [],
-        onClick: () {
-          Get.rootDelegate
-              .toNamed(
-            Routes.CASES,
-            arguments: UserEntity(name: 'program schedule'),
-          )
-              .then((_) {
-            Get.reload<CasesController>();
-          });
+        //items: [],
+        onClick: () async {
+          if (Get.isRegistered<CasesController>()) {
+            Get.delete<CasesController>();
+          }
+          await Get.rootDelegate.offAndToNamed(Routes.CASES,
+              arguments: {'type': 'program schedule'});
         },
       ),
     );
@@ -70,9 +70,12 @@ class SidemenuState {
         menu: 'Reminders',
         svgIcon: SvgAssets.reminders,
         items: [],
-        onClick: () {
-          Get.rootDelegate
-              .toNamed(Routes.CASES, arguments: UserEntity(name: 'reminders'));
+        onClick: () async {
+          if (Get.isRegistered<CasesController>()) {
+            Get.delete<CasesController>();
+          }
+          await Get.rootDelegate
+              .offAndToNamed(Routes.CASES, arguments: {'type': 'reminders'});
         },
       ),
     );

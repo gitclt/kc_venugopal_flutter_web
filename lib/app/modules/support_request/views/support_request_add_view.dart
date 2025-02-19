@@ -5,8 +5,8 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/padding/common_paddi
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/widget/case_info_tab_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/widget/personal_info_tab_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/cases/views/widgets/case_info_tab_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/cases/views/widgets/personal_info_tab_view.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 
 class SupportRequestAddView extends GetView<SupportRequestController> {

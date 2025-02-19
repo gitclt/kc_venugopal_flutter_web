@@ -27,7 +27,8 @@ abstract class Routes {
   static const PROGRAM_SCHEDULE = _Paths.HOME + _Paths.PROGRAM_SCHEDULE;
   static const ADD_PROGRAM_SCHEDULE =
       _Paths.HOME + _Paths.PROGRAM_SCHEDULE + _Paths.ADD_PROGRAM_SCHEDULE;
-  static const CASES = _Paths.CASES;
+  static const CASES = _Paths.HOME + _Paths.CASES;
+  static const ADD_CASES = _Paths.HOME + _Paths.CASES + _Paths.ADD_CASES;
 }
 
 abstract class _Paths {
@@ -51,4 +52,5 @@ abstract class _Paths {
   static const PROGRAM_SCHEDULE = '/program-schedule';
   static const ADD_PROGRAM_SCHEDULE = '/add-program-schedule';
   static const CASES = '/cases';
+  static const ADD_CASES = '/add-cases';
 }

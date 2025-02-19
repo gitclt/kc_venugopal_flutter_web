@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/menu_entity.dart';
+import 'package:kc_venugopal_flutter_web/app/domain/entity/user_entity.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/cases/controllers/cases_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 
 class SidemenuState {
@@ -33,29 +35,44 @@ class SidemenuState {
         svgIcon: SvgAssets.supportReq,
         items: [],
         onClick: () {
-          Get.rootDelegate.toNamed(Routes.SUPPORT_REQUEST);
+          Get.rootDelegate
+              .toNamed(
+            Routes.CASES,
+            arguments: UserEntity(name: 'support_request'),
+          )
+              .then((_) {
+            Get.reload<CasesController>();
+          });
         },
       ),
     );
     menus.add(
       MenuEntity(
-        id: 1,
+        id: 2,
         menu: 'Program Schedule',
         svgIcon: SvgAssets.programSchedule,
         items: [],
         onClick: () {
-          Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
+          Get.rootDelegate
+              .toNamed(
+            Routes.CASES,
+            arguments: UserEntity(name: 'program schedule'),
+          )
+              .then((_) {
+            Get.reload<CasesController>();
+          });
         },
       ),
     );
     menus.add(
       MenuEntity(
-        id: 1,
+        id: 3,
         menu: 'Reminders',
         svgIcon: SvgAssets.reminders,
         items: [],
         onClick: () {
-          //Get.rootDelegate.toNamed(Routes.ALUMNI);
+          Get.rootDelegate
+              .toNamed(Routes.CASES, arguments: UserEntity(name: 'reminders'));
         },
       ),
     );

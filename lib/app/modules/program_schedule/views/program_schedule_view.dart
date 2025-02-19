@@ -16,7 +16,7 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.da
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/widget/program_list_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/cases/views/widgets/program_list_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';

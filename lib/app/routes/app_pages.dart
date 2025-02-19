@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/cases/views/cases_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/support_request_detail_view.dart';
 
@@ -152,13 +153,21 @@ class AppPages {
                       transition: Transition.noTransition,
                     )
                   ]),
+              GetPage(
+                  name: _Paths.CASES,
+                  page: () => const CasesView(),
+                  binding: CasesBinding(),
+                  preventDuplicates: true,
+                  children: [
+                    GetPage(
+                      name: _Paths.ADD_CASES,
+                      page: () => const CasesAddView(),
+                      binding: CasesBinding(),
+                      transition: Transition.noTransition,
+                    )
+                  ]),
             ],
           ),
         ]),
-    GetPage(
-      name: _Paths.CASES,
-      page: () => const CasesView(),
-      binding: CasesBinding(),
-    ),
   ];
 }

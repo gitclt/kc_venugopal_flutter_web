@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/add_new_widget.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/cases/controllers/cases_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/utils.dart';
 import 'package:sizer/sizer.dart';
 
-class PersonalInfoTabView extends GetView<SupportRequestController> {
+class PersonalInfoTabView extends GetView<CasesController> {
   final BoxConstraints cons;
   const PersonalInfoTabView({super.key, required this.cons});
 

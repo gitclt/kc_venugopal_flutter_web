@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/reminder_add_view.dart';
 
 import '../modules/cases/bindings/cases_binding.dart';
 import '../modules/cases/views/cases_view.dart';
@@ -154,17 +155,26 @@ class AppPages {
                       transition: Transition.noTransition,
                     )
                   ]),
+              GetPage(
+                name: _Paths.REMINDER,
+                page: () => const ReminderView(),
+                binding: ReminderBinding(),
+                transition: Transition.noTransition,
+                children: [
+                   GetPage(
+                      name: _Paths.ADD_REMINDER,
+                      page: () => const ReminderAddView(),
+                      binding: ReminderBinding(),
+                      transition: Transition.noTransition,
+                    )
+                ]
+              ),
             ],
           ),
           GetPage(
             name: _Paths.CASES,
             page: () => const CasesView(),
             binding: CasesBinding(),
-          ),
-          GetPage(
-            name: _Paths.REMINDER,
-            page: () => const ReminderView(),
-            binding: ReminderBinding(),
           ),
         ]),
   ];

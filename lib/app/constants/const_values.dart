@@ -9,16 +9,24 @@ class ConstValues {
   static String typeDeath = 'death';
 
   List<DropDownModel> status = [
-    DropDownModel(id: '1', name: 'support requested'),
-    DropDownModel(id: '2', name: "request accepted"),
-    DropDownModel(id: '3', name: "attended"),
-    DropDownModel(id: '4', name: "completed"),
-    DropDownModel(id: '5', name: "opened"),
-    DropDownModel(id: '6', name: "processing"),
-    DropDownModel(id: '7', name: "action 1"),
-    DropDownModel(id: '8', name: "followup"),
-    DropDownModel(id: '9', name: "closed"),
+    DropDownModel(id: '1', name: 'Support Requested'),
+    DropDownModel(id: '2', name: "Request Accepted"),
+    DropDownModel(id: '3', name: "Attended"),
+    DropDownModel(id: '4', name: "Completed"),
+    DropDownModel(id: '5', name: "Opened"),
+    DropDownModel(id: '6', name: "Processing"),
+    DropDownModel(id: '7', name: "Action 1"),
+    DropDownModel(id: '8', name: "Followup"),
+    DropDownModel(id: '9', name: "Closed"),
     DropDownModel(id: '10', name: "created_user_id"),
-    DropDownModel(id: '11', name: "app_version_code")
+    DropDownModel(id: '11', name: "app_version_code"),
+    DropDownModel(id: '12', name: "Pending"),
+  ];
+
+  List<DropDownModel> reminderTypes = [
+    DropDownModel(id: '1', name: 'Wedding'),
+    DropDownModel(id: '2', name: "Inauguration"),
+    DropDownModel(id: '3', name: "Birthday"),
+    DropDownModel(id: '4', name: "Death"),
   ];
 }

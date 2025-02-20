@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/cards/status_card.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/svg_icons/svg_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
@@ -8,8 +10,8 @@ import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
 
 class ProgramListWidget extends StatelessWidget {
-  final Color lineColor;
-  final Color? statusColor;
+  final Color? lineColor;
+  final String? reminderType;
   final String title;
   final String issue;
   final String? description;
@@ -21,8 +23,7 @@ class ProgramListWidget extends StatelessWidget {
   final String? status;
   const ProgramListWidget(
       {super.key,
-      required this.lineColor,
-      this.statusColor,
+      this.lineColor,
       required this.title,
       required this.issue,
       this.description,
@@ -31,7 +32,35 @@ class ProgramListWidget extends StatelessWidget {
       this.date,
       this.status,
       this.time,
-      this.address});
+      this.address,
+      this.reminderType});
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return Colors.amber;
+      case "completed":
+        return Colors.green;
+      case "processing":
+        return Colors.blue;
+      case "opened":
+        return Colors.orange;
+      case "request accepted":
+        return Colors.lightGreen;
+      case "support requested":
+        return Colors.purple;
+      case "attended":
+        return Colors.cyan;
+      case "action 1":
+        return Colors.red;
+      case "followup":
+        return Colors.teal;
+      case "closed":
+        return Colors.grey;
+      default:
+        return Colors.black; // Default fallback
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +72,16 @@ class ProgramListWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 4,
-            height: MediaQuery.of(context).size.height * 0.09,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25), color: lineColor),
-          ),
+          if (status != '')
+            Container(
+              width: 4,
+              height: MediaQuery.of(context).size.height * 0.085,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: _getStatusColor(status!)),
+            ),
           10.width,
           Expanded(
-            // Added this Expanded
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -63,16 +93,33 @@ class ProgramListWidget extends StatelessWidget {
                       children: [
                         boldText(title, fontSize: 16),
                         10.width,
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: ColoredBox(
-                            color: Color.fromRGBO(61, 66, 223, 0.1),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: columnText(issue, 12),
+                        if (reminderType != '' && reminderType != null)
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: ColoredBox(
+                              color: Color.fromRGBO(61, 66, 223, 0.1),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                child: columnText(
+                                    capitalizeLetter(reminderType!), 12,
+                                    color: Color.fromRGBO(67, 24, 255, 1)),
+                              ),
                             ),
                           ),
-                        ),
+                        if (reminderType != '') 10.width,
+                        if (issue != '')
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: ColoredBox(
+                              color: Color.fromRGBO(61, 66, 223, 0.1),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 6),
+                                child: columnText(issue, 12),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                     Row(
@@ -85,6 +132,7 @@ class ProgramListWidget extends StatelessWidget {
                               columnText(formatDateString(date!), 14)
                             ],
                           ),
+                        if (time != '') 10.width,
                         if (time != '')
                           Row(
                             children: [
@@ -129,18 +177,11 @@ class ProgramListWidget extends StatelessWidget {
                               columnText(mobile!, 14)
                             ],
                           ),
-                        5.width,
+                        12.width,
                         if (status != '')
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: ColoredBox(
-                              color: statusColor!,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: columnText(status!, 12),
-                              ),
-                            ),
-                          ),
+                          StatusWidget(
+                            status: capitalizeLetter(status!),
+                          )
                       ],
                     ),
                   ],

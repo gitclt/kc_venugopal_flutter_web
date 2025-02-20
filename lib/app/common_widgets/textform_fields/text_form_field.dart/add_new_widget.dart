@@ -75,6 +75,7 @@ class AddTextFieldWidget extends StatelessWidget {
           width: Responsive.isDesktop(context)
               ? width ?? size.width * 0.73 / 2
               : size.width * .9,
+          height: size.height * 0.05,
           child: TextFormField(
             controller: textController,
             validator: validator,

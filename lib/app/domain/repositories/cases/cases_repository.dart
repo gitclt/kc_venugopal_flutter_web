@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:kc_venugopal_flutter_web/app/core/failure/failure.dart';
 import 'package:kc_venugopal_flutter_web/app/data/app_url/cases/cases_url.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/api_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/cases/add_person_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_detail_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_view_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/network/network_api_services.dart';
@@ -31,10 +32,10 @@ class CasesRepository {
         "pageSize": pageSize,
         "type": type,
         "fromdate": fromDate,
-        "todate": toDate,
-        "status": status,
-        "category_id": categoryId,
-        "priority_id": priorityId,
+        "todate": toDate ?? '',
+        "status": status ?? '',
+        "category_id": categoryId ?? '',
+        "priority_id": priorityId ?? '',
         "timeRange": timeRange ?? '',
         "month": month ?? '',
         "keyword": keyword
@@ -76,21 +77,21 @@ class CasesRepository {
     try {
       var data = json.encode({
         "type": type,
-        "assembly_id": assemblyId,
-        "priority_id": priorityId,
-        "category_id": categoryId,
-        "date": date,
-        "time": time,
-        "location": location,
-        "title": title,
-        "comment": comment,
-        "subject": subject,
-        "name": name,
-        "address": address,
-        "email": email,
-        "mobile": mobile,
-        "description": description,
-        "reminder_date": reminderDate,
+        if (assemblyId != null) "assembly_id": assemblyId,
+        if (priorityId != null) "priority_id": priorityId,
+        if (categoryId != null) "category_id": categoryId,
+        if (date != null) "date": date,
+        if (time != null) "time": time,
+        if (location != null) "location": location,
+        if (title != null) "title": title,
+        if (comment != null) "comment": comment,
+        if (subject != null) "subject": subject,
+        if (name != null) "name": name,
+        if (address != null) "address": address,
+        if (email != null) "email": email,
+        if (mobile != null) "mobile": mobile,
+        if (description != null) "description": description,
+        if (reminderDate != null) "reminder_date": reminderDate,
         "addedby": addedBy,
         "addedtype": addedType,
         "account_id": accountId
@@ -144,23 +145,10 @@ class CasesRepository {
     }
   }
 
-  Future<Either<Failure, ApiModel>> addContactPerson({
-    String? accountId,
-    String? type,
-    String? name,
-    String? designation,
-    String? mobile,
-    String? caseId,
-  }) async {
+  Future<Either<Failure, ApiModel>> addContactPerson(
+      List<AddPersonModel> contactPerson) async {
     try {
-      var body = json.encode({
-        "type": type,
-        "account_id": accountId,
-        "case_id": caseId,
-        "name": name,
-        "designation": designation,
-        "mobile": mobile,
-      });
+      var body = json.encode(contactPerson);
       dynamic response = await _apiServices
           .postApi(body, CasesUrl.addContactPerson, isJson: true);
 

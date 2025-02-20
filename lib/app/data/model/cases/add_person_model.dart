@@ -15,9 +15,9 @@ String addPersonModelToJson(List<AddPersonModel> data) =>
 
 class AddPersonModel {
   String? type;
-  TextEditingController? name;
-  TextEditingController? designation;
-  TextEditingController? mobile;
+  String? name;
+  String? designation;
+  String? mobile;
   String? accountId;
   String? caseId;
 

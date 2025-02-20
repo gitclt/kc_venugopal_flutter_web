@@ -29,6 +29,8 @@ abstract class Routes {
       _Paths.HOME + _Paths.PROGRAM_SCHEDULE + _Paths.ADD_PROGRAM_SCHEDULE;
   static const CASES = _Paths.CASES;
   static const REMINDER = _Paths.HOME + _Paths.REMINDER;
+  static const ADD_REMINDER =
+      _Paths.HOME + _Paths.REMINDER + _Paths.ADD_REMINDER;
 }
 
 abstract class _Paths {
@@ -53,4 +55,5 @@ abstract class _Paths {
   static const ADD_PROGRAM_SCHEDULE = '/add-program-schedule';
   static const CASES = '/cases';
   static const REMINDER = '/reminder';
+  static const ADD_REMINDER = '/add-reminder';
 }

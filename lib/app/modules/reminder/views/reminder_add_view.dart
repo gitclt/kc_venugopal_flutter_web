@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_home_appbar.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/bottomsheet/pick_image_bottomsheet.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/check_box_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
@@ -13,13 +15,14 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.da
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/reminder/controllers/reminder_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/widget/contact_person_view.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
 
-class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
-  const ProgramScheduleAddView({super.key});
+class ReminderAddView extends GetView<ReminderController> {
+  const ReminderAddView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,10 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             HomeAppBar(
-              title: 'Add Program Schedule',
-              subTitle: 'Home > Dashboard >Add Program Schedule',
-              isAdd: true,
+              title: 'Add Reminder',
+              subTitle: 'Home > Dashboard >Add Reminder',
               onClick: () {
-                Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
+                Get.rootDelegate.toNamed(Routes.REMINDER);
               },
             ),
             20.height,
@@ -61,32 +63,32 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                               Obx(
                                 () => DropDown3Widget(
                                   width: width,
-                                  hint: '--Choose Assembly--',
+                                  hint: '--Choose Type--',
                                   selectedItem:
-                                      controller.addAssemblyDrop.id == null
+                                      controller.addTypeDrop.id == null
                                           ? null
-                                          : controller.addAssemblyDrop,
-                                  items: controller.categoryDropList,
+                                          : controller.addTypeDrop,
+                                  items: controller.typeDropList,
                                   isLoading: controller.isDropLoading.value,
                                   onChanged: (data) async {
                                     if (data == null) return;
-                                    controller.addAssemblyDrop = data;
+                                    controller.addTypeDrop = data;
                                   },
                                 ),
                               ),
                               Obx(
                                 () => DropDown3Widget(
                                   width: width,
-                                  hint: '--Choose Category--',
+                                  hint: '--Choose Assembly--',
                                   selectedItem:
-                                      controller.addCategoryDrop.id == null
+                                      controller.addAssemblyDrop.id == null
                                           ? null
-                                          : controller.addCategoryDrop,
-                                  items: controller.categoryDropList,
+                                          : controller.addAssemblyDrop,
+                                  items: controller.assemblyDropList,
                                   isLoading: controller.isDropLoading.value,
                                   onChanged: (data) async {
                                     if (data == null) return;
-                                    controller.addCategoryDrop = data;
+                                    controller.addAssemblyDrop = data;
                                   },
                                 ),
                               ),
@@ -117,10 +119,10 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                       size: 20),
                                   onPressed: () async {
                                     selectDate(
-                                        context, controller.fromDateController);
+                                        context, controller.dateController);
                                   },
                                 ),
-                                textController: controller.fromDateController,
+                                textController: controller.dateController,
                               ),
                               AddTextFieldWidget(
                                 width: width,
@@ -129,7 +131,7 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                 suffixIcon: IconButton(
                                   icon: svgWidget(SvgAssets.casesTime),
                                   onPressed: () async {
-                                    selectDate(
+                                    selectTime(
                                         context, controller.timeController);
                                   },
                                 ),
@@ -157,7 +159,28 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                 width: width,
                                 labelText: 'Documents',
                                 hintText: 'Upload Documents',
-                                textController: controller.descriptController,
+                                textController: controller.uploadController,
+                                readonly: true,
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      Get.bottomSheet(
+                                        PickImageBottomsheet(
+                                          pickImage: (ImageSource? value) {
+                                            if (value != null) {
+                                              controller.pickImage(
+                                                  value, 'reminder');
+                                              Get.back();
+                                            }
+                                          },
+                                        ),
+                                        elevation: 20.0,
+                                        enableDrag: false,
+                                        isDismissible: true,
+                                        backgroundColor: Colors.white,
+                                        shape: bootomSheetShape(),
+                                      );
+                                    },
+                                    icon: Icon(Icons.upload_outlined)),
                               ),
                             ],
                           ),
@@ -165,7 +188,34 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                           columnText('Contact Person Details', 18)
                               .paddingOnly(left: 5),
                           10.height,
-                         
+                          // Wrap(
+                          //   spacing:
+                          //       Responsive.isDesktop(context) ? 2.5.w : 2.w,
+                          //   runSpacing:
+                          //       Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                          //   children: [
+                          //     AddTextFieldWidget(
+                          //       width: width,
+                          //       labelText: 'Name',
+                          //       hintText: 'Name',
+                          //       textController: controller.nameController,
+                          //     ),
+                          //     AddTextFieldWidget(
+                          //       width: width,
+                          //       labelText: 'Mobile',
+                          //       hintText: 'Mobile',
+                          //       textController: controller.mobileController,
+                          //     ),
+                          //     AddTextFieldWidget(
+                          //       width: width,
+                          //       labelText: 'Designation',
+                          //       hintText: 'Designation',
+                          //       textController: controller.desigController,
+                          //     ),
+
+                          ContactPersonView(),
+                          //   ],
+                          // ),
                           20.height,
                           Obx(() => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -196,12 +246,17 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                 ],
                               ).paddingOnly(left: 5)),
                           15.height,
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: CommonButton(
-                                  width: width, onClick: () {
-                                    
-                                  }, label: 'ADD'))
+                          Obx(
+                            () => Align(
+                                alignment: Alignment.bottomRight,
+                                child: CommonButton(
+                                    isLoading: controller.isLoading.value,
+                                    width: width,
+                                    onClick: () {
+                                      controller.addReminder();
+                                    },
+                                    label: 'ADD')),
+                          )
                         ],
                       ),
                     ),

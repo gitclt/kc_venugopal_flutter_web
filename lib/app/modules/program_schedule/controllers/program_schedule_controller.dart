@@ -135,19 +135,10 @@ class ProgramScheduleController extends GetxController {
     }
     getCategory();
     getPriority();
-    addPersons();
-  }
-
-  void addPersons() {
-    persons.add(AddPersonModel(
-        name: TextEditingController(),
-        mobile: TextEditingController(),
-        designation: TextEditingController()));
-  }
-
-  void addPrograms() async{
     
   }
+
+ 
 
   void getProgramSchedules() async {
     setRxRequestStatus(Status.loading);

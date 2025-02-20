@@ -22,7 +22,7 @@ class ApiModel {
   factory ApiModel.fromJson(Map<String, dynamic> json) => ApiModel(
         status: json["status"],
         message: json["message"],
-        id: json["id"],
+        id: json["id"]?.toString(),
       );
 
   Map<String, dynamic> toJson() => {

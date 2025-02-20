@@ -110,13 +110,15 @@ class DropDown3Widget extends StatelessWidget {
                 dropdownDecoratorProps: DropDownDecoratorProps(
                   dropdownSearchDecoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
+                        horizontal: 12, vertical: 10),
                     filled: true,
-                    isDense: false, //Ensures proper spacing
+                    isDense: true, //Ensures proper spacing
                     fillColor: Color(0xFFF6F6F6),
                     hintText: hint,
                     hintStyle: const TextStyle(
-                        overflow: TextOverflow.ellipsis, fontSize: 12),
+                        color: Colors.black,
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 12),
                     border: isEnabled ? enabledBorder : disabledBorder,
                     errorBorder: enabledBorder,
                     focusedBorder:
@@ -127,10 +129,25 @@ class DropDown3Widget extends StatelessWidget {
                 items: items,
                 selectedItem: selectedItem,
                 dropdownBuilder: (context, selectItem) {
+                  if (selectItem == null) {
+                    return Text(
+                      hint ?? '',
+                      style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 12,
+                        color: Colors
+                            .black54, // Optional: makes it look like a hint
+                      ),
+                      maxLines: 1,
+                      softWrap: false,
+                    );
+                  }
                   return Text(
-                    selectItem?.toString() ?? hint!,
+                    selectItem.toString(),
                     style: const TextStyle(
-                        overflow: TextOverflow.ellipsis, fontSize: 12),
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 12,
+                    ),
                     maxLines: 1,
                     softWrap: false,
                   );

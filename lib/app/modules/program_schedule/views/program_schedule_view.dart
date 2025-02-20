@@ -198,8 +198,6 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                                             return ProgramListWidget(
                                               time: item.time ?? '',
                                               address: item.address ?? '',
-                                              lineColor:
-                                                  AppColor.appointTextColor,
                                               title: item.title ?? '',
                                               issue: item.category ?? '',
                                               description:
@@ -212,7 +210,6 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                                               date: item.date ?? '',
                                               mobile: item.mobile ?? '',
                                               status: item.status ?? '',
-                                              statusColor: Colors.yellow,
                                             );
                                           }).paddingOnly(top: 10),
                                     ),

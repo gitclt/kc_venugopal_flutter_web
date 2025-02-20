@@ -55,7 +55,7 @@ class SidemenuState {
         svgIcon: SvgAssets.reminders,
         items: [],
         onClick: () {
-          //Get.rootDelegate.toNamed(Routes.ALUMNI);
+          Get.rootDelegate.toNamed(Routes.REMINDER);
         },
       ),
     );

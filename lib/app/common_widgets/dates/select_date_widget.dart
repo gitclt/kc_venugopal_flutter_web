@@ -65,32 +65,18 @@ Future<void> selectToDate(
   }
 }
 
-Future<void> selectInitialDate(
+TimeOfDay? selectedTime;
+
+Future<void> selectTime(
     BuildContext context, TextEditingController textController) async {
-  final DateTime? picked = await showDatePicker(
+  final TimeOfDay? picked = await showTimePicker(
     context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2101),
-    builder: (BuildContext context, Widget? child) {
-      return Theme(
-        data: ThemeData.light().copyWith(
-          colorScheme: ColorScheme.light(
-            primary: AppColor.primary, // Header background color
-            onPrimary: Colors.white, // Header text color
-            onSurface: Colors.black, // Body text color
-          ),
-          //dialogBackgroundColor: AppColor.primary, // Background color
-        ),
-        child: child!,
-      );
-    },
+    initialTime: selectedTime ?? TimeOfDay.now(),
   );
-  if (picked != null && picked != _selectedInitialDate) {
-    _selectedInitialDate = picked;
-    // if (date == 'joinDate') {
+  if (picked != null && picked != selectedTime) {
+    selectedTime = picked;
+
     textController.text =
-        DateFormat('yyyy-MM-dd').format(_selectedInitialDate!);
-    // }
+        "${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}";
   }
 }

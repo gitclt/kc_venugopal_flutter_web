@@ -41,10 +41,8 @@ class SidemenuState {
         svgIcon: SvgAssets.supportReq,
         // items: [],
         onClick: () async {
-          if (Get.isRegistered<CasesController>()) {
-            Get.delete<CasesController>();
-          }
-          await Get.rootDelegate.offAndToNamed(Routes.CASES,
+          Get.find<CasesController>().updateMenu({'type': 'support request'});
+          Get.rootDelegate.offAndToNamed(Routes.CASES,
               arguments: {'type': 'support request'});
         },
       ),
@@ -56,10 +54,8 @@ class SidemenuState {
         svgIcon: SvgAssets.programSchedule,
         //items: [],
         onClick: () async {
-          if (Get.isRegistered<CasesController>()) {
-            Get.delete<CasesController>();
-          }
-          await Get.rootDelegate.offAndToNamed(Routes.CASES,
+          Get.find<CasesController>().updateMenu({'type': 'program schedule'});
+          Get.rootDelegate.offAndToNamed(Routes.CASES,
               arguments: {'type': 'program schedule'});
         },
       ),
@@ -71,10 +67,8 @@ class SidemenuState {
         svgIcon: SvgAssets.reminders,
         items: [],
         onClick: () async {
-          if (Get.isRegistered<CasesController>()) {
-            Get.delete<CasesController>();
-          }
-          await Get.rootDelegate
+          Get.find<CasesController>().updateMenu({'type': 'reminders'});
+          Get.rootDelegate
               .offAndToNamed(Routes.CASES, arguments: {'type': 'reminders'});
         },
       ),

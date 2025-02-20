@@ -12,6 +12,7 @@ import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_detail_model
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_view_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/dropdown_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
+import 'package:kc_venugopal_flutter_web/app/domain/entity/user_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/cases/cases_repository.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/assembly_repository.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/master/category_repository.dart';
@@ -95,13 +96,17 @@ class CasesController extends GetxController with GetTickerProviderStateMixin {
   void onInit() {
     super.onInit();
     getDropDownValues();
+    updateMenu(Get.rootDelegate.arguments());
     type = Get.rootDelegate.arguments();
+
+    tabController = TabController(length: 2, vsync: this);
+  }
+
+  void updateMenu(arguments) {
     if (type != null) {
       source.value = type!.entries.first.value;
       setTypeValues();
     }
-
-    tabController = TabController(length: 2, vsync: this);
   }
 
   void setTypeValues() {

@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/program_schedule_detail_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/reminder_add_view.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/reminder_detail_view.dart';
 
 import '../modules/cases/bindings/cases_binding.dart';
 import '../modules/cases/views/cases_view.dart';
@@ -154,22 +156,33 @@ class AppPages {
                       page: () => const ProgramScheduleAddView(),
                       binding: ProgramScheduleBinding(),
                       transition: Transition.noTransition,
-                    )
+                    ),
+                    GetPage(
+                      name: _Paths.PROGRAM_SCHEDULE_DETAIL,
+                      page: () => const ProgramScheduleDetailView(),
+                      transition: Transition.noTransition,
+                      binding: ProgramScheduleBinding(),
+                    ),
                   ]),
               GetPage(
-                name: _Paths.REMINDER,
-                page: () => const ReminderView(),
-                binding: ReminderBinding(),
-                transition: Transition.noTransition,
-                children: [
-                   GetPage(
+                  name: _Paths.REMINDER,
+                  page: () => const ReminderView(),
+                  binding: ReminderBinding(),
+                  transition: Transition.noTransition,
+                  children: [
+                    GetPage(
                       name: _Paths.ADD_REMINDER,
                       page: () => const ReminderAddView(),
                       binding: ReminderBinding(),
                       transition: Transition.noTransition,
+                    ),
+                    GetPage(
+                      name: _Paths.REMINDER_DETAIL,
+                      page: () => const ReminderDetailView(),
+                      binding: ReminderBinding(),
+                      transition: Transition.noTransition,
                     )
-                ]
-              ),
+                  ]),
             ],
           ),
           GetPage(

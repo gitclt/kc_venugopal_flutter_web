@@ -210,6 +210,15 @@ class ReminderView extends GetView<ReminderController> {
                                               date: item.date ?? '',
                                               mobile: item.mobile ?? '',
                                               status: item.status ?? '',
+                                              onTap: () {
+                                                controller.reminderId =
+                                                    item.id.toString();
+                                                controller.reminderType =
+                                                    item.type ?? '';
+                                                controller.getReminderDetail();
+                                                Get.rootDelegate.toNamed(
+                                                    Routes.REMINDER_DETAIL);
+                                              },
                                             );
                                           }).paddingOnly(top: 10),
                                     ),

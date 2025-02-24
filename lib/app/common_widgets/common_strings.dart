@@ -11,3 +11,12 @@ String capitalizeLetter(String input) {
   if (input.isEmpty) return input; // Handle empty string
   return input[0].toUpperCase() + input.substring(1).toLowerCase();
 }
+
+ Color priorityColor(String value) {
+    if (value == 'high') {
+      return Colors.red;
+    } else if (value == 'low') {
+      return Colors.green;
+    }
+    return Colors.grey;
+  }

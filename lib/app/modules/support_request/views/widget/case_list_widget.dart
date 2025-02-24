@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/cards/status_card.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/svg_icons/svg_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
@@ -7,7 +9,7 @@ import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
 
 class CaseListWidget extends StatelessWidget {
-  final Color lineColor;
+  final Color? lineColor;
   final Color? statusColor;
   final String title;
   final String issue;
@@ -19,7 +21,7 @@ class CaseListWidget extends StatelessWidget {
   final Function onTap;
   const CaseListWidget(
       {super.key,
-      required this.lineColor,
+      this.lineColor,
       required this.title,
       required this.issue,
       this.description,
@@ -29,6 +31,33 @@ class CaseListWidget extends StatelessWidget {
       this.status,
       this.statusColor,
       required this.onTap});
+
+  Color _getStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return Colors.amber;
+      case "completed":
+        return Colors.green;
+      case "processing":
+        return Colors.blue;
+      case "opened":
+        return Colors.orange;
+      case "request accepted":
+        return Colors.lightGreen;
+      case "support requested":
+        return Colors.purple;
+      case "attended":
+        return Colors.cyan;
+      case "action 1":
+        return Colors.red;
+      case "followup":
+        return Colors.teal;
+      case "closed":
+        return Colors.grey;
+      default:
+        return Colors.black; // Default fallback
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +73,14 @@ class CaseListWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 4,
-              height: MediaQuery.of(context).size.height * 0.09,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25), color: lineColor),
-            ),
+            if (status != '')
+              Container(
+                width: 4,
+                height: MediaQuery.of(context).size.height * 0.085,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: _getStatusColor(status!)),
+              ),
             10.width,
             Expanded(
               // Added this Expanded
@@ -113,16 +144,9 @@ class CaseListWidget extends StatelessWidget {
                         ],
                       ),
                       if (status != '')
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: ColoredBox(
-                            color: statusColor!,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: columnText(status!, 12),
-                            ),
-                          ),
-                        ),
+                        StatusWidget(
+                          status: capitalizeLetter(status!),
+                        )
                     ],
                   ),
                 ],

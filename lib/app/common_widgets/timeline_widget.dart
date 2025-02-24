@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
+import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class TimelineWidget extends StatelessWidget {
   final String status;
   final int index;
   final int length;
+  final String? date;
   const TimelineWidget(
       {super.key,
       required this.status,
       required this.index,
-      required this.length});
+      required this.length,
+      this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +51,16 @@ class TimelineWidget extends StatelessWidget {
           ),
         ),
         endChild: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Text(capitalizeLetter(status)),
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              columnText(capitalizeLetter(status), 12),
+              5.height,
+              if (date != '') columnText(formatDateString(date!), 10)
+            ],
+          ),
         ),
       ),
     );

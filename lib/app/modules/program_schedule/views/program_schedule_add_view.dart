@@ -37,7 +37,6 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
             HomeAppBar(
               title: 'Add Program Schedule',
               subTitle: 'Home > Dashboard >Add Program Schedule',
-              isAdd: true,
               onClick: () {
                 Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
               },

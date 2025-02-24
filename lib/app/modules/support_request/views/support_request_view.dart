@@ -203,8 +203,6 @@ class SupportRequestView extends GetView<SupportRequestController> {
                                               Get.rootDelegate.toNamed(Routes
                                                   .SUPPORT_REQUEST_DETAIL);
                                             },
-                                            lineColor:
-                                                AppColor.appointTextColor,
                                             title: item.title ?? '',
                                             issue: item.category ?? '',
                                             description: item.description ?? '',

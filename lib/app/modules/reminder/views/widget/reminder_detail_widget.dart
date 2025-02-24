@@ -14,12 +14,12 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.da
 import 'package:kc_venugopal_flutter_web/app/common_widgets/timeline_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/widget/sidemenu_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/reminder/controllers/reminder_controller.dart';
 import 'package:sizer/sizer.dart';
 
-class CaseDetailWidget extends GetView<SupportRequestController> {
+class ReminderDetailWidget extends GetView<ReminderController> {
   final BoxConstraints cons;
-  const CaseDetailWidget(this.cons, {super.key});
+  const ReminderDetailWidget({super.key, required this.cons});
 
   @override
   Widget build(BuildContext context) {

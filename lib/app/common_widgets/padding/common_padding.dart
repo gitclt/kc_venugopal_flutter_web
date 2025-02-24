@@ -7,8 +7,9 @@ class CommonPagePadding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, top: 20, right: 15, bottom: 20),
+      padding: const EdgeInsets.only(left: 15, top: 15, right: 15, bottom: 20),
       child: child,
     );
   }
 }
+  

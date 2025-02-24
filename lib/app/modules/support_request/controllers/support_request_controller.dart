@@ -386,12 +386,5 @@ class SupportRequestController extends GetxController
     detailImagename.value = '';
   }
 
-  Color priorityColor(String value) {
-    if (value == 'high') {
-      return Colors.red;
-    } else if (value == 'low') {
-      return Colors.green;
-    }
-    return Colors.grey;
-  }
+ 
 }

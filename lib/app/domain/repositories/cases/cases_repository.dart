@@ -205,13 +205,13 @@ class CasesRepository {
       var body = {
         "id": id,
         "status": status,
-        "remark": remark,
+        if (remark != null) "remark": remark,
         "account_id": accountId,
-        "reminder_date": reminderDate,
-        "document": document,
+        if (reminderDate != null) "reminder_date": reminderDate,
+        if (document != null) "document": document,
         "type": type,
         "created_user_id": createdUserId,
-        "document_file": fileData
+        if (fileData != null) "document_file": fileData
       };
       dynamic response =
           await _apiServices.putApi(body, CasesUrl.updateCaseStatus);

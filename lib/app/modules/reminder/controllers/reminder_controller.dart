@@ -8,6 +8,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/const_values.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/add_person_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_detail_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_view_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/dropdown_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
@@ -21,6 +22,7 @@ class ReminderController extends GetxController {
   final rxRequestStatus = Status.completed.obs;
   final isDropLoading = false.obs;
   final isLoading = false.obs;
+  final isStatusLoading = false.obs;
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final TextEditingController keywordController = TextEditingController();
@@ -36,12 +38,17 @@ class ReminderController extends GetxController {
   final TextEditingController uploadController = TextEditingController();
   final TextEditingController remindDateController = TextEditingController();
 
+  final TextEditingController activityController = TextEditingController();
+  final TextEditingController reminderDateController = TextEditingController();
+  final TextEditingController remindDocumentController =
+      TextEditingController();
   DropDownModel statusFilter = DropDownModel();
   DropDownModel typeFilter = DropDownModel();
   DropDownModel priorityFilter = DropDownModel();
   DropDownModel addAssemblyDrop = DropDownModel();
   DropDownModel addTypeDrop = DropDownModel();
   DropDownModel addPriorityDrop = DropDownModel();
+  DropDownModel detailStatusDrop = DropDownModel();
   RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
   RxList<DropDownModel> typeDropList = <DropDownModel>[].obs;
   RxList<DropDownModel> priorityDropList = <DropDownModel>[].obs;
@@ -49,6 +56,11 @@ class ReminderController extends GetxController {
 
   RxList<CasesData> data = <CasesData>[].obs;
   RxList<CasesData> dataCopy = <CasesData>[].obs;
+  //detail
+  RxList<CaseDetailData> dataDetail = <CaseDetailData>[].obs;
+  RxList<CaseDocument> detailDocument = <CaseDocument>[].obs;
+  RxList<CaseStatus> detailStatus = <CaseStatus>[].obs;
+  RxList<ContactPersonDetail> detailContactPerson = <ContactPersonDetail>[].obs;
   final repo = CasesRepository();
   final catRepo = CategoryRepository();
   final priorRepo = PriorityRepository();
@@ -59,6 +71,9 @@ class ReminderController extends GetxController {
   RxString error = ''.obs;
   var isReminder = false.obs;
   String caseId = '';
+  String reminderType = '';
+  String reminderId = '';
+  RxString detailImagename = ''.obs;
 
   var contactPersons = <Map<String, String>>[].obs;
 
@@ -183,11 +198,10 @@ class ReminderController extends GetxController {
       if (value == 'reminder') {
         imageName.value = "$dateFormat.${image.name.split('.').last}";
         uploadController.text = imageName.value;
+      } else if (value == 'detailCase') {
+        detailImagename.value = "$dateFormat.${image.name.split('.').last}";
+        remindDocumentController.text = detailImagename.value;
       }
-      // else if (value == 'detailCase') {
-      //   detailImagename.value = "$dateFormat.${image.name.split('.').last}";
-      //   remindDocumentController.text = detailImagename.value;
-      // }
 
       pickedFileBytes = await image.readAsBytes();
       encodedData = base64Encode(pickedFileBytes!);
@@ -296,5 +310,69 @@ class ReminderController extends GetxController {
       pageIndex.value = page; // Update current page
       getReminders(); // Fetch the employee list for the new page
     }
+  }
+
+  void getReminderDetail() async {
+    setRxRequestStatus(Status.loading);
+    dataDetail.clear();
+    detailStatus.clear();
+    detailContactPerson.clear();
+    detailDocument.clear();
+    final response = await repo.getCaseDetails(
+      accountId: LocalStorageKey.userData.accountId.toString(),
+      id: reminderId,
+      type: reminderType,
+    );
+    response.fold((failure) {
+      setRxRequestStatus(Status.completed);
+      setError(error.toString());
+    }, (resData) {
+      setRxRequestStatus(Status.completed);
+
+      if (resData.data != null) {
+        dataDetail.addAll(resData.data!);
+        if (resData.data!.first.caseStatus!.isNotEmpty) {
+          detailStatus.addAll(resData.data!.first.caseStatus!);
+        }
+        if (resData.data!.first.contactPerson!.isNotEmpty) {
+          detailContactPerson.addAll(resData.data!.first.contactPerson!);
+        }
+        if (resData.data!.first.caseDocuments!.isNotEmpty) {
+          detailDocument.addAll(resData.data!.first.caseDocuments!);
+        }
+      }
+    });
+  }
+
+  void updateStatus() async {
+    isStatusLoading(true);
+    final res = await repo.updateStatus(
+        id: reminderId,
+        type: reminderType,
+        status: detailStatusDrop.name ?? '',
+        accountId: LocalStorageKey.userData.accountId.toString(),
+        remark: activityController.text.trim(),
+        createdUserId: LocalStorageKey.userData.id.toString(),
+        reminderDate: reminderDateController.text.trim(),
+        document: detailImagename.value,
+        fileData: encodedData ?? '');
+    res.fold((failure) {
+      isStatusLoading(false);
+      setError(error.toString());
+    }, (resData) {
+      isStatusLoading(false);
+      if (resData.status!) {
+        getReminders();
+        Get.rootDelegate.toNamed(Routes.REMINDER);
+      }
+    });
+  }
+
+  detailClear() {
+    activityController.clear();
+    detailStatusDrop = DropDownModel();
+    remindDocumentController.clear();
+    remindDocumentController.clear();
+    detailImagename.value = '';
   }
 }

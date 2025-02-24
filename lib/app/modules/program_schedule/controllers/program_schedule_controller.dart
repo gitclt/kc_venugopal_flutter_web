@@ -8,6 +8,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/const_values.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/add_person_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_detail_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_view_model.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/dropdown_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
@@ -21,6 +22,7 @@ class ProgramScheduleController extends GetxController {
   final rxRequestStatus = Status.completed.obs;
   final isDropLoading = false.obs;
   final isLoading = false.obs;
+  final isStatusLoading = false.obs;
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final TextEditingController keywordController = TextEditingController();
@@ -36,12 +38,15 @@ class ProgramScheduleController extends GetxController {
   final TextEditingController remindDateController = TextEditingController();
   final TextEditingController uploadController = TextEditingController();
 
+  final TextEditingController remarkController = TextEditingController();
+
   DropDownModel statusFilter = DropDownModel();
   DropDownModel categoryFilter = DropDownModel();
   DropDownModel priorityFilter = DropDownModel();
   DropDownModel addAssemblyDrop = DropDownModel();
   DropDownModel addCategoryDrop = DropDownModel();
   DropDownModel addPriorityDrop = DropDownModel();
+  DropDownModel detailStatusDrop = DropDownModel();
   RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
   RxList<DropDownModel> categoryDropList = <DropDownModel>[].obs;
   RxList<DropDownModel> priorityDropList = <DropDownModel>[].obs;
@@ -49,6 +54,13 @@ class ProgramScheduleController extends GetxController {
 
   RxList<CasesData> data = <CasesData>[].obs;
   RxList<CasesData> dataCopy = <CasesData>[].obs;
+
+  //detail
+  RxList<CaseDetailData> dataDetail = <CaseDetailData>[].obs;
+  RxList<CaseDocument> detailDocument = <CaseDocument>[].obs;
+  RxList<CaseStatus> detailStatus = <CaseStatus>[].obs;
+  RxList<ContactPersonDetail> detailContactPerson = <ContactPersonDetail>[].obs;
+
   final repo = CasesRepository();
   final catRepo = CategoryRepository();
   final priorRepo = PriorityRepository();
@@ -59,6 +71,7 @@ class ProgramScheduleController extends GetxController {
   RxString error = ''.obs;
   var isReminder = false.obs;
   String caseId = '';
+  String programId = '';
 
   var persons = <AddPersonModel>[].obs;
   var contactPersons = <Map<String, String>>[].obs;
@@ -314,5 +327,61 @@ class ProgramScheduleController extends GetxController {
       pageIndex.value = page; // Update current page
       getProgramSchedules(); // Fetch the employee list for the new page
     }
+  }
+
+  void getProgramDetail() async {
+    setRxRequestStatus(Status.loading);
+    dataDetail.clear();
+    detailStatus.clear();
+    detailContactPerson.clear();
+    detailDocument.clear();
+    final response = await repo.getCaseDetails(
+      accountId: LocalStorageKey.userData.accountId.toString(),
+      id: programId,
+      type: ConstValues.typeProgram,
+    );
+    response.fold((failure) {
+      setRxRequestStatus(Status.completed);
+      setError(error.toString());
+    }, (resData) {
+      setRxRequestStatus(Status.completed);
+
+      if (resData.data != null) {
+        dataDetail.addAll(resData.data!);
+        if (resData.data!.first.caseStatus!.isNotEmpty) {
+          detailStatus.addAll(resData.data!.first.caseStatus!);
+        }
+        if (resData.data!.first.contactPerson!.isNotEmpty) {
+          detailContactPerson.addAll(resData.data!.first.contactPerson!);
+        }
+        if (resData.data!.first.caseDocuments!.isNotEmpty) {
+          detailDocument.addAll(resData.data!.first.caseDocuments!);
+        }
+      }
+    });
+  }
+
+  void updateStatus() async {
+    isStatusLoading(true);
+    final res = await repo.updateStatus(
+      id: programId,
+      type: ConstValues.typeProgram,
+      status: detailStatusDrop.name ?? '',
+      accountId: LocalStorageKey.userData.accountId.toString(),
+      remark: remarkController.text.trim(),
+      createdUserId: LocalStorageKey.userData.id.toString(),
+    );
+    res.fold((failure) {
+      isStatusLoading(false);
+      setError(error.toString());
+    }, (resData) {
+      isStatusLoading(false);
+      if (resData.status!) {
+        remarkController.clear();
+        detailStatusDrop = DropDownModel();
+        getProgramSchedules();
+        Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
+      }
+    });
   }
 }

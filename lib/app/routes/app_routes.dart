@@ -33,6 +33,10 @@ abstract class Routes {
   static const REMINDER = _Paths.HOME + _Paths.REMINDER;
   static const ADD_REMINDER =
       _Paths.HOME + _Paths.REMINDER + _Paths.ADD_REMINDER;
+  static const REMINDER_DETAIL =
+      _Paths.HOME + _Paths.REMINDER + _Paths.REMINDER_DETAIL;
+  static const PROGRAM_SCHEDULE_DETAIL =
+      _Paths.HOME + _Paths.PROGRAM_SCHEDULE + _Paths.PROGRAM_SCHEDULE_DETAIL;
 }
 
 abstract class _Paths {
@@ -55,7 +59,9 @@ abstract class _Paths {
   static const SUPPORT_REQUEST_DETAIL = '/support-request-detail';
   static const PROGRAM_SCHEDULE = '/program-schedule';
   static const ADD_PROGRAM_SCHEDULE = '/add-program-schedule';
+  static const PROGRAM_SCHEDULE_DETAIL = '/program-schedule-detail';
   static const CASES = '/cases';
   static const REMINDER = '/reminder';
   static const ADD_REMINDER = '/add-reminder';
+  static const REMINDER_DETAIL = '/reminder-detail';
 }

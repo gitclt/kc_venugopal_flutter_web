@@ -210,6 +210,13 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                                               date: item.date ?? '',
                                               mobile: item.mobile ?? '',
                                               status: item.status ?? '',
+                                              onTap: () {
+                                                controller.programId =
+                                                    item.id.toString();
+                                                controller.getProgramDetail();
+                                                Get.rootDelegate.toNamed(Routes
+                                                    .PROGRAM_SCHEDULE_DETAIL);
+                                              },
                                             );
                                           }).paddingOnly(top: 10),
                                     ),

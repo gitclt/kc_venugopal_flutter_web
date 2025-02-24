@@ -4,22 +4,22 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/bottomsheet/pick_image_bottomsheet.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button.dart';
-import 'package:kc_venugopal_flutter_web/app/common_widgets/check_box_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
-import 'package:kc_venugopal_flutter_web/app/common_widgets/dates/select_date_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/drop_down/drop_down3_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/svg_icons/svg_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/add_new_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/timeline_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/widget/sidemenu_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
 import 'package:sizer/sizer.dart';
 
-class CaseDetailWidget extends GetView<SupportRequestController> {
+class ProgramDetailWidget extends GetView<ProgramScheduleController> {
   final BoxConstraints cons;
-  const CaseDetailWidget(this.cons, {super.key});
+  const ProgramDetailWidget({super.key, required this.cons});
 
   @override
   Widget build(BuildContext context) {
@@ -52,18 +52,35 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
               columnHeaderText(controller.dataDetail.first.description ?? ''),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
                     children: [
-                      columnHeaderText('Priority : '),
-                      3.width,
-                      boldText(
-                          capitalizeLetter(
-                              controller.dataDetail.first.priority ?? ''),
-                          fontSize: 11.sp,
-                          color: priorityColor(
-                            controller.dataDetail.first.priority!,
-                          ))
+                      Row(
+                        children: [
+                          svgWidget(SvgAssets.caseLocation, size: 20),
+                          3.width,
+                          columnText(
+                            capitalizeLetter(
+                                controller.dataDetail.first.location ?? ''),
+                            11.sp,
+                          )
+                        ],
+                      ),
+                      10.width,
+                      Row(
+                        children: [
+                          columnHeaderText('Priority : '),
+                          3.width,
+                          boldText(
+                              capitalizeLetter(
+                                  controller.dataDetail.first.priority ?? ''),
+                              fontSize: 11.sp,
+                              color: priorityColor(
+                                controller.dataDetail.first.priority!,
+                              ))
+                        ],
+                      ),
                     ],
                   ),
                   if (controller.dataDetail.first.contactPerson!.isNotEmpty)
@@ -176,14 +193,6 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
                         children: [
                           boldText('Change Status'),
                           10.height,
-                          AddTextFieldWidget(
-                            width: double.infinity,
-                            labelText: 'Activity',
-                            hintText: 'Type activity here',
-                            minLines: 2,
-                            textController: controller.activityController,
-                          ),
-                          12.height,
                           DropDown3Widget(
                             width: double.infinity,
                             hint: '--Select Status--',
@@ -199,80 +208,12 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
                             },
                           ),
                           12.height,
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SimpleContainer(
-                                child: Obx(() => Row(
-                                      children: [
-                                        CheckBoxButton(
-                                            selectItem:
-                                                controller.isReminder.value,
-                                            act: () {
-                                              controller.isReminder.value =
-                                                  !controller.isReminder.value;
-                                            }),
-                                        5.width,
-                                        columnText('Set Reminder', 14)
-                                      ],
-                                    )),
-                              ),
-                              12.width,
-                              Obx(() => controller.isReminder.value
-                                  ? Expanded(
-                                      child: AddTextFieldWidget(
-                                        //  width: cons.minWidth,
-                                        labelText: 'Date',
-                                        hintText: 'YYYY-MM-DD',
-                                        textController:
-                                            controller.reminderDateController,
-                                        suffixIcon: IconButton(
-                                          icon: const Icon(
-                                              Icons.calendar_today_outlined,
-                                              size: 20),
-                                          onPressed: () async {
-                                            selectDate(
-                                                context,
-                                                controller
-                                                    .reminderDateController);
-                                          },
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox()),
-                              12.width,
-                              Expanded(
-                                child: AddTextFieldWidget(
-                                  // width: cons.minWidth * 0.2,
-                                  labelText: 'Upload Documents',
-                                  hintText: 'Upload Documents',
-                                  readonly: true,
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        Get.bottomSheet(
-                                          PickImageBottomsheet(
-                                            pickImage: (ImageSource? value) {
-                                              if (value != null) {
-                                                controller.pickImage(
-                                                    value, 'detailCase');
-                                                Get.back();
-                                              }
-                                            },
-                                          ),
-                                          elevation: 20.0,
-                                          enableDrag: false,
-                                          isDismissible: true,
-                                          backgroundColor: Colors.white,
-                                          shape: bootomSheetShape(),
-                                        );
-                                      },
-                                      icon: Icon(Icons.upload_outlined)),
-                                  textController:
-                                      controller.remindDocumentController,
-                                ),
-                              ),
-                            ],
+                          AddTextFieldWidget(
+                            width: double.infinity,
+                            labelText: 'Remark',
+                            hintText: 'Remark',
+                            minLines: 2,
+                            textController: controller.remarkController,
                           ),
                           12.height,
                           Obx(

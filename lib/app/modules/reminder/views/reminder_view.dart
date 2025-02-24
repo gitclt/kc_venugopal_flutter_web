@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_home_appbar.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button.dart';
-import 'package:kc_venugopal_flutter_web/app/common_widgets/cards/status_card.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/dates/select_date_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/drop_down/drop_down3_widget.dart';

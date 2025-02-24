@@ -114,6 +114,6 @@ class _SidemenuViewState extends State<SidemenuView> {
 divider() {
   return Divider(
     thickness: 1,
-    color: AppColor.grey,
+    color: AppColor.dividerColor,
   );
 }

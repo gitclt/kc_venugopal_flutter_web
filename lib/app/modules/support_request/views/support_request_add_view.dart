@@ -26,7 +26,6 @@ class SupportRequestAddView extends GetView<SupportRequestController> {
                 HomeAppBar(
                   title: 'Add Support Request',
                   subTitle: 'Home > Dashboard >Add Support Request',
-                  isAdd: true,
                   onClick: () {
                     Get.rootDelegate.toNamed(Routes.SUPPORT_REQUEST);
                   },
@@ -38,7 +37,7 @@ class SupportRequestAddView extends GetView<SupportRequestController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TabBar(
-                        controller: controller.tabController,
+                          controller: controller.tabController,
                           labelStyle:
                               const TextStyle(fontWeight: FontWeight.bold),
                           labelColor: AppColor.primary,
@@ -61,7 +60,7 @@ class SupportRequestAddView extends GetView<SupportRequestController> {
                       10.height,
                       Expanded(
                         child: TabBarView(
-                          controller: controller.tabController,
+                            controller: controller.tabController,
                             physics: NeverScrollableScrollPhysics(),
                             children: [
                               PersonalInfoTabView(

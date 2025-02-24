@@ -78,7 +78,7 @@ class AdminPopUp extends StatelessWidget {
         decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(5),
-            color: AppColor.grey.withOpacity(.5)),
+            color: AppColor.boxBorderColor),
         child: TextButton(
             onPressed: () {
               Navigator.pop(context);

@@ -7,7 +7,6 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_con
 import 'package:kc_venugopal_flutter_web/app/common_widgets/dates/select_date_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/drop_down/drop_down3_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/add_new_widget.dart';
-import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
@@ -34,7 +33,8 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
               selectedItem: controller.addCategoryDrop.id == null
                   ? null
                   : controller.addCategoryDrop,
-              items: controller.categoryDropList,
+              items:
+                  controller.categoryDropList.where((e) => e.id != '').toList(),
               isLoading: controller.isDropLoading.value,
               onChanged: (data) async {
                 if (data == null) return;
@@ -50,7 +50,8 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
               selectedItem: controller.addPriorityDrop.id == null
                   ? null
                   : controller.addPriorityDrop,
-              items: controller.priorityDropList,
+              items:
+                  controller.priorityDropList.where((e) => e.id != '').toList(),
               onChanged: (data) async {
                 if (data == null) return;
                 controller.addPriorityDrop = data;
@@ -64,7 +65,8 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
               selectedItem: controller.addAssemblyDrop.id == null
                   ? null
                   : controller.addAssemblyDrop,
-              items: controller.assemblyDropList,
+              items:
+                  controller.assemblyDropList.where((e) => e.id != '').toList(),
               isLoading: controller.isDropLoading.value,
               onChanged: (data) async {
                 if (data == null) return;
@@ -75,7 +77,7 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
           AddTextFieldWidget(
             width: width,
             labelText: 'Date',
-            hintText: 'DD/MM/YYYY',
+            hintText: 'YYYY-MM-DD',
             // readonly: true,
             suffixIcon: IconButton(
               icon: const Icon(Icons.calendar_today_outlined, size: 20),
@@ -115,7 +117,7 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
                     PickImageBottomsheet(
                       pickImage: (ImageSource? value) {
                         if (value != null) {
-                          controller.pickImage(value,"support");
+                          controller.pickImage(value, "support");
                           Get.back();
                         }
                       },
@@ -128,8 +130,7 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
                   );
                 },
                 icon: Icon(Icons.upload_outlined)),
-            textController:
-               controller.uploadController,
+            textController: controller.uploadController,
           ),
           // 10.width,
           Align(

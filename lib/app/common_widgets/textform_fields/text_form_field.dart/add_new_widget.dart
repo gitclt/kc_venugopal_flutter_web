@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 
 class AddTextFieldWidget extends StatelessWidget {
@@ -75,47 +76,68 @@ class AddTextFieldWidget extends StatelessWidget {
           width: Responsive.isDesktop(context)
               ? width ?? size.width * 0.73 / 2
               : size.width * .9,
-          height: size.height * 0.05,
-          child: TextFormField(
-            controller: textController,
-            validator: validator,
-            readOnly: readonly!,
-            onTap: onTap as void Function()?,
-            onChanged: onChanged as void Function(String)?,
-            style: TextStyle(fontSize: fontSize ?? 14, color: Colors.black87),
-            inputFormatters: inputFormat == true
-                ? [
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^[0-9]*\.?[0-9]*')),
-                    LengthLimitingTextInputFormatter(maxLengthLimit),
-                  ]
-                : null,
-            keyboardType: keyboard ?? TextInputType.text,
-            minLines: obscureText ? 1 : minLines,
-            maxLines: obscureText ? 1 : minLines ?? 1,
-            obscureText: obscureText,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: fillColor ?? Colors.grey[100],
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              hintText: hintText,
-              hintStyle: const TextStyle(fontSize: 13, color: Colors.grey),
-              labelText: labelText,
-              labelStyle: const TextStyle(fontSize: 14, color: Colors.black54),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius),
-                borderSide: BorderSide(color: Colors.blueAccent, width: 1.5),
-              ),
-              suffixIcon: suffixIcon,
+          child: IntrinsicHeight(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: size.height * 0.05,
+                  child: TextFormField(
+                    controller: textController,
+                    validator: validator,
+                    readOnly: readonly!,
+                    onTap: onTap as void Function()?,
+                    onChanged: onChanged as void Function(String)?,
+                    style: TextStyle(
+                        fontSize: fontSize ?? 14, color: Colors.black87),
+                    inputFormatters: inputFormat == true
+                        ? [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^[0-9]*\.?[0-9]*')),
+                            LengthLimitingTextInputFormatter(maxLengthLimit),
+                          ]
+                        : null,
+                    keyboardType: keyboard ?? TextInputType.text,
+                    minLines: obscureText ? 1 : minLines,
+                    maxLines: obscureText ? 1 : minLines ?? 1,
+                    obscureText: obscureText,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: fillColor ?? Colors.grey[100],
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 16),
+                      hintText: hintText,
+                      hintStyle:
+                          const TextStyle(fontSize: 13, color: Colors.grey),
+                      labelText: labelText,
+                      labelStyle:
+                          const TextStyle(fontSize: 14, color: Colors.black54),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        borderSide:
+                            BorderSide(color: Colors.grey.shade400, width: 1),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        borderSide:
+                            BorderSide(color: Colors.grey.shade300, width: 1),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(borderRadius),
+                        borderSide:
+                            BorderSide(color: Colors.blueAccent, width: 1.5),
+                      ),
+                      errorStyle: const TextStyle(
+                        fontSize: 12, // Keeps error text smaller
+                        color: Colors.red,
+                        height: 1, // Adjust the spacing
+                      ),
+                      suffixIcon: suffixIcon,
+                    ),
+                  ),
+                ),
+                5.height,
+              ],
             ),
           ),
         ),

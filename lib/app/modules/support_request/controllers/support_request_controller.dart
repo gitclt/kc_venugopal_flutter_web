@@ -75,6 +75,7 @@ class SupportRequestController extends GetxController
   var pageSize = 10.obs;
   var totalCount = 1.obs;
   String supportId = '';
+
   RxString error = ''.obs;
   RxString detailImagename = ''.obs;
   var isReminder = false.obs;
@@ -181,7 +182,9 @@ class SupportRequestController extends GetxController
         type: ConstValues.typeSupport,
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
-        status: statusFilter.name ?? '',
+        status: statusFilter.name == '--Select Status--'
+            ? ''
+            : statusFilter.name ?? '',
         categoryId: categoryFilter.id ?? '',
         priorityId: priorityFilter.id ?? '',
         keyword: keywordController.text.trim());
@@ -204,6 +207,7 @@ class SupportRequestController extends GetxController
   RxString imageName = ''.obs; // Observable for the file name
   Uint8List? pickedFileBytes; // For file bytes
   String? encodedData;
+  String? addNew = '';
 
   Future<void> pickImage(ImageSource type, String value) async {
     final ImagePicker picker = ImagePicker();
@@ -220,6 +224,10 @@ class SupportRequestController extends GetxController
       } else if (value == 'detailCase') {
         detailImagename.value = "$dateFormat.${image.name.split('.').last}";
         remindDocumentController.text = detailImagename.value;
+      } else if (value == 'add document') {
+        imageName.value = "$dateFormat.${image.name.split('.').last}";
+        addNew = 'add new Document';
+        addDocument();
       }
 
       pickedFileBytes = await image.readAsBytes();
@@ -255,8 +263,13 @@ class SupportRequestController extends GetxController
     }, (resData) {
       if (resData.status!) {
         isLoading(false);
-        addDocument();
+        if (imageName.value != '') {
+          addDocument();
+        }
       }
+      clear();
+      getSupportRequests();
+      Get.toNamed(Routes.SUPPORT_REQUEST);
     });
   }
 
@@ -267,6 +280,7 @@ class SupportRequestController extends GetxController
         type: ConstValues.typeSupport,
         document: imageName.value,
         imageData: encodedData,
+        caseId: supportId,
         createdUserId: LocalStorageKey.userData.id);
     res.fold((failure) {
       isLoading(false);
@@ -274,9 +288,9 @@ class SupportRequestController extends GetxController
     }, (resData) {
       if (resData.status!) {
         isLoading(false);
-        clear();
-        getSupportRequests();
-        Get.toNamed(Routes.SUPPORT_REQUEST);
+        if (addNew != '') {
+          getSupportDetail();
+        }
       } else {
         isLoading(false);
       }
@@ -293,7 +307,9 @@ class SupportRequestController extends GetxController
   void getSupportDetail() async {
     setRxRequestStatus(Status.loading);
     dataDetail.clear();
-
+    detailStatus.clear();
+    detailContactPerson.clear();
+    detailDocument.clear();
     final response = await repo.getCaseDetails(
       accountId: LocalStorageKey.userData.accountId.toString(),
       id: supportId,
@@ -325,13 +341,13 @@ class SupportRequestController extends GetxController
     final res = await repo.updateStatus(
         id: supportId,
         type: ConstValues.typeSupport,
-        status: detailStatusDrop.name,
+        status: detailStatusDrop.name ?? '',
         accountId: LocalStorageKey.userData.accountId.toString(),
         remark: activityController.text.trim(),
         createdUserId: LocalStorageKey.userData.id.toString(),
         reminderDate: reminderDateController.text.trim(),
         document: detailImagename.value,
-        fileData: encodedData);
+        fileData: encodedData ?? '');
     res.fold((failure) {
       isStatusLoading(false);
       setError(error.toString());
@@ -351,9 +367,9 @@ class SupportRequestController extends GetxController
     mobileController.clear();
     emailController.clear();
     locationController.clear();
-    addCategoryDrop = DropDownModel(id: '', name: '');
-    addAssemblyDrop = DropDownModel(id: '', name: '');
-    addPriorityDrop = DropDownModel(id: '', name: '');
+    addCategoryDrop = DropDownModel();
+    addAssemblyDrop = DropDownModel();
+    addPriorityDrop = DropDownModel();
     caseSubController.clear();
     caseTitleController.clear();
     dateController.clear();
@@ -364,7 +380,7 @@ class SupportRequestController extends GetxController
 
   detailClear() {
     activityController.clear();
-    detailStatusDrop = DropDownModel(id: '', name: '');
+    detailStatusDrop = DropDownModel();
     remindDocumentController.clear();
     remindDocumentController.clear();
     detailImagename.value = '';

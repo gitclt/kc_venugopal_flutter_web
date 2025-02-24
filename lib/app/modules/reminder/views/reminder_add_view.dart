@@ -213,7 +213,7 @@ class ReminderAddView extends GetView<ReminderController> {
                           //       textController: controller.desigController,
                           //     ),
 
-                          ContactPersonView(),
+                          ContactPersonView(reminderController: controller, page: 'Reminder', ),
                           //   ],
                           // ),
                           20.height,

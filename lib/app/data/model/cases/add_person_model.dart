@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 List<AddPersonModel> addPersonModelFromJson(String str) =>
     List<AddPersonModel>.from(
         json.decode(str).map((x) => AddPersonModel.fromJson(x)));

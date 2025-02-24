@@ -3,10 +3,14 @@ import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/add_new_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/reminder/controllers/reminder_controller.dart';
 
-class ContactPersonView extends GetView<ReminderController> {
-  const ContactPersonView({super.key});
+class ContactPersonView extends StatelessWidget {
+  final ReminderController? reminderController;
+  final ProgramScheduleController? programController;
+  final String page;
+  const ContactPersonView({super.key,this.reminderController, this.programController, required this.page, });
 
   void _showAddPersonDialog(BuildContext context) {
     Get.dialog(
@@ -19,13 +23,13 @@ class ContactPersonView extends GetView<ReminderController> {
             AddTextFieldWidget(
               labelText: 'Name',
               hintText: 'Name',
-              textController: controller.nameController,
+              textController: page == 'Programs' ? programController!.nameController :  reminderController!.nameController,
             ),
             12.height,
             AddTextFieldWidget(
               labelText: 'Mobile',
               hintText: 'Mobile',
-              textController: controller.mobileController,
+              textController: page == 'Programs' ? programController!.mobileController :  reminderController!.mobileController,
               inputFormat: true,
               maxLengthLimit: 10,
             ),
@@ -33,7 +37,7 @@ class ContactPersonView extends GetView<ReminderController> {
             AddTextFieldWidget(
               labelText: 'Designation',
               hintText: 'Designation',
-              textController: controller.desigController,
+              textController:  page == 'Programs' ? programController!.desigController :  reminderController!.desigController,
             ),
           ],
         ),
@@ -44,11 +48,19 @@ class ContactPersonView extends GetView<ReminderController> {
           ),
           TextButton(
               onPressed: () {
-                controller.addMoreContactPerson(
-                  controller.nameController.text,
-                  controller.mobileController.text,
-                  controller.desigController.text,
-                );
+                page == 'Programs'
+                ? programController!.addMoreContactPerson(
+                  programController!.nameController.text,
+                  programController!.mobileController.text,
+                  programController!.desigController.text,
+                )
+                :
+                reminderController!.addMoreContactPerson(
+                  reminderController!.nameController.text,
+                  reminderController!.mobileController.text,
+                  reminderController!.desigController.text,
+                )
+                 ;
                 Get.back();
               },
               child: Text("ADD"))
@@ -59,42 +71,15 @@ class ContactPersonView extends GetView<ReminderController> {
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width * 0.37;
+   // var width = MediaQuery.of(context).size.width * 0.37;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Flexible(
-        //   child: Wrap(
-        //     spacing: Responsive.isDesktop(context) ? 2.5.w : 2.w,
-        //     runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-        //     children: [
-        //       AddTextFieldWidget(
-        //         width: width,
-        //         labelText: 'Name',
-        //         hintText: 'Name',
-        //         textController: controller.nameController,
-        //       ),
-        //       12.height,
-        //       AddTextFieldWidget(
-        //         width: width,
-        //         labelText: 'Mobile',
-        //         hintText: 'Mobile',
-        //         textController: controller.mobileController,
-        //       ),
-        //         12.height,
-        //       AddTextFieldWidget(
-        //         width: width,
-        //         labelText: 'Designation',
-        //         hintText: 'Designation',
-        //         textController: controller.desigController,
-        //       ),
-        //     ],
-        //   ),
-        // ),
+       
         10.height,
         Flexible(
-          child: Obx(() => controller.contactPersons.isNotEmpty
+          child: Obx(() => (page == 'Programs' ? programController!.contactPersons.isNotEmpty : reminderController!.contactPersons.isNotEmpty)
               ? Table(
                   border: TableBorder.all(),
                   columnWidths: {
@@ -123,7 +108,25 @@ class ContactPersonView extends GetView<ReminderController> {
                         ),
                       ],
                     ),
-                    ...controller.contactPersons.map((person) => TableRow(
+                    if(page == 'Programs')
+                    ...programController!.contactPersons.map((person) => TableRow(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(person["name"]!),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(person["mobile"]!),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text(person["designation"]!),
+                            ),
+                          ],
+                        ))
+                      else
+                       ...reminderController!.contactPersons.map((person) => TableRow(
                           children: [
                             Padding(
                               padding: EdgeInsets.all(8.0),
@@ -149,7 +152,7 @@ class ContactPersonView extends GetView<ReminderController> {
             width: double.infinity,
             height: 45,
             child: CommonOutlinedButton(
-              lable: controller.contactPersons.isEmpty
+              lable: (page == 'Programs' ? programController!.contactPersons.isEmpty : reminderController!.contactPersons.isEmpty)
                   ? '+ ADD CONTACT PERSON'
                   : '+ ADD MORE PERSON',
               act: () => _showAddPersonDialog(context),

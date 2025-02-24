@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
 class TimelineWidget extends StatelessWidget {
@@ -21,12 +22,12 @@ class TimelineWidget extends StatelessWidget {
         isFirst: index == 0,
         isLast: index == length - 1,
         beforeLineStyle: LineStyle(
-            color: index == 0 ? Colors.black : Colors.grey, thickness: 1.5),
-        afterLineStyle: LineStyle(
-          // Add this to control the line after the indicator
-          color: Colors.green,
-          thickness: 1.5,
-        ),
+            color: index == 0 ? Colors.black : Colors.green, thickness: 1.5),
+        // afterLineStyle: LineStyle(
+        //   // Add this to control the line after the indicator
+        //   color: Colors.green,
+        //   thickness: 1.5,
+        // ),
         indicatorStyle: IndicatorStyle(
           width: 22,
           height: 22,
@@ -46,7 +47,7 @@ class TimelineWidget extends StatelessWidget {
         ),
         endChild: Padding(
           padding: const EdgeInsets.all(5.0),
-          child: Text(status),
+          child: Text(capitalizeLetter(status)),
         ),
       ),
     );

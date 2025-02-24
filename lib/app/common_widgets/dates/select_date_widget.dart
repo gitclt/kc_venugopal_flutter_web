@@ -4,7 +4,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 
 DateTime? _selectedDate;
 DateTime? _selectedToDate;
-DateTime? _selectedInitialDate;
+
 
 Future<void> selectDate(
     BuildContext context, TextEditingController textController) async {

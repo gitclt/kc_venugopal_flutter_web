@@ -143,6 +143,7 @@ class ProgramScheduleController extends GetxController {
     for (var v in ConstValues().status) {
       statusDropList.add(DropDownModel(id: v.id.toString(), name: v.name));
     }
+    getAssembly();
     getCategory();
     getPriority();
   }
@@ -170,7 +171,7 @@ class ProgramScheduleController extends GetxController {
       // Set the image name and encode data to Base64
 
       String dateFormat = getFormattedTimestamp();
-      if (value == 'reminder') {
+      if (value == 'program') {
         imageName.value = "$dateFormat.${image.name.split('.').last}";
         uploadController.text = imageName.value;
       }
@@ -214,7 +215,7 @@ class ProgramScheduleController extends GetxController {
     });
   }
 
-  void addProgramSshedule() async {
+  void addProgramSchedule() async {
     isLoading(true);
     final res = await repo.addCases(
         type: ConstValues.typeProgram,
@@ -242,10 +243,10 @@ class ProgramScheduleController extends GetxController {
         if (imageName.value != '') {
           addDocument();
         }
-        clear();
-        getProgramSchedules();
-        Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
       }
+      clear();
+      getProgramSchedules();
+      Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
     });
   }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_home_appbar.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/bottomsheet/pick_image_bottomsheet.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/check_box_button.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
@@ -67,7 +69,7 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                       controller.addAssemblyDrop.id == null
                                           ? null
                                           : controller.addAssemblyDrop,
-                                  items: controller.categoryDropList,
+                                  items: controller.assemblyDropList,
                                   isLoading: controller.isDropLoading.value,
                                   onChanged: (data) async {
                                     if (data == null) return;
@@ -118,10 +120,10 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                       size: 20),
                                   onPressed: () async {
                                     selectDate(
-                                        context, controller.fromDateController);
+                                        context, controller.dateController);
                                   },
                                 ),
-                                textController: controller.fromDateController,
+                                textController: controller.dateController,
                               ),
                               AddTextFieldWidget(
                                 width: width,
@@ -130,7 +132,7 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                 suffixIcon: IconButton(
                                   icon: svgWidget(SvgAssets.casesTime),
                                   onPressed: () async {
-                                    selectDate(
+                                    selectTime(
                                         context, controller.timeController);
                                   },
                                 ),
@@ -158,7 +160,28 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                 width: width,
                                 labelText: 'Documents',
                                 hintText: 'Upload Documents',
-                                textController: controller.descriptController,
+                                textController: controller.uploadController,
+                                readonly: true,
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      Get.bottomSheet(
+                                        PickImageBottomsheet(
+                                          pickImage: (ImageSource? value) {
+                                            if (value != null) {
+                                              controller.pickImage(
+                                                  value, 'program');
+                                              Get.back();
+                                            }
+                                          },
+                                        ),
+                                        elevation: 20.0,
+                                        enableDrag: false,
+                                        isDismissible: true,
+                                        backgroundColor: Colors.white,
+                                        shape: bootomSheetShape(),
+                                      );
+                                    },
+                                    icon: Icon(Icons.upload_outlined)),
                               ),
                             ],
                           ),
@@ -166,7 +189,10 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                           columnText('Contact Person Details', 18)
                               .paddingOnly(left: 5),
                           10.height,
-                          ContactPersonView(),
+                          ContactPersonView(
+                            programController: controller,
+                            page: 'Programs',
+                          ),
                           20.height,
                           Obx(() => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,9 +215,20 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                       ? AddTextFieldWidget(
                                           width: width,
                                           //labelText: 'Designation',
-                                          hintText: 'DD/MM/YYYY',
+                                          hintText: 'YYYY-MM-DD',
                                           textController:
                                               controller.remindDateController,
+                                          suffixIcon: IconButton(
+                                            icon: const Icon(
+                                                Icons.calendar_today_outlined,
+                                                size: 20),
+                                            onPressed: () async {
+                                              selectDate(
+                                                  context,
+                                                  controller
+                                                      .remindDateController);
+                                            },
+                                          ),
                                         )
                                       : const SizedBox(),
                                 ],
@@ -200,9 +237,11 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                           Align(
                               alignment: Alignment.bottomRight,
                               child: CommonButton(
-                                  width: width, onClick: () {
-                                    
-                                  }, label: 'ADD'))
+                                  width: width,
+                                  onClick: () {
+                                    controller.addProgramSchedule();
+                                  },
+                                  label: 'ADD'))
                         ],
                       ),
                     ),

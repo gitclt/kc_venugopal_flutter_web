@@ -9,6 +9,7 @@ class ConstValues {
   static String typeDeath = 'death';
 
   List<DropDownModel> status = [
+    DropDownModel(id: '', name: '--Select Status--'),
     DropDownModel(id: '1', name: 'Support Requested'),
     DropDownModel(id: '2', name: "Request Accepted"),
     DropDownModel(id: '3', name: "Attended"),

@@ -16,7 +16,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/reminder/controllers/reminder_controller.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/widget/contact_person_view.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/table/contact_person_view.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';

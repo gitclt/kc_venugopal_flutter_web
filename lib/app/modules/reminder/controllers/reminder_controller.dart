@@ -281,7 +281,7 @@ class ReminderController extends GetxController {
     timeController.clear();
     contactPersons.clear();
     addTypeDrop = DropDownModel();
-    //DropDownModel(id: '', name: '-- Choose Type--');
+
     addAssemblyDrop = DropDownModel();
     addPriorityDrop = DropDownModel();
 

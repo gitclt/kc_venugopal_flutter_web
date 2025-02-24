@@ -8,6 +8,7 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/dates/select_date_wi
 import 'package:kc_venugopal_flutter_web/app/common_widgets/drop_down/drop_down3_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/padding/common_padding.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/svg_icons/svg_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/table/contact_person_view.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/add_new_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
@@ -165,7 +166,7 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                           columnText('Contact Person Details', 18)
                               .paddingOnly(left: 5),
                           10.height,
-                         
+                          ContactPersonView(),
                           20.height,
                           Obx(() => Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

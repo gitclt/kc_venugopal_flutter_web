@@ -4,8 +4,6 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/button/common_button
 import 'package:kc_venugopal_flutter_web/app/common_widgets/textform_fields/text_form_field.dart/add_new_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/reminder/controllers/reminder_controller.dart';
-import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
-import 'package:sizer/sizer.dart';
 
 class ContactPersonView extends GetView<ReminderController> {
   const ContactPersonView({super.key});
@@ -148,7 +146,7 @@ class ContactPersonView extends GetView<ReminderController> {
         10.height,
         Obx(
           () => SizedBox(
-            // width: MediaQuery.of(context).size.width * 0.3,
+            width: double.infinity,
             height: 45,
             child: CommonOutlinedButton(
               lable: controller.contactPersons.isEmpty

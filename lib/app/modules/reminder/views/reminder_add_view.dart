@@ -166,11 +166,11 @@ class ReminderAddView extends GetView<ReminderController> {
                                       Get.bottomSheet(
                                         PickImageBottomsheet(
                                           pickMedia: (ImageSource? value,String? type) {
-                                            if (value != null) {
+                                           
                                               controller.pickImage(
                                                   value, type!,'reminder');
                                               Get.back();
-                                            }
+                                            
                                           },
                                         ),
                                         elevation: 20.0,

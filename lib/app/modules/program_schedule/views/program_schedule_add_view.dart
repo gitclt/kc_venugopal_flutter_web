@@ -164,15 +164,12 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                 suffixIcon: IconButton(
                                     onPressed: () {
                                       Get.bottomSheet(
-                                        PickImageBottomsheet(
-                                          pickMedia: (ImageSource? value,String? type) {
-                                            if (value != null) {
-                                              controller.pickImage(
-                                                  value,type!, 'program');
-                                              Get.back();
-                                            }
-                                          }
-                                        ),
+                                        PickImageBottomsheet(pickMedia:
+                                            (ImageSource? value, String? type) {
+                                          controller.pickImage(
+                                              value, type!, 'program');
+                                          Get.back();
+                                        }),
                                         elevation: 20.0,
                                         enableDrag: false,
                                         isDismissible: true,

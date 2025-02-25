@@ -165,10 +165,10 @@ class ReminderAddView extends GetView<ReminderController> {
                                     onPressed: () {
                                       Get.bottomSheet(
                                         PickImageBottomsheet(
-                                          pickImage: (ImageSource? value) {
+                                          pickMedia: (ImageSource? value,String? type) {
                                             if (value != null) {
                                               controller.pickImage(
-                                                  value, 'reminder');
+                                                  value, type!,'reminder');
                                               Get.back();
                                             }
                                           },

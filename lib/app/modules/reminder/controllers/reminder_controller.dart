@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -185,29 +186,72 @@ class ReminderController extends GetxController {
   RxString imageName = ''.obs; // Observable for the file name
   Uint8List? pickedFileBytes; // For file bytes
   String? encodedData;
+  String? addNew = '';
 
-  Future<void> pickImage(ImageSource type, String value) async {
-    final ImagePicker picker = ImagePicker();
+  Future<void> pickImage(
+      ImageSource? imageSource, String type, String value) async {
+    if (imageSource != null) {
+      final ImagePicker picker = ImagePicker();
 // Pick an image.
-    final XFile? image = await picker.pickImage(source: type);
 
-    if (image != null) {
+      final XFile? image = await picker.pickImage(source: imageSource);
       // Set the image name and encode data to Base64
-
-      String dateFormat = getFormattedTimestamp();
-      if (value == 'reminder') {
-        imageName.value = "$dateFormat.${image.name.split('.').last}";
-        uploadController.text = imageName.value;
-      } else if (value == 'detailCase') {
-        detailImagename.value = "$dateFormat.${image.name.split('.').last}";
-        remindDocumentController.text = detailImagename.value;
+      if (image != null) {
+        String dateFormat = getFormattedTimestamp();
+        if (value == 'reminder') {
+          imageName.value = "$dateFormat.${image.name.split('.').last}";
+          uploadController.text = imageName.value;
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'detailCase') {
+          detailImagename.value = "$dateFormat.${image.name.split('.').last}";
+          remindDocumentController.text = detailImagename.value;
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'add document') {
+          imageName.value = "$dateFormat.${image.name.split('.').last}";
+          addNew = 'add new Document';
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+          addDocument();
+        }
+      } else {
+        imageName.value = '';
       }
+    } else if (type == 'pdf') {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
 
-      pickedFileBytes = await image.readAsBytes();
-      encodedData = base64Encode(pickedFileBytes!);
-    } else {
-      // Reset image name if no file selected
-      imageName.value = '';
+      if (result != null) {
+        String dateFormat = getFormattedTimestamp();
+        if (value == 'reminder') {
+          imageName.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          uploadController.text = imageName.value;
+
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'detailCase') {
+          detailImagename.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          remindDocumentController.text = detailImagename.value;
+
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'add document') {
+          imageName.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          addNew = 'add new Document';
+
+          encodedData = base64Encode(pickedFileBytes!);
+          addDocument();
+        }
+      } else {
+        imageName.value = '';
+      }
     }
   }
 
@@ -252,9 +296,9 @@ class ReminderController extends GetxController {
         .map((e) => AddPersonModel(
             accountId: LocalStorageKey.userData.accountId,
             type: addTypeDrop.name?.toLowerCase() ?? '',
-            name: e["name"],
-            designation: e["designation"],
-            mobile: e["mobile"],
+            name: e["name"] ?? '',
+            designation: e["designation"] ?? '',
+            mobile: e["mobile"] ?? '',
             caseId: caseId))
         .toList());
 
@@ -273,7 +317,7 @@ class ReminderController extends GetxController {
         accountId: LocalStorageKey.userData.accountId,
         type: addTypeDrop.name?.toLowerCase() ?? '',
         document: imageName.value,
-        caseId: caseId,
+        caseId: addNew != '' ? reminderId : caseId,
         imageData: encodedData,
         createdUserId: LocalStorageKey.userData.id);
     res.fold((failure) {
@@ -281,7 +325,11 @@ class ReminderController extends GetxController {
       setError(error.toString());
     }, (resData) {
       isLoading(false);
-      if (resData.status!) {}
+      if (resData.status!) {
+        if (addNew != '') {
+          getReminderDetail();
+        }
+      }
     });
   }
 
@@ -318,6 +366,7 @@ class ReminderController extends GetxController {
     detailStatus.clear();
     detailContactPerson.clear();
     detailDocument.clear();
+    addNew = '';
     final response = await repo.getCaseDetails(
       accountId: LocalStorageKey.userData.accountId.toString(),
       id: reminderId,
@@ -362,6 +411,7 @@ class ReminderController extends GetxController {
     }, (resData) {
       isStatusLoading(false);
       if (resData.status!) {
+        detailClear();
         getReminders();
         Get.rootDelegate.toNamed(Routes.REMINDER);
       }
@@ -374,5 +424,7 @@ class ReminderController extends GetxController {
     remindDocumentController.clear();
     remindDocumentController.clear();
     detailImagename.value = '';
+    imageName.value = '';
+    addNew = '';
   }
 }

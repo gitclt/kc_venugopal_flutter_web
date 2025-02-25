@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -209,32 +210,70 @@ class SupportRequestController extends GetxController
   String? encodedData;
   String? addNew = '';
 
-  Future<void> pickImage(ImageSource type, String value) async {
-    final ImagePicker picker = ImagePicker();
+  Future<void> pickImage(
+      ImageSource? imageSource, String type, String value) async {
+    if (imageSource != null) {
+      final ImagePicker picker = ImagePicker();
 // Pick an image.
-    final XFile? image = await picker.pickImage(source: type);
 
-    if (image != null) {
+      final XFile? image = await picker.pickImage(source: imageSource);
       // Set the image name and encode data to Base64
-
-      String dateFormat = getFormattedTimestamp();
-      if (value == 'support') {
-        imageName.value = "$dateFormat.${image.name.split('.').last}";
-        uploadController.text = imageName.value;
-      } else if (value == 'detailCase') {
-        detailImagename.value = "$dateFormat.${image.name.split('.').last}";
-        remindDocumentController.text = detailImagename.value;
-      } else if (value == 'add document') {
-        imageName.value = "$dateFormat.${image.name.split('.').last}";
-        addNew = 'add new Document';
-        addDocument();
+      if (image != null) {
+        String dateFormat = getFormattedTimestamp();
+        if (value == 'support') {
+          imageName.value = "$dateFormat.${image.name.split('.').last}";
+          uploadController.text = imageName.value;
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'detailCase') {
+          detailImagename.value = "$dateFormat.${image.name.split('.').last}";
+          remindDocumentController.text = detailImagename.value;
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'add document') {
+          imageName.value = "$dateFormat.${image.name.split('.').last}";
+          addNew = 'add new Document';
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+          addDocument();
+        }
+      } else {
+        imageName.value = '';
       }
+    } else if (type == 'pdf') {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf'],
+      );
 
-      pickedFileBytes = await image.readAsBytes();
-      encodedData = base64Encode(pickedFileBytes!);
-    } else {
-      // Reset image name if no file selected
-      imageName.value = '';
+      if (result != null) {
+        String dateFormat = getFormattedTimestamp();
+        if (value == 'support') {
+          imageName.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          uploadController.text = imageName.value;
+
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'detailCase') {
+          detailImagename.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          remindDocumentController.text = detailImagename.value;
+
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'add document') {
+          imageName.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          addNew = 'add new Document';
+
+          encodedData = base64Encode(pickedFileBytes!);
+          addDocument();
+        }
+      } else {
+        imageName.value = '';
+      }
     }
   }
 
@@ -286,8 +325,8 @@ class SupportRequestController extends GetxController
       isLoading(false);
       setError(error.toString());
     }, (resData) {
+      isLoading(false);
       if (resData.status!) {
-        isLoading(false);
         if (addNew != '') {
           getSupportDetail();
         }
@@ -385,6 +424,4 @@ class SupportRequestController extends GetxController
     remindDocumentController.clear();
     detailImagename.value = '';
   }
-
- 
 }

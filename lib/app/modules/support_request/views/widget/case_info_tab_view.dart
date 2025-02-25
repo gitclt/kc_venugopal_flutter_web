@@ -115,11 +115,9 @@ class CaseInfoTabView extends GetView<SupportRequestController> {
                 onPressed: () {
                   Get.bottomSheet(
                     PickImageBottomsheet(
-                      pickImage: (ImageSource? value) {
-                        if (value != null) {
-                          controller.pickImage(value, "support");
-                          Get.back();
-                        }
+                      pickMedia: (ImageSource? value, String? type) {
+                        controller.pickImage(value, type!, "support");
+                        Get.back();
                       },
                     ),
                     elevation: 20.0,

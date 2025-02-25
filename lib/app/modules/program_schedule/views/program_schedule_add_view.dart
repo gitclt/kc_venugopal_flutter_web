@@ -165,13 +165,13 @@ class ProgramScheduleAddView extends GetView<ProgramScheduleController> {
                                     onPressed: () {
                                       Get.bottomSheet(
                                         PickImageBottomsheet(
-                                          pickImage: (ImageSource? value) {
+                                          pickMedia: (ImageSource? value,String? type) {
                                             if (value != null) {
                                               controller.pickImage(
-                                                  value, 'program');
+                                                  value,type!, 'program');
                                               Get.back();
                                             }
-                                          },
+                                          }
                                         ),
                                         elevation: 20.0,
                                         enableDrag: false,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_header.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/wrap_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
@@ -46,11 +47,23 @@ class DashboardView extends GetView<DashboardController> {
 
   /// **Desktop Layout**
   Widget _buildDesktopLayout(BuildContext context, Size size) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(flex: 3, child: _buildActivities(size, context)),
-        SizedBox(width: 10),
-        Expanded(flex: 2, child: _buildCalendar(size)),
+        CommonHeader(
+          title: "Dashboard",
+          subTitle: "Home / Dashboard",
+        ),
+        20.height,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(flex: 3, child: _buildActivities(size, context)),
+            SizedBox(width: 10),
+            Expanded(flex: 2, child: _buildCalendar(size)),
+          ],
+        ),
       ],
     );
   }
@@ -68,14 +81,17 @@ class DashboardView extends GetView<DashboardController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  columnText("Today's Activities", 20.sp),
+                  columnText("Today's Activities", 15.sp),
                   InkWell(
                     onTap: () {},
                     child: SimpleContainer(
+                        horizontal: 10,
+                        vertical: 5,
                         color: AppColor.primary,
                         child: Text(
                           'VIEW ALL',
                           style: TextStyle(
+                              fontSize: 10.sp,
                               color: AppColor.primary,
                               fontWeight: FontWeight.w500),
                         )),

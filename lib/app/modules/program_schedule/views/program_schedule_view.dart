@@ -27,7 +27,7 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
   const ProgramScheduleView({super.key});
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width * 0.25;
+    var width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
         backgroundColor: AppColor.scaffoldBgColor,
         body: CommonPagePadding(
@@ -48,8 +48,8 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      columnText('Filter By', 24),
-                      20.height,
+                      // columnText('Filter By', 24),
+                      10.height,
                       Wrap(
                         spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                         runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
@@ -137,18 +137,24 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
 
                             textController: controller.keywordController,
                           ),
+                          CommonButton(
+                              width: width,
+                              onClick: () {
+                                controller.getProgramSchedules();
+                              },
+                              label: 'Search'),
                         ],
                       ),
-                      15.height,
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: CommonButton(
-                            width: width,
-                            onClick: () {
-                              controller.getProgramSchedules();
-                            },
-                            label: 'Search'),
-                      )
+                      10.height,
+                      // Align(
+                      //   alignment: Alignment.bottomLeft,
+                      //   child: CommonButton(
+                      //       width: width,
+                      //       onClick: () {
+                      //         controller.getProgramSchedules();
+                      //       },
+                      //       label: 'Search'),
+                      // )
                     ],
                   )),
               20.height,

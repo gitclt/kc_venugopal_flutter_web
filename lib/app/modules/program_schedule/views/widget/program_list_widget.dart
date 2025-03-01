@@ -8,6 +8,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
+import 'package:sizer/sizer.dart';
 
 class ProgramListWidget extends StatelessWidget {
   final Color? lineColor;
@@ -34,7 +35,8 @@ class ProgramListWidget extends StatelessWidget {
       this.status,
       this.time,
       this.address,
-      this.reminderType, required this.onTap});
+      this.reminderType,
+      required this.onTap});
 
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
@@ -96,7 +98,7 @@ class ProgramListWidget extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          boldText(title, fontSize: 16),
+                          boldText(title, fontSize: 12.sp),
                           10.width,
                           if (reminderType != '' && reminderType != null)
                             ClipRRect(

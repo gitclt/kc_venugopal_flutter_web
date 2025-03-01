@@ -27,7 +27,7 @@ class SupportRequestView extends GetView<SupportRequestController> {
   const SupportRequestView({super.key});
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width * 0.25;
+    var width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       body: CommonPagePadding(
@@ -48,10 +48,10 @@ class SupportRequestView extends GetView<SupportRequestController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    columnText('Filter By', 24),
-                    20.height,
+                    // columnText('Filter By', 24),
+                    8.height,
                     Wrap(
-                      spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                       spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                       runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                       alignment: WrapAlignment.center,
                       children: [
@@ -137,18 +137,25 @@ class SupportRequestView extends GetView<SupportRequestController> {
 
                           textController: controller.keywordController,
                         ),
+                        CommonButton(
+                            width: width,
+                            onClick: () {
+                              controller.getSupportRequests();
+                            },
+                            label: 'Search'),
                       ],
                     ),
-                    15.height,
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: CommonButton(
-                          width: width,
-                          onClick: () {
-                            controller.getSupportRequests();
-                          },
-                          label: 'Search'),
-                    )
+                    // 15.height,
+                    // Align(
+                    //   alignment: Alignment.bottomLeft,
+                    //   child:
+                    //    CommonButton(
+                    //       width: width,
+                    //       onClick: () {
+                    //         controller.getSupportRequests();
+                    //       },
+                    //       label: 'Search'),
+                    // )
                   ],
                 )),
             15.height,

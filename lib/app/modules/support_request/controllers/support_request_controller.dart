@@ -25,6 +25,7 @@ class SupportRequestController extends GetxController
   var isLoading = false.obs;
   var isStatusLoading = false.obs;
   final formkey = GlobalKey<FormState>();
+   final formkey1 = GlobalKey<FormState>();
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final TextEditingController keywordController = TextEditingController();
@@ -308,7 +309,7 @@ class SupportRequestController extends GetxController
       }
       clear();
       getSupportRequests();
-      Get.toNamed(Routes.SUPPORT_REQUEST);
+      Get.rootDelegate.toNamed(Routes.SUPPORT_REQUEST);
     });
   }
 

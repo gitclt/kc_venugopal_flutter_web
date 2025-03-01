@@ -29,12 +29,24 @@ class PersonalInfoTabView extends GetView<SupportRequestController> {
             labelText: 'Name',
             hintText: 'Name',
             textController: controller.nameController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter Name';
+              }
+              return null;
+            },
           ),
           AddTextFieldWidget(
             width: width,
             labelText: 'Address',
             hintText: 'Address',
             textController: controller.addressController,
+               validator: (value) {
+              if (value!.isEmpty) {
+                return 'Please enter Address';
+              }
+              return null;
+            },
           ),
           AddTextFieldWidget(
             width: width,

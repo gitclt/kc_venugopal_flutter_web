@@ -30,7 +30,7 @@ class WrapContainer extends StatelessWidget {
                   ? 20.w
                   : 10.w, // Adjust width as needed
           height: 15.h,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             border: Border.all(color: color ?? Colors.grey),
             borderRadius: BorderRadius.circular(8),
@@ -42,10 +42,10 @@ class WrapContainer extends StatelessWidget {
               children: [
                 boldText(
                   count,
-                  fontSize: 20.sp,
+                  fontSize: 15.sp,
                 ),
                 // const SizedBox(height: 8),
-                columnText(label, 11.sp),
+                columnText(label, 10.sp),
               ],
             ),
           ),
@@ -56,29 +56,39 @@ class WrapContainer extends StatelessWidget {
           Positioned(
             top: -10,
             right: -10,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.notifications,
-                      color: Colors.white, size: 14),
-                  const SizedBox(width: 4),
-                  Text(
-                    badgeCount!,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
+            child:
+            //  Container(
+            //   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+            //   decoration: BoxDecoration(
+            //     color: Colors.red.withOpacity(0.3),
+            //     borderRadius: BorderRadius.circular(16),
+            //   ),
+            //   child:
+               Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+               
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.notifications,
+                        color: Colors.white, size: 14),
+                    const SizedBox(width: 4),
+                    Text(
+                      badgeCount!,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
+          // ),
       ],
     );
   }

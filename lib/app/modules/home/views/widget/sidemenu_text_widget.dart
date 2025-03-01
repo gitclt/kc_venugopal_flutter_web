@@ -116,9 +116,9 @@ class _ExpandedTileWidgetState extends State<ExpandedTileWidget> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-            top: BorderSide(color: AppColor.textGrayColor),
-            bottom: BorderSide(color: AppColor.textGrayColor)),
+        // border: Border(
+        //     top: BorderSide(color: AppColor.textGrayColor),
+        //     bottom: BorderSide(color: AppColor.textGrayColor)),
         color: !widget.isSelected ? Colors.white : Colors.transparent,
         // borderRadius: BorderRadius.circular(10),
       ),

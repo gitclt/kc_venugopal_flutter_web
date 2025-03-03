@@ -51,7 +51,7 @@ class SupportRequestView extends GetView<SupportRequestController> {
                     // columnText('Filter By', 24),
                     8.height,
                     Wrap(
-                       spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                      spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                       runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                       alignment: WrapAlignment.center,
                       children: [
@@ -145,17 +145,6 @@ class SupportRequestView extends GetView<SupportRequestController> {
                             label: 'Search'),
                       ],
                     ),
-                    // 15.height,
-                    // Align(
-                    //   alignment: Alignment.bottomLeft,
-                    //   child:
-                    //    CommonButton(
-                    //       width: width,
-                    //       onClick: () {
-                    //         controller.getSupportRequests();
-                    //       },
-                    //       label: 'Search'),
-                    // )
                   ],
                 )),
             15.height,

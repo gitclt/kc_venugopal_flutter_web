@@ -27,7 +27,7 @@ class ReminderView extends GetView<ReminderController> {
   const ReminderView({super.key});
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width * 0.25;
+     var width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
         backgroundColor: AppColor.scaffoldBgColor,
         body: CommonPagePadding(
@@ -49,10 +49,10 @@ class ReminderView extends GetView<ReminderController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      columnText('Filter By', 24),
-                      20.height,
+                      // columnText('Filter By', 24),
+                       8.height,
                       Wrap(
-                        spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                           spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                         runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                         alignment: WrapAlignment.start,
                         children: [
@@ -136,21 +136,27 @@ class ReminderView extends GetView<ReminderController> {
                             hintText: 'Keyword',
                             textController: controller.keywordController,
                           ),
+                          CommonButton(
+                              width: width,
+                              onClick: () {
+                                controller.getReminders();
+                              },
+                              label: 'Search'),
                         ],
                       ),
-                      10.height,
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: CommonButton(
-                            width: width,
-                            onClick: () {
-                              controller.getReminders();
-                            },
-                            label: 'Search'),
-                      )
+                      // 10.height,
+                      // Align(
+                      //   alignment: Alignment.bottomLeft,
+                      //   child: CommonButton(
+                      //       width: width,
+                      //       onClick: () {
+                      //         controller.getReminders();
+                      //       },
+                      //       label: 'Search'),
+                      // )
                     ],
                   )),
-              20.height,
+              15.height,
               Expanded(child: LayoutBuilder(builder: (context, s) {
                 return Obx(() {
                   switch (controller.rxRequestStatus.value) {

@@ -42,7 +42,7 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                 Get.rootDelegate.toNamed(Routes.ADD_PROGRAM_SCHEDULE);
               },
             ),
-            20.height,
+          
             SimpleContainer(
                 color: AppColor.borderColor,
                 child: Column(
@@ -53,7 +53,7 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                     Wrap(
                       spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                       runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                      alignment: WrapAlignment.center,
+                      alignment: WrapAlignment.start,
                       children: [
                         AddTextFieldWidget(
                           width: width,

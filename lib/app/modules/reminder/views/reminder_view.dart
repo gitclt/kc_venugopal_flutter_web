@@ -43,7 +43,6 @@ class ReminderView extends GetView<ReminderController> {
                   Get.rootDelegate.toNamed(Routes.ADD_REMINDER);
                 },
               ),
-              20.height,
               SimpleContainer(
                   color: AppColor.borderColor,
                   child: Column(

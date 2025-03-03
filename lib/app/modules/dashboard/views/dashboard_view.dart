@@ -10,6 +10,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../controllers/dashboard_controller.dart';
@@ -62,9 +63,40 @@ class DashboardView extends GetView<DashboardController> {
           children: [
             Expanded(flex: 3, child: _buildActivities(size, context)),
             SizedBox(width: 10),
-            Expanded(flex: 2, child: _buildCalendar(size)),
+            Expanded(flex: 1, child: _buildCalendar(size)),
           ],
         ),
+        25.height,
+        SimpleContainer(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                columnText("Program Schedules", 15.sp),
+                InkWell(
+                  onTap: () {},
+                  child: SimpleContainer(
+                      horizontal: 10,
+                      vertical: 5,
+                      color: AppColor.primary,
+                      child: Text(
+                        'VIEW ALL',
+                        style: TextStyle(
+                            fontSize: 10.sp,
+                            color: AppColor.primary,
+                            fontWeight: FontWeight.w500),
+                      )),
+                ),
+              ],
+            ),
+            12.height,
+//             ListView.builder(itemBuilder: (context,index){
+// return SfDataGrid(source: source, columns: columns)
+//             });
+          ],
+        ))
       ],
     );
   }
@@ -131,7 +163,7 @@ class DashboardView extends GetView<DashboardController> {
             ],
           ),
         ),
-        SizedBox(height: 20),
+        20.height,
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           columnText("Upcoming Activities", 15.sp),
           15.height,
@@ -148,6 +180,7 @@ class DashboardView extends GetView<DashboardController> {
                           count: item.count ?? '0', label: item.label ?? ''))
                       .toList())),
         ]),
+        25.height,
       ],
     );
   }

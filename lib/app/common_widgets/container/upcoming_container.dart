@@ -15,16 +15,15 @@ class UpcomingContainer extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
-          color: Color.fromRGBO(61, 66, 239, 0.5),
+          color: Color.fromRGBO(61, 66, 223, 0.2),
           border: Border.all(color: AppColor.primary),
           borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          columnText(label, 12.sp),
+          columnText(label, 11.sp),
           8.height,
-          boldText(count,color: AppColor.primary,fontSize: 15.sp)
-
+          boldText(count, color: AppColor.primary, fontSize: 15.sp)
         ],
       ),
     );

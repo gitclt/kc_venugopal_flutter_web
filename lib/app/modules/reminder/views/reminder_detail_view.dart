@@ -25,8 +25,7 @@ class ReminderDetailView extends GetView<ReminderController> {
           children: [
             HomeAppBar(
               title: 'Reminder Detail',
-              subTitle:
-                  'Home > Dashboard > Reminder > Reminder Detail',
+              subTitle: 'Home > Dashboard > Reminder > Reminder Detail',
             ),
             Expanded(child: LayoutBuilder(builder: (context, s) {
               return Obx(() {
@@ -56,15 +55,15 @@ class ReminderDetailView extends GetView<ReminderController> {
                     }
 
                   case Status.completed:
-                    return Obx(() => CommonPagePadding(
-                          child: SimpleContainer(
-                            child: controller.dataDetail.isEmpty
-                                ? Center(
-                                    child: boldText('No Case Details Found')
-                                        .paddingOnly(top: 50),
-                                  )
-                                : ReminderDetailWidget(cons: s,),
-                          ),
+                    return Obx(() => SimpleContainer(
+                          child: controller.dataDetail.isEmpty
+                              ? Center(
+                                  child: boldText('No Case Details Found')
+                                      .paddingOnly(top: 50),
+                                )
+                              : ReminderDetailWidget(
+                                  cons: s,
+                                ),
                         ));
                 }
               });
@@ -73,6 +72,5 @@ class ReminderDetailView extends GetView<ReminderController> {
         ),
       ),
     );
-  
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_header.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/container/upcoming_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/wrap_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
@@ -99,30 +100,54 @@ class DashboardView extends GetView<DashboardController> {
                 ],
               ),
               20.height,
-              Wrap(
-                spacing: Responsive.isDesktop(context)
-                    ? 1.8.w
-                    : 2.w, // Horizontal spacing
-                runSpacing: 15, // Vertical spacing
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  WrapContainer(
-                    count: '10',
-                    label: 'Support Requests',
-                    badgeCount: '05',
-                  ),
-                  WrapContainer(
-                      count: '08', label: 'Program Schedule', badgeCount: '05'),
-                  WrapContainer(
-                      count: '00', label: 'Wedding', badgeCount: '05'),
-                  WrapContainer(count: '00', label: 'Death', badgeCount: '05')
-                ],
+              Obx(
+                () => controller.isLoading.value
+                    ? CircularProgressIndicator()
+                    : Wrap(
+                        spacing: Responsive.isDesktop(context)
+                            ? 1.8.w
+                            : 2.w, // Horizontal spacing
+                        runSpacing: 15, // Vertical spacing
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          WrapTodayContainer(
+                            count: controller.supportCount,
+                            label: 'Support Requests',
+                            badgeCount: controller.supportRemindCount,
+                          ),
+                          WrapTodayContainer(
+                              count: controller.programCount,
+                              label: 'Program Schedule',
+                              badgeCount: controller.programRemindCount),
+                          WrapTodayContainer(
+                              count: controller.weddingCount,
+                              label: 'Wedding',
+                              badgeCount: controller.weddingRemindCount),
+                          WrapTodayContainer(
+                              count: "0", label: 'Death', badgeCount: '00')
+                        ],
+                      ),
               ),
             ],
           ),
         ),
         SizedBox(height: 20),
-        Column(children: [columnText("Upcoming Activities", 24)]),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          columnText("Upcoming Activities", 15.sp),
+          15.height,
+          Obx(() => controller.isLoading.value
+              ? CircularProgressIndicator()
+              : Wrap(
+                  spacing: Responsive.isDesktop(context)
+                      ? 1.8.w
+                      : 2.w, // Horizontal spacing
+                  runSpacing: 15, // Vertical spacing
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: controller.upcomingReminders
+                      .map((item) => UpcomingContainer(
+                          count: item.count ?? '0', label: item.label ?? ''))
+                      .toList())),
+        ]),
       ],
     );
   }

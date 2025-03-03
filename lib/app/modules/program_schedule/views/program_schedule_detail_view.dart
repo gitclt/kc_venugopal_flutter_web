@@ -12,12 +12,12 @@ import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/widget/program_detail_widget.dart';
 
-class ProgramScheduleDetailView extends GetView<ProgramScheduleController>  {
+class ProgramScheduleDetailView extends GetView<ProgramScheduleController> {
   const ProgramScheduleDetailView({super.key});
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       backgroundColor: AppColor.scaffoldBgColor,
       body: CommonPagePadding(
         child: Column(
@@ -56,15 +56,15 @@ class ProgramScheduleDetailView extends GetView<ProgramScheduleController>  {
                     }
 
                   case Status.completed:
-                    return Obx(() => CommonPagePadding(
-                          child: SimpleContainer(
-                            child: controller.dataDetail.isEmpty
-                                ? Center(
-                                    child: boldText('No Case Details Found')
-                                        .paddingOnly(top: 50),
-                                  )
-                                : ProgramDetailWidget(cons: s,),
-                          ),
+                    return Obx(() => SimpleContainer(
+                          child: controller.dataDetail.isEmpty
+                              ? Center(
+                                  child: boldText('No Case Details Found')
+                                      .paddingOnly(top: 50),
+                                )
+                              : ProgramDetailWidget(
+                                  cons: s,
+                                ),
                         ));
                 }
               });
@@ -73,6 +73,5 @@ class ProgramScheduleDetailView extends GetView<ProgramScheduleController>  {
         ),
       ),
     );
-  
   }
 }

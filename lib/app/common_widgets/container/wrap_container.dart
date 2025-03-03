@@ -4,13 +4,13 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.da
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
 
-class WrapContainer extends StatelessWidget {
+class WrapTodayContainer extends StatelessWidget {
   final Color? color;
   final String count;
   final String label;
   final String? badgeCount;
 
-  const WrapContainer({
+  const WrapTodayContainer({
     super.key,
     this.color,
     required this.count,
@@ -57,13 +57,8 @@ class WrapContainer extends StatelessWidget {
             top: -10,
             right: -10,
             child:
-            //  Container(
-            //   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            //   decoration: BoxDecoration(
-            //     color: Colors.red.withOpacity(0.3),
-            //     borderRadius: BorderRadius.circular(16),
-            //   ),
-            //   child:
+          
+           
                Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(

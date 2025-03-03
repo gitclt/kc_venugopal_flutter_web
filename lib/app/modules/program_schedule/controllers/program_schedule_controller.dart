@@ -217,7 +217,7 @@ class ProgramScheduleController extends GetxController {
           uploadController.text = imageName.value;
 
           encodedData = base64Encode(pickedFileBytes!);
-          encodedData = base64Encode(pickedFileBytes!);
+         
         } else if (value == 'add document') {
           imageName.value =
               "$dateFormat.${result.files.single.name.split('.').last}";

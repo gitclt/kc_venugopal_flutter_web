@@ -57,15 +57,13 @@ class SupportRequestDetailView extends GetView<SupportRequestController> {
                       }
 
                     case Status.completed:
-                      return Obx(() => CommonPagePadding(
-                            child: SimpleContainer(
-                              child: controller.dataDetail.isEmpty
-                                  ? Center(
-                                      child: boldText('No Case Details Found')
-                                          .paddingOnly(top: 50),
-                                    )
-                                  : CaseDetailWidget(s),
-                            ),
+                      return Obx(() => SimpleContainer(
+                            child: controller.dataDetail.isEmpty
+                                ? Center(
+                                    child: boldText('No Case Details Found')
+                                        .paddingOnly(top: 50),
+                                  )
+                                : CaseDetailWidget(s),
                           ));
                   }
                 });

@@ -52,8 +52,8 @@ class SupportRequestView extends GetView<SupportRequestController> {
                     8.height,
                     Wrap(
                       spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                      runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                      alignment: WrapAlignment.center,
+                      runSpacing: Responsive.isDesktop(context) ? 1.2.w : 1.8.w,
+                      alignment: WrapAlignment.start,
                       children: [
                         AddTextFieldWidget(
                           width: width,

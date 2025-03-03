@@ -42,7 +42,7 @@ class SupportRequestView extends GetView<SupportRequestController> {
                 Get.rootDelegate.toNamed(Routes.ADD_SUPPORT_REQUEST);
               },
             ),
-            20.height,
+            5.height,
             SimpleContainer(
                 color: AppColor.borderColor,
                 child: Column(

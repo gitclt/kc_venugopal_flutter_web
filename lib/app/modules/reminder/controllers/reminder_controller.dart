@@ -155,7 +155,8 @@ class ReminderController extends GetxController {
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
         pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
-        type: typeFilter.name?.toLowerCase() ?? ConstValues.typeInaug,
+        type: typeFilter.name?.toLowerCase() ??
+            typeDropList.join(',').toLowerCase(),
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
         status: statusFilter.name?.toLowerCase() ?? '',
@@ -166,6 +167,10 @@ class ReminderController extends GetxController {
       setError(error.toString());
     }, (resData) {
       setRxRequestStatus(Status.completed);
+      if (pageSize.value != 0) {
+        totalCount.value =
+            (int.parse(resData.totalCount!) / pageSize.value).ceil();
+      }
       if (resData.data != null) {
         data.addAll(resData.data!);
         dataCopy.addAll(resData.data!);

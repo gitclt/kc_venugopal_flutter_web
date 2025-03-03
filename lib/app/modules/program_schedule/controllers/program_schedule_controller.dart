@@ -253,6 +253,10 @@ class ProgramScheduleController extends GetxController {
       setError(error.toString());
     }, (resData) {
       setRxRequestStatus(Status.completed);
+      if (pageSize.value != 0) {
+        totalCount.value =
+            (int.parse(resData.totalCount!) / pageSize.value).ceil();
+      }
       if (resData.data != null) {
         data.addAll(resData.data!);
         dataCopy.addAll(resData.data!);

@@ -36,12 +36,12 @@ class ReminderAddView extends GetView<ReminderController> {
           children: [
             HomeAppBar(
               title: 'Add Reminder',
-              subTitle: 'Home > Dashboard >Add Reminder',
+              subTitle: 'Home > Dashboard > Add Reminder',
               onClick: () {
                 Get.rootDelegate.toNamed(Routes.REMINDER);
               },
             ),
-            20.height,
+            12.height,
             Expanded(
               child: SingleChildScrollView(
                 child: SizedBox(
@@ -165,12 +165,11 @@ class ReminderAddView extends GetView<ReminderController> {
                                     onPressed: () {
                                       Get.bottomSheet(
                                         PickImageBottomsheet(
-                                          pickMedia: (ImageSource? value,String? type) {
-                                           
-                                              controller.pickImage(
-                                                  value, type!,'reminder');
-                                              Get.back();
-                                            
+                                          pickMedia: (ImageSource? value,
+                                              String? type) {
+                                            controller.pickImage(
+                                                value, type!, 'reminder');
+                                            Get.back();
                                           },
                                         ),
                                         elevation: 20.0,
@@ -188,75 +187,76 @@ class ReminderAddView extends GetView<ReminderController> {
                           columnText('Contact Person Details', 18)
                               .paddingOnly(left: 5),
                           10.height,
-                          // Wrap(
-                          //   spacing:
-                          //       Responsive.isDesktop(context) ? 2.5.w : 2.w,
-                          //   runSpacing:
-                          //       Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                          //   children: [
-                          //     AddTextFieldWidget(
-                          //       width: width,
-                          //       labelText: 'Name',
-                          //       hintText: 'Name',
-                          //       textController: controller.nameController,
-                          //     ),
-                          //     AddTextFieldWidget(
-                          //       width: width,
-                          //       labelText: 'Mobile',
-                          //       hintText: 'Mobile',
-                          //       textController: controller.mobileController,
-                          //     ),
-                          //     AddTextFieldWidget(
-                          //       width: width,
-                          //       labelText: 'Designation',
-                          //       hintText: 'Designation',
-                          //       textController: controller.desigController,
-                          //     ),
 
-                          ContactPersonView(reminderController: controller, page: 'Reminder', ),
-                          //   ],
-                          // ),
+//add contact person widget
+                          ContactPersonView(
+                            reminderController: controller,
+                            page: 'Reminder',
+                          ),
+
                           20.height,
-                          Obx(() => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          Obx(() => Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      CheckBoxButton(
-                                          selectItem:
-                                              controller.isReminder.value,
-                                          act: () {
-                                            controller.isReminder.value =
-                                                !controller.isReminder.value;
-                                          }),
-                                      5.width,
-                                      columnText('Set Reminder', 14)
+                                      Row(
+                                        children: [
+                                          CheckBoxButton(
+                                              selectItem:
+                                                  controller.isReminder.value,
+                                              act: () {
+                                                controller.isReminder.value =
+                                                    !controller
+                                                        .isReminder.value;
+                                              }),
+                                          5.width,
+                                          columnText('Set Reminder', 12.sp)
+                                        ],
+                                      ),
+                                      10.height,
+                                      controller.isReminder.value
+                                          ? AddTextFieldWidget(
+                                              width: width,
+                                              //labelText: 'Designation',
+                                              hintText: 'YYYY-MM-DD',
+                                              textController: controller
+                                                  .remindDateController,
+                                              suffixIcon: IconButton(
+                                                icon: const Icon(
+                                                    Icons
+                                                        .calendar_today_outlined,
+                                                    size: 20),
+                                                onPressed: () async {
+                                                  selectDate(
+                                                      context,
+                                                      controller
+                                                          .remindDateController);
+                                                },
+                                              ),
+                                            )
+                                          : const SizedBox(),
                                     ],
-                                  ),
-                                  5.height,
-                                  controller.isReminder.value
-                                      ? AddTextFieldWidget(
-                                          width: width,
-                                          //labelText: 'Designation',
-                                          hintText: 'DD/MM/YYYY',
-                                          textController:
-                                              controller.remindDateController,
-                                        )
-                                      : const SizedBox(),
+                                  ).paddingOnly(left: 5),
+                                  Obx(
+                                    () => Align(
+                                        alignment: Alignment.bottomRight,
+                                        child: CommonButton(
+                                            isLoading:
+                                                controller.isLoading.value,
+                                            width: width,
+                                            onClick: () {
+                                              controller.addReminder();
+                                            },
+                                            label: 'ADD')),
+                                  )
                                 ],
-                              ).paddingOnly(left: 5)),
-                          15.height,
-                          Obx(
-                            () => Align(
-                                alignment: Alignment.bottomRight,
-                                child: CommonButton(
-                                    isLoading: controller.isLoading.value,
-                                    width: width,
-                                    onClick: () {
-                                      controller.addReminder();
-                                    },
-                                    label: 'ADD')),
-                          )
+                              )),
+                          // 15.height,
                         ],
                       ),
                     ),

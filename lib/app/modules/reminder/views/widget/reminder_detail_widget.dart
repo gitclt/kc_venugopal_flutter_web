@@ -36,12 +36,17 @@ class ReminderDetailWidget extends GetView<ReminderController> {
                   category: controller.dataDetail.first.category ?? '',
                   description: controller.dataDetail.first.description ?? '',
                   priority: controller.dataDetail.first.priority ?? '',
-                  contactPerson: controller.dataDetail.first.contactPerson!
-                          .first.contactPerson ??
-                      '',
-                  mobile:
-                      controller.dataDetail.first.contactPerson!.first.mobile ??
-                          ''),
+                  contactPerson:
+                      controller.dataDetail.first.contactPerson!.isNotEmpty
+                          ? controller.dataDetail.first.contactPerson!.first
+                                  .contactPerson ??
+                              ''
+                          : '',
+                  mobile: controller.dataDetail.first.contactPerson!.isNotEmpty
+                      ? controller
+                              .dataDetail.first.contactPerson!.first.mobile ??
+                          ''
+                      : ''),
               8.height,
               divider(),
               8.height,

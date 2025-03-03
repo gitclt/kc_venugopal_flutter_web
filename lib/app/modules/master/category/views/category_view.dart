@@ -82,39 +82,44 @@ class CategoryView extends GetView<CategoryController> {
                                 10.height,
                                 controller.data.isEmpty
                                     ? Center(child: boldText('No Data Found'))
-                                    : SfDataGrid(
-                                            allowSorting: true,
-                                            columnWidthMode:
-                                                ColumnWidthMode.fill,
-                                            headerGridLinesVisibility:
-                                                GridLinesVisibility.both,
-                                            gridLinesVisibility:
-                                                GridLinesVisibility.both,
-                                            isScrollbarAlwaysShown: true,
-                                            source: CategoryDataSource(
-                                              dataList: controller.data,
-                                              onEditTap: (index) {
-                                                controller.editClick(
-                                                    controller.data[index]);
-                                              },
-                                              onDelTap: (index) async {
-                                                dynamic response =
-                                                    await commonDialog(
-                                                        title: "Delete",
-                                                        subTitle:
-                                                            "Are you sure want to delete this item?",
-                                                        titleIcon: Icons.delete,
-                                                        theamColor:
-                                                            AppColor.red);
-                                                if (response == true) {
-                                                  controller.delete(controller
-                                                      .data[index].id
-                                                      .toString());
-                                                }
-                                              },
-                                            ),
-                                            columns: _buildColumns(fontSize))
-                                        .paddingOnly(bottom: 15),
+                                    : Expanded(
+                                        child: SfDataGrid(
+                                                allowSorting: true,
+                                                columnWidthMode:
+                                                    ColumnWidthMode.fill,
+                                                headerGridLinesVisibility:
+                                                    GridLinesVisibility.both,
+                                                gridLinesVisibility:
+                                                    GridLinesVisibility.both,
+                                                isScrollbarAlwaysShown: true,
+                                                source: CategoryDataSource(
+                                                  dataList: controller.data,
+                                                  onEditTap: (index) {
+                                                    controller.editClick(
+                                                        controller.data[index]);
+                                                  },
+                                                  onDelTap: (index) async {
+                                                    dynamic response =
+                                                        await commonDialog(
+                                                            title: "Delete",
+                                                            subTitle:
+                                                                "Are you sure want to delete this item?",
+                                                            titleIcon:
+                                                                Icons.delete,
+                                                            theamColor:
+                                                                AppColor.red);
+                                                    if (response == true) {
+                                                      controller.delete(
+                                                          controller
+                                                              .data[index].id
+                                                              .toString());
+                                                    }
+                                                  },
+                                                ),
+                                                columns:
+                                                    _buildColumns(fontSize))
+                                            .paddingOnly(bottom: 15),
+                                      ),
                               ],
                             ),
                           ),

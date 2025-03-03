@@ -28,7 +28,7 @@ class SupportRequestDetailView extends GetView<SupportRequestController> {
               subTitle:
                   'Home > Dashboard > Support Requests > Support Requests Detail',
             ),
-            Expanded(child: LayoutBuilder(builder: (context, s) {
+            LayoutBuilder(builder: (context, s) {
               return Obx(() {
                 switch (controller.rxRequestStatus.value) {
                   case Status.loading:
@@ -68,7 +68,7 @@ class SupportRequestDetailView extends GetView<SupportRequestController> {
                         ));
                 }
               });
-            }))
+            })
           ],
         ),
       ),

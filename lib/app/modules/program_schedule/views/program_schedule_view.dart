@@ -29,227 +29,225 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
-        backgroundColor: AppColor.scaffoldBgColor,
-        body: CommonPagePadding(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HomeAppBar(
-                title: 'Program Schedule',
-                subTitle: 'Home > Dashboard > Program Schedule',
-                isAdd: true,
-                onClick: () {
-                  Get.rootDelegate.toNamed(Routes.ADD_PROGRAM_SCHEDULE);
-                },
-              ),
-              20.height,
-              SimpleContainer(
-                  color: AppColor.borderColor,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // columnText('Filter By', 24),
-                      10.height,
-                      Wrap(
-                        spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
-                        runSpacing: Responsive.isDesktop(context) ? 1.2.w : 1.8.w,
-                         alignment: WrapAlignment.start,
-                        children: [
-                          AddTextFieldWidget(
-                            width: width,
-                            labelText: 'From Date',
-                            hintText: 'From Date',
-                            // readonly: true,
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.calendar_today_outlined,
-                                  size: 20),
-                              onPressed: () async {
-                                selectDate(
-                                    context, controller.fromDateController);
-                              },
-                            ),
-                            textController: controller.fromDateController,
-                          ),
-                          AddTextFieldWidget(
-                            width: width,
-                            labelText: 'To Date',
-                            hintText: 'To Date',
-                            // readonly: true,
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.calendar_today_outlined,
-                                  size: 20),
-                              onPressed: () async {
-                                selectToDate(
-                                    context, controller.toDateController);
-                              },
-                            ),
-                            textController: controller.toDateController,
-                          ),
-                          DropDown3Widget(
-                            width: width,
-                            hint: '--Select Status--',
-                            selectedItem: controller.statusFilter.id == null
-                                ? null
-                                : controller.statusFilter,
-                            items: controller.statusDropList,
-                            onChanged: (data) async {
-                              if (data == null) return;
-                              controller.statusFilter = data;
+      backgroundColor: AppColor.scaffoldBgColor,
+      body: CommonPagePadding(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            HomeAppBar(
+              title: 'Program Schedule',
+              subTitle: 'Home > Dashboard > Program Schedule',
+              isAdd: true,
+              onClick: () {
+                Get.rootDelegate.toNamed(Routes.ADD_PROGRAM_SCHEDULE);
+              },
+            ),
+            20.height,
+            SimpleContainer(
+                color: AppColor.borderColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // columnText('Filter By', 24),
+                    10.height,
+                    Wrap(
+                      spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                      runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        AddTextFieldWidget(
+                          width: width,
+                          labelText: 'From Date',
+                          hintText: 'From Date',
+                          // readonly: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.calendar_today_outlined,
+                                size: 20),
+                            onPressed: () async {
+                              selectDate(
+                                  context, controller.fromDateController);
                             },
                           ),
-                          Obx(
-                            () => DropDown3Widget(
-                              width: width,
-                              //label: 'Category',
-                              hint: '--Select Category--',
-                              selectedItem: controller.categoryFilter.id == null
-                                  ? null
-                                  : controller.categoryFilter,
-                              items: controller.categoryDropList,
-                              isLoading: controller.isDropLoading.value,
-                              onChanged: (data) async {
-                                if (data == null) return;
-                                controller.categoryFilter = data;
-                              },
-                            ),
+                          textController: controller.fromDateController,
+                        ),
+                        AddTextFieldWidget(
+                          width: width,
+                          labelText: 'To Date',
+                          hintText: 'To Date',
+                          // readonly: true,
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.calendar_today_outlined,
+                                size: 20),
+                            onPressed: () async {
+                              selectToDate(
+                                  context, controller.toDateController);
+                            },
                           ),
-                          Obx(
-                            () => DropDown3Widget(
-                              width: width,
-                              // label: 'Priority',
-                              hint: '--Select Priority--',
-                              isLoading: controller.isDropLoading.value,
-                              selectedItem: controller.priorityFilter.id == null
-                                  ? null
-                                  : controller.priorityFilter,
-                              items: controller.priorityDropList,
-                              onChanged: (data) async {
-                                if (data == null) return;
-                                controller.priorityFilter = data;
-                              },
-                            ),
-                          ),
-                          AddTextFieldWidget(
-                            width: width,
-                            labelText: 'Keyword',
-                            hintText: 'Keyword',
-                            // readonly: true,
-
-                            textController: controller.keywordController,
-                          ),
-                          CommonButton(
-                              width: width,
-                              onClick: () {
-                                controller.getProgramSchedules();
-                              },
-                              label: 'Search'),
-                        ],
-                      ),
-                      10.height,
-                      // Align(
-                      //   alignment: Alignment.bottomLeft,
-                      //   child: CommonButton(
-                      //       width: width,
-                      //       onClick: () {
-                      //         controller.getProgramSchedules();
-                      //       },
-                      //       label: 'Search'),
-                      // )
-                    ],
-                  )),
-              20.height,
-              Expanded(child: LayoutBuilder(builder: (context, s) {
-                return Obx(() {
-                  switch (controller.rxRequestStatus.value) {
-                    case Status.loading:
-                      return ShimmerBuilder(
-                        rowCount: 5,
-                        sizes: [
-                          s.maxWidth * 0.05,
-                          s.maxWidth * 0.3,
-                          s.maxWidth * 0.055,
-                          s.maxWidth * 0.2,
-                          s.maxWidth * 0.3
-                        ],
-                      ).paddingAll(10);
-                    case Status.error:
-                      if (controller.error.value == 'No internet') {
-                        return InterNetExceptionWidget(
-                          onPress: () {
-                            controller.getProgramSchedules();
+                          textController: controller.toDateController,
+                        ),
+                        DropDown3Widget(
+                          width: width,
+                          hint: '--Select Status--',
+                          selectedItem: controller.statusFilter.id == null
+                              ? null
+                              : controller.statusFilter,
+                          items: controller.statusDropList,
+                          onChanged: (data) async {
+                            if (data == null) return;
+                            controller.statusFilter = data;
                           },
-                        );
-                      } else {
-                        return GeneralExceptionWidget(onPress: () {
-                          controller.getProgramSchedules();
-                        });
-                      }
+                        ),
+                        Obx(
+                          () => DropDown3Widget(
+                            width: width,
+                            //label: 'Category',
+                            hint: '--Select Category--',
+                            selectedItem: controller.categoryFilter.id == null
+                                ? null
+                                : controller.categoryFilter,
+                            items: controller.categoryDropList,
+                            isLoading: controller.isDropLoading.value,
+                            onChanged: (data) async {
+                              if (data == null) return;
+                              controller.categoryFilter = data;
+                            },
+                          ),
+                        ),
+                        Obx(
+                          () => DropDown3Widget(
+                            width: width,
+                            // label: 'Priority',
+                            hint: '--Select Priority--',
+                            isLoading: controller.isDropLoading.value,
+                            selectedItem: controller.priorityFilter.id == null
+                                ? null
+                                : controller.priorityFilter,
+                            items: controller.priorityDropList,
+                            onChanged: (data) async {
+                              if (data == null) return;
+                              controller.priorityFilter = data;
+                            },
+                          ),
+                        ),
+                        AddTextFieldWidget(
+                          width: width,
+                          labelText: 'Keyword',
+                          hintText: 'Keyword',
+                          // readonly: true,
 
-                    case Status.completed:
-                      return Obx(() => SimpleContainer(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              controller.data.isEmpty
-                                  ? Center(
-                                      child: boldText('No Cases Found')
-                                          .paddingOnly(top: 50),
+                          textController: controller.keywordController,
+                        ),
+                        CommonButton(
+                            width: width,
+                            onClick: () {
+                              controller.getProgramSchedules();
+                            },
+                            label: 'Search'),
+                      ],
+                    ),
+                    10.height,
+                    // Align(
+                    //   alignment: Alignment.bottomLeft,
+                    //   child: CommonButton(
+                    //       width: width,
+                    //       onClick: () {
+                    //         controller.getProgramSchedules();
+                    //       },
+                    //       label: 'Search'),
+                    // )
+                  ],
+                )),
+            20.height,
+            Expanded(child: LayoutBuilder(builder: (context, s) {
+              return Obx(() {
+                switch (controller.rxRequestStatus.value) {
+                  case Status.loading:
+                    return ShimmerBuilder(
+                      rowCount: 5,
+                      sizes: [
+                        s.maxWidth * 0.05,
+                        s.maxWidth * 0.3,
+                        s.maxWidth * 0.055,
+                        s.maxWidth * 0.2,
+                        s.maxWidth * 0.3
+                      ],
+                    ).paddingAll(10);
+                  case Status.error:
+                    if (controller.error.value == 'No internet') {
+                      return InterNetExceptionWidget(
+                        onPress: () {
+                          controller.getProgramSchedules();
+                        },
+                      );
+                    } else {
+                      return GeneralExceptionWidget(onPress: () {
+                        controller.getProgramSchedules();
+                      });
+                    }
+
+                  case Status.completed:
+                    return Obx(() => SimpleContainer(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            controller.data.isEmpty
+                                ? Center(
+                                    child: boldText('No Cases Found')
+                                        .paddingOnly(top: 50),
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: controller.data.length,
+                                        itemBuilder: (context, index) {
+                                          final item = controller.data[index];
+                                          return ProgramListWidget(
+                                            time: item.time ?? '',
+                                            address: item.address ?? '',
+                                            title: item.title ?? '',
+                                            issue: item.category ?? '',
+                                            description: item.description ?? '',
+                                            person:
+                                                item.contactPerson!.isNotEmpty
+                                                    ? item.contactPerson!.first
+                                                        .contactPerson
+                                                    : null,
+                                            date: item.date ?? '',
+                                            mobile: item.mobile ?? '',
+                                            status: item.status ?? '',
+                                            onTap: () {
+                                              controller.programId =
+                                                  item.id.toString();
+                                              controller.getProgramDetail();
+                                              Get.rootDelegate.toNamed(Routes
+                                                  .PROGRAM_SCHEDULE_DETAIL);
+                                            },
+                                          );
+                                        }).paddingOnly(top: 10),
+                                  ),
+                            10.height,
+                            Obx(
+                              () => controller.pageSize.value != 0
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: PaginationWidget(
+                                        alignment: Alignment.centerRight,
+                                        totalPages: controller.totalCount.value,
+                                        currentPage: controller.pageIndex.value,
+                                        onPageSelected: controller.changePage,
+                                      ),
                                     )
-                                  : Expanded(
-                                      child: ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: controller.data.length,
-                                          itemBuilder: (context, index) {
-                                            final item = controller.data[index];
-                                            return ProgramListWidget(
-                                              time: item.time ?? '',
-                                              address: item.address ?? '',
-                                              title: item.title ?? '',
-                                              issue: item.category ?? '',
-                                              description:
-                                                  item.description ?? '',
-                                              person:
-                                                  item.contactPerson!.isNotEmpty
-                                                      ? item.contactPerson!
-                                                          .first.contactPerson
-                                                      : null,
-                                              date: item.date ?? '',
-                                              mobile: item.mobile ?? '',
-                                              status: item.status ?? '',
-                                              onTap: () {
-                                                controller.programId =
-                                                    item.id.toString();
-                                                controller.getProgramDetail();
-                                                Get.rootDelegate.toNamed(Routes
-                                                    .PROGRAM_SCHEDULE_DETAIL);
-                                              },
-                                            );
-                                          }).paddingOnly(top: 10),
-                                    ),
-                              10.height,
-                              Obx(
-                                () => controller.pageSize.value != 0
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10),
-                                        child: PaginationWidget(
-                                          alignment: Alignment.centerRight,
-                                          totalPages:
-                                              controller.totalCount.value,
-                                          currentPage:
-                                              controller.pageIndex.value,
-                                          onPageSelected: controller.changePage,
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                              ),
-                            ],
-                          )));
-                  }
-                });
-              }))
-            ],
-          ),
-        ));
+                                  : const SizedBox(),
+                            ),
+                          ],
+                        )));
+                }
+              });
+            }))
+          ],
+        ),
+      ),
+    );
   }
 }

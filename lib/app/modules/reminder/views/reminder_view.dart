@@ -27,7 +27,7 @@ class ReminderView extends GetView<ReminderController> {
   const ReminderView({super.key});
   @override
   Widget build(BuildContext context) {
-     var width = MediaQuery.of(context).size.width * 0.18;
+    var width = MediaQuery.of(context).size.width * 0.18;
     return Scaffold(
         backgroundColor: AppColor.scaffoldBgColor,
         body: CommonPagePadding(
@@ -43,16 +43,15 @@ class ReminderView extends GetView<ReminderController> {
                   Get.rootDelegate.toNamed(Routes.ADD_REMINDER);
                 },
               ),
-              20.height,
               SimpleContainer(
                   color: AppColor.borderColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // columnText('Filter By', 24),
-                       8.height,
+                      8.height,
                       Wrap(
-                           spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
+                        spacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                         runSpacing: Responsive.isDesktop(context) ? 2.w : 1.8.w,
                         alignment: WrapAlignment.start,
                         children: [
@@ -230,7 +229,8 @@ class ReminderView extends GetView<ReminderController> {
                                     ),
                               10.height,
                               Obx(
-                                () => controller.pageSize.value != 0
+                                () => controller.pageSize.value != 0 &&
+                                        controller.data.isNotEmpty
                                     ? Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 10),

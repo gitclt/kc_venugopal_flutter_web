@@ -55,7 +55,7 @@ class ProgramDetailTopSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                if (location != '')
+                if (location != '' && location != null)
                   Row(
                     children: [
                       svgWidget(SvgAssets.caseLocation, size: 20),
@@ -66,7 +66,7 @@ class ProgramDetailTopSection extends StatelessWidget {
                       )
                     ],
                   ),
-                10.width,
+                if (location != '' && location != null) 10.width,
                 if (priority != '')
                   Row(
                     children: [

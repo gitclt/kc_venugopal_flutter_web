@@ -30,7 +30,7 @@ class DetailDocumentSection extends StatelessWidget {
             shrinkWrap: true,
             physics: AlwaysScrollableScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5, // 4 columns as per your image
+              crossAxisCount: 5, // 5 columns as per your image
               crossAxisSpacing: 8,
               mainAxisSpacing: 8,
               mainAxisExtent: 130,

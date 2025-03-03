@@ -45,7 +45,7 @@ class PickImageBottomsheet extends StatelessWidget {
             title: const Text("Gallery"),
             onTap: () {
               // Pass the image source, null for fileType
-              pickMedia(ImageSource.gallery, null);
+              pickMedia(ImageSource.gallery, '');
             }
           ),
           ListTile(

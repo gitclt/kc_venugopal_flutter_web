@@ -101,6 +101,7 @@ class SubAdminAddView extends GetView<SubAdminController> {
             10.height,
             Wrap(
               spacing: 15,
+              runSpacing: 20,
               children: controller.assemblyData
                   .map(
                     (item) => SizedBox(

@@ -29,6 +29,7 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          //   mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
@@ -94,8 +95,7 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
             8.height,
             divider(),
             10.height,
-            Flexible(
-                child: DetailDocumentSection(
+            DetailDocumentSection(
               data: controller.detailDocument,
               mediaPicker: (ImageSource? value, type) {
                 controller.pickImage(value, type!, 'add document');
@@ -104,10 +104,9 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
               onTap: (int index) {
                 openFile(controller.detailDocument[index].documentPath ?? '');
               },
-            )),
+            ),
             12.height,
-            Expanded(
-                child: Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -234,31 +233,30 @@ class CaseDetailWidget extends GetView<SupportRequestController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     boldText('Status', fontSize: 20),
                     if (controller.detailStatus.isNotEmpty)
-                      Flexible(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.28,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: controller.detailStatus.length,
-                            itemBuilder: (context, index) {
-                              final item = controller.detailStatus[index];
-                              return TimelineWidget(
-                                date: item.date ?? '',
-                                status: item.status ?? '',
-                                index: index,
-                                length: controller.detailStatus.length,
-                              );
-                            },
-                          ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.28,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.detailStatus.length,
+                          itemBuilder: (context, index) {
+                            final item = controller.detailStatus[index];
+                            return TimelineWidget(
+                              date: item.date ?? '',
+                              status: item.status ?? '',
+                              index: index,
+                              length: controller.detailStatus.length,
+                            );
+                          },
                         ),
                       )
                   ],
                 )
               ],
-            ))
+            )
           ],
         ),
       ),

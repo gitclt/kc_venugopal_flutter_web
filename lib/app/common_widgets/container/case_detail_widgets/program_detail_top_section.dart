@@ -66,7 +66,7 @@ class ProgramDetailTopSection extends StatelessWidget {
                       )
                     ],
                   ),
-                10.width,
+                if (location != '' && location != null) 10.width,
                 if (priority != '')
                   Row(
                     children: [

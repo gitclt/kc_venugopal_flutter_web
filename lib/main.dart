@@ -15,7 +15,7 @@ void main() async {
         translations: Languages(),
         locale: const Locale('en', 'US'),
         fallbackLocale: const Locale('en', 'US'),
-        title: 'CASE MANAGEMENT',
+        title: 'KC VENUGOPAL',
         getPages: AppPages.routes,
         theme: AppTheme.defaultTheme,
         darkTheme: AppTheme.defaultTheme,

@@ -28,17 +28,17 @@ class CasesRepository {
     try {
       var body = {
         "account_id": accountId,
-        "page": page,
-        "pageSize": pageSize,
-        "type": type,
-        "fromdate": fromDate,
+        if (page != null) "page": page,
+        if (pageSize != null) "pageSize": pageSize,
+        if (type != null) "type": type,
+        if (fromDate != null) "fromdate": fromDate,
         "todate": toDate ?? '',
         "status": status ?? '',
         "category_id": categoryId ?? '',
         "priority_id": priorityId ?? '',
         "timeRange": timeRange ?? '',
         "month": month ?? '',
-        "keyword": keyword
+        if (keyword != null) "keyword": keyword
       };
       dynamic response = await _apiServices.postApi(body, CasesUrl.viewCases);
 
@@ -77,9 +77,12 @@ class CasesRepository {
     try {
       var data = json.encode({
         "type": type,
-        if (assemblyId != null && assemblyId.isNotEmpty) "assembly_id": assemblyId,
-        if (priorityId != null && priorityId.isNotEmpty) "priority_id": priorityId,
-        if (categoryId != null && categoryId.isNotEmpty) "category_id": categoryId,
+        if (assemblyId != null && assemblyId.isNotEmpty)
+          "assembly_id": assemblyId,
+        if (priorityId != null && priorityId.isNotEmpty)
+          "priority_id": priorityId,
+        if (categoryId != null && categoryId.isNotEmpty)
+          "category_id": categoryId,
         if (date != null && date.isNotEmpty) "date": date,
         if (time != null && time.isNotEmpty) "time": time,
         if (location != null && location.isNotEmpty) "location": location,
@@ -90,8 +93,10 @@ class CasesRepository {
         if (address != null && address.isNotEmpty) "address": address,
         if (email != null && email.isNotEmpty) "email": email,
         if (mobile != null && mobile.isNotEmpty) "mobile": mobile,
-        if (description != null && description.isNotEmpty) "description": description,
-        if (reminderDate != null && reminderDate.isNotEmpty) "reminder_date": reminderDate,
+        if (description != null && description.isNotEmpty)
+          "description": description,
+        if (reminderDate != null && reminderDate.isNotEmpty)
+          "reminder_date": reminderDate,
         "addedby": addedBy,
         "addedtype": addedType,
         "account_id": accountId

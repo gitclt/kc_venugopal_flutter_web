@@ -15,9 +15,7 @@ class DataGridContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          color: bgColor,
-        ),
+        decoration: BoxDecoration(color: bgColor),
         alignment: alignment,
         padding: const EdgeInsets.all(8.0),
         child: columnText(dataCell, 12));
@@ -45,7 +43,7 @@ class DataGridIconContainer extends StatelessWidget {
 
 class GridAlignLeft extends StatelessWidget {
   final String header;
- 
+
   const GridAlignLeft({super.key, required this.header});
 
   @override

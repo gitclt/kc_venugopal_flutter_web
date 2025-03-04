@@ -8,6 +8,8 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const ROOT = _Paths.ROOT;
   static const DASHBOARD = _Paths.HOME + _Paths.DASHBOARD;
+  static const ALL_ACTIVITIES =
+      _Paths.HOME + _Paths.DASHBOARD + _Paths.ALL_ACTIVITIES;
   static const MASTER = _Paths.HOME + _Paths.MASTER;
   static const CATEGORY = _Paths.HOME + _Paths.CATEGORY;
   static const ADD_CATEGORY =
@@ -64,4 +66,5 @@ abstract class _Paths {
   static const REMINDER = '/reminder';
   static const ADD_REMINDER = '/add-reminder';
   static const REMINDER_DETAIL = '/reminder-detail';
+  static const ALL_ACTIVITIES = '/all-activities';
 }

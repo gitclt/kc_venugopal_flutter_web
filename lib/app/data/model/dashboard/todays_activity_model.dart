@@ -12,7 +12,7 @@ String todaysActivityModelToJson(TodaysActivityModel data) =>
 
 class TodaysActivityModel {
   bool? status;
-  Data? data;
+  List<TodaysData>? data;
 
   TodaysActivityModel({
     this.status,
@@ -22,55 +22,40 @@ class TodaysActivityModel {
   factory TodaysActivityModel.fromJson(Map<String, dynamic> json) =>
       TodaysActivityModel(
         status: json["status"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
+        data: json["data"] == null
+            ? []
+            : List<TodaysData>.from(
+                json["data"]!.map((x) => TodaysData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "data": data?.toJson(),
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
       };
 }
 
-class Data {
-  String? birthday;
-  String? programschedule;
-  String? supportrequest;
-  String? wedding;
-  String? birthdayReminders;
-  String? programscheduleReminders;
-  String? supportrequestReminders;
-  String? weddingReminders;
+class TodaysData {
+  String? type;
+  String? count;
+  String? reminderCount;
 
-  Data({
-    this.birthday,
-    this.programschedule,
-    this.supportrequest,
-    this.wedding,
-    this.birthdayReminders,
-    this.programscheduleReminders,
-    this.supportrequestReminders,
-    this.weddingReminders,
+  TodaysData({
+    this.type,
+    this.count,
+    this.reminderCount,
   });
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
-        birthday: json["birthday"]?.toString(),
-        programschedule: json["programschedule"]?.toString(),
-        supportrequest: json["supportrequest"]?.toString(),
-        wedding: json["wedding"]?.toString(),
-        birthdayReminders: json["birthdayReminders"]?.toString(),
-        programscheduleReminders: json["programscheduleReminders"]?.toString(),
-        supportrequestReminders: json["supportrequestReminders"]?.toString(),
-        weddingReminders: json["weddingReminders"]?.toString(),
+  factory TodaysData.fromJson(Map<String, dynamic> json) => TodaysData(
+        type: json["type"]?.toString(),
+        count: json["count"]?.toString(),
+        reminderCount: json["reminderCount"]?.toString(),
       );
 
   Map<String, dynamic> toJson() => {
-        "birthday": birthday,
-        "programschedule": programschedule,
-        "supportrequest": supportrequest,
-        "wedding": wedding,
-        "birthdayReminders": birthdayReminders,
-        "programscheduleReminders": programscheduleReminders,
-        "supportrequestReminders": supportrequestReminders,
-        "weddingReminders": weddingReminders,
+        "type": type,
+        "count": count,
+        "reminderCount": reminderCount,
       };
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/dashboard/views/activity_detail_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/program_schedule_detail_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/reminder_add_view.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/reminder/views/reminder_detail_view.dart';
@@ -72,7 +73,14 @@ class AppPages {
                 page: () => const DashboardView(),
                 binding: DashboardBinding(),
                 transition: Transition.noTransition,
-                children: const [],
+                children: [
+                  GetPage(
+                    name: _Paths.ALL_ACTIVITIES,
+                    page: () => const ActivityDetailView(),
+                    transition: Transition.noTransition,
+                    binding: DashboardBinding(),
+                  )
+                ],
               ),
               GetPage(
                   name: _Paths.CATEGORY,

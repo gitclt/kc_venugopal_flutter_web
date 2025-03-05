@@ -19,6 +19,7 @@ class AllActivityController extends GetxController {
   final dashRepo = DashboardRepository();
   var date = '';
   var type = '';
+  var timeRange = '';
 
   @override
   void onInit() {
@@ -26,7 +27,8 @@ class AllActivityController extends GetxController {
     if (Get.rootDelegate.arguments() != null) {
       var args = Get.rootDelegate.arguments();
       date = args['date'] ?? '';
-      type = args['type'];
+      type = args['type'] ?? '';
+      timeRange = args['timeRange'] ?? '';
       if (type != '') {
         selectedType.value = type;
       }
@@ -80,6 +82,7 @@ class AllActivityController extends GetxController {
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
         pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
+        timeRange: timeRange != '' ? timeRange : '',
         type: type,
         date: date);
     response.fold((failure) {

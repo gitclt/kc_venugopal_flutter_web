@@ -24,7 +24,10 @@ class ProgramDataSource extends DataGridSource {
       return DataGridRow(cells: [
         DataGridCell<String>(columnName: 'NAME', value: item.name ?? ''),
         DataGridCell<String>(
-            columnName: 'DATE', value: dateFormatString(item.date.toString())),
+            columnName: 'DATE',
+            value: item.date != null
+                ? dateFormatString(item.date.toString())
+                : ''),
         DataGridCell<String>(
             columnName: 'CATEGORY', value: item.category ?? ''),
         DataGridCell<String>(

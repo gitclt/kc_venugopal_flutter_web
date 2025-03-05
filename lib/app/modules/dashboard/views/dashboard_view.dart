@@ -232,6 +232,7 @@ class DashboardView extends GetView<DashboardController> {
                       Get.rootDelegate
                           .toNamed(Routes.ALL_ACTIVITIES, arguments: {
                         "type": controller.todaysData.first.type,
+                        "timeRange":'day'
                       });
                     },
                     child: SimpleContainer(

@@ -10,7 +10,6 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/dashboard/controllers/all_activity_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/widget/program_list_widget.dart';
-import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:sizer/sizer.dart';
 
 class ActivityDetailView extends GetView<AllActivityController> {
@@ -115,7 +114,8 @@ class ActivityDetailView extends GetView<AllActivityController> {
                   ),
                   10.height,
                   Obx(
-                    () => controller.isLoading.value
+                    () => controller.isLoading.value ||
+                            controller.activityData.isEmpty
                         ? SizedBox.shrink()
                         : controller.pageSize.value != 0
                             ? Padding(

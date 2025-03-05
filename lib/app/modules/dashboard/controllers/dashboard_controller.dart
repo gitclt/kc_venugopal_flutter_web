@@ -12,7 +12,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class DashboardController extends GetxController {
   final isLoading = false.obs;
- 
+
   final dashRepo = DashboardRepository();
   RxList<TodaysData> todaysData = <TodaysData>[].obs;
   RxList<Reminder> upcomingReminders = <Reminder>[].obs;
@@ -76,7 +76,6 @@ class DashboardController extends GetxController {
             eventTypes.add(value.type!);
           }
         }
-       
       }
     });
   }
@@ -105,7 +104,7 @@ class DashboardController extends GetxController {
   }
 
   /// Change selected type and update list
- 
+
   void getTodaysActivities() async {
     isLoading(true);
     todaysData.clear();
@@ -143,13 +142,13 @@ class DashboardController extends GetxController {
     programData.clear();
 
     final response = await repo.getCasesList(
-      accountId: LocalStorageKey.userData.accountId.toString(),
-      page: '1',
-      pageSize: '10',
-      type: ConstValues.typeProgram,
-      fromDate: dateFormatString(fromDate.toString()),
-      toDate: dateFormatString(toDate.toString()),
-    );
+        accountId: LocalStorageKey.userData.accountId.toString(),
+        page: '1',
+        pageSize: '10',
+        type: ConstValues.typeProgram,
+        fromDate: '',
+        toDate: '');
+
     response.fold((failure) {
       isLoading(false);
     }, (resData) {
@@ -170,8 +169,8 @@ class DashboardController extends GetxController {
       page: '1',
       pageSize: '10',
       type: ConstValues.typeSupport,
-      fromDate: dateFormatString(fromDate.toString()),
-      toDate: dateFormatString(toDate.toString()),
+      fromDate: '',
+      toDate: '',
     );
     response.fold((failure) {
       isLoading(false);

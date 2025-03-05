@@ -10,6 +10,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/dashboard/controllers/all_activity_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/widget/program_list_widget.dart';
+import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:sizer/sizer.dart';
 
 class ActivityDetailView extends GetView<AllActivityController> {
@@ -88,33 +89,29 @@ class ActivityDetailView extends GetView<AllActivityController> {
                   }),
 
                   // REQUEST LIST
-                  Obx(
-                    () => ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: controller.activityData.length,
-                        itemBuilder: (context, index) {
-                          final item = controller.activityData[index];
-                          return ProgramListWidget(
-                            time: item.time ?? '',
-                            address: item.address ?? '',
-                            title: item.title ?? '',
-                            issue: item.category ?? '',
-                            description: item.description ?? '',
-                            person: item.contactPerson!.isNotEmpty
-                                ? item.contactPerson!.first.contactPerson
-                                : null,
-                            date: item.date ?? '',
-                            mobile: item.mobile ?? '',
-                            status: item.status ?? '',
-                            onTap: () {
-                              // controller.programId =
-                              //     item.id.toString();
-                              // controller.getProgramDetail();
-                              // Get.rootDelegate.toNamed(Routes
-                              //     .PROGRAM_SCHEDULE_DETAIL);
-                            },
-                          );
-                        }).paddingOnly(top: 10),
+                  Flexible(
+                    child: Obx(
+                      () => ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller.activityData.length,
+                          itemBuilder: (context, index) {
+                            final item = controller.activityData[index];
+                            return ProgramListWidget(
+                              time: item.time ?? '',
+                              address: item.address ?? '',
+                              title: item.title ?? '',
+                              issue: item.category ?? '',
+                              description: item.description ?? '',
+                              person: item.contactPerson!.isNotEmpty
+                                  ? item.contactPerson!.first.contactPerson
+                                  : null,
+                              date: item.date ?? '',
+                              mobile: item.mobile ?? '',
+                              status: item.status ?? '',
+                              onTap: () {},
+                            );
+                          }).paddingOnly(top: 10),
+                    ),
                   ),
                   10.height,
                   Obx(

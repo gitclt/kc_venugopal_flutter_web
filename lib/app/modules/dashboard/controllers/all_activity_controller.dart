@@ -7,7 +7,7 @@ import 'package:kc_venugopal_flutter_web/app/domain/repositories/dashboard/dashb
 
 class AllActivityController extends GetxController {
   final isLoading = false.obs;
-  var selectedType = 0.obs;
+  var selectedType = ''.obs;
   var pageIndex = 1.obs;
   var pageSize = 10.obs;
   var totalCount = 1.obs;
@@ -17,10 +17,22 @@ class AllActivityController extends GetxController {
   late DateTime toDate;
   final repo = CasesRepository();
   final dashRepo = DashboardRepository();
+  var date = '';
+  var type = '';
 
   @override
   void onInit() {
     super.onInit();
+    if (Get.rootDelegate.arguments() != null) {
+      var args = Get.rootDelegate.arguments();
+      date = args['date'] ?? '';
+      type = args['type'];
+      if (type != '') {
+        selectedType.value = type;
+      }
+      print(date);
+      print(selectedType);
+    }
     constValues();
 
     getTodaysActivities();
@@ -50,13 +62,13 @@ class AllActivityController extends GetxController {
       if (resData.data != null) {
         todaysData.addAll(resData.data!);
 
-        await getActivityData(type: resData.data!.first.type);
+        await getActivityData(type: type);
       }
     });
   }
 
-  void updateSelectedType(int index, String type) {
-    selectedType.value = index;
+  void updateSelectedType(String type) {
+    selectedType.value = type;
     getActivityData(type: type);
   }
 
@@ -65,11 +77,11 @@ class AllActivityController extends GetxController {
     activityData.clear();
 
     final response = await repo.getCasesList(
-      accountId: LocalStorageKey.userData.accountId.toString(),
-      page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
-      pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
-      type: type,
-    );
+        accountId: LocalStorageKey.userData.accountId.toString(),
+        page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
+        pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
+        type: type,
+        date: date);
     response.fold((failure) {
       isLoading(false);
     }, (resData) {

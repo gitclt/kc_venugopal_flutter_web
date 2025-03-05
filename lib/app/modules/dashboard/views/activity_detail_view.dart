@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_home_appbar.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/padding/common_padding.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/pagination/pagination_widget.dart';
@@ -34,24 +35,31 @@ class ActivityDetailView extends GetView<AllActivityController> {
                         children: List.generate(controller.todaysData.length,
                             (index) {
                           return ChoiceChip(
-                            label: Text(
-                                controller.todaysData[index].type.toString()),
-                            selected: controller.selectedType.value == index,
+                            label: columnText(
+                                capitalizeLetter(controller
+                                    .todaysData[index].type
+                                    .toString()),
+                                10.sp),
+                            selected: controller.selectedType.value ==
+                                controller.todaysData[index].type.toString(),
                             onSelected: (selected) =>
-                                controller.updateSelectedType(
-                                    index,
-                                    controller.todaysData[index].type
-                                        .toString()),
+                                controller.updateSelectedType(controller
+                                    .todaysData[index].type
+                                    .toString()),
                             selectedColor: Color.fromRGBO(61, 66, 223, 0.1),
                             backgroundColor: Color.fromRGBO(61, 66, 223, 0.1),
                             labelStyle: TextStyle(
-                              color: controller.selectedType.value == index
+                              color: controller.selectedType.value ==
+                                      controller.todaysData[index].type
+                                          .toString()
                                   ? AppColor.primary
                                   : Colors.black,
                             ),
                             shape: RoundedRectangleBorder(
                               side: BorderSide(
-                                color: controller.selectedType.value == index
+                                color: controller.selectedType.value ==
+                                        controller.todaysData[index].type
+                                            .toString()
                                     ? AppColor
                                         .primary // Blue border when selected
                                     : Colors

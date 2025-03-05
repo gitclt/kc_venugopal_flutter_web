@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/appbar/common_header.dart';
+import 'package:kc_venugopal_flutter_web/app/common_widgets/common_strings.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/upcoming_container.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/wrap_container.dart';
@@ -10,6 +11,7 @@ import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/dashboard/views/widget/program_data_source.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/dashboard/views/widget/support_data_source.dart';
+import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -70,84 +72,103 @@ class DashboardView extends GetView<DashboardController> {
             ],
           ),
           25.height,
-          SimpleContainer(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  columnText("Program Schedules", 15.sp),
-                  InkWell(
-                    onTap: () {},
-                    child: SimpleContainer(
-                        horizontal: 10,
-                        vertical: 5,
-                        color: AppColor.primary,
-                        child: Text(
-                          'VIEW ALL',
-                          style: TextStyle(
-                              fontSize: 10.sp,
-                              color: AppColor.primary,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ),
-                ],
-              ),
-              12.height,
-              Obx(() => controller.programData.isEmpty
-                  ? Center(
-                      child: columnText('No Program Schedules', 11.sp),
-                    )
-                  : SfDataGrid(
-                      columnWidthMode: ColumnWidthMode.fill,
-                      gridLinesVisibility: GridLinesVisibility.horizontal,
-                      isScrollbarAlwaysShown: true,
-                      source:
-                          ProgramDataSource(dataList: controller.programData),
-                      columns: _buildColumns()))
-            ],
-          )),
+          SizedBox(
+            height: 250,
+            child: SimpleContainer(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    columnText("Program Schedules", 15.sp),
+                    InkWell(
+                      onTap: () {
+                        Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
+                            arguments: {"type": "program schedule"});
+                      },
+                      child: SimpleContainer(
+                          horizontal: 10,
+                          vertical: 5,
+                          color: AppColor.primary,
+                          child: Text(
+                            'VIEW ALL',
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                color: AppColor.primary,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ),
+                  ],
+                ),
+                12.height,
+                Obx(() => controller.programData.isEmpty
+                    ? Center(
+                        child: columnText('No Program Schedules', 11.sp),
+                      )
+                    : Expanded(
+                        child: SfDataGrid(
+                            columnWidthMode: ColumnWidthMode.fill,
+                            gridLinesVisibility: GridLinesVisibility.horizontal,
+                            isScrollbarAlwaysShown: true,
+                            source: ProgramDataSource(
+                                dataList: controller.programData),
+                            columns: _buildColumns()),
+                      ))
+              ],
+            )),
+          ),
           15.height,
-          SimpleContainer(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  columnText("Support Requests", 15.sp),
-                  InkWell(
-                    onTap: () {},
-                    child: SimpleContainer(
-                        horizontal: 10,
-                        vertical: 5,
-                        color: AppColor.primary,
-                        child: Text(
-                          'VIEW ALL',
-                          style: TextStyle(
-                              fontSize: 10.sp,
-                              color: AppColor.primary,
-                              fontWeight: FontWeight.w500),
-                        )),
-                  ),
-                ],
-              ),
-              12.height,
-              Obx(() => controller.supportData.isEmpty
-                  ? Center(
-                      child: columnText('No Support Requests', 11.sp),
-                    )
-                  : SfDataGrid(
-                      columnWidthMode: ColumnWidthMode.fill,
-                      //  headerGridLinesVisibility: GridLinesVisibility.horizontal,
-                      gridLinesVisibility: GridLinesVisibility.horizontal,
-                      isScrollbarAlwaysShown: true,
-                      source:
-                          SupportDataSource(dataList: controller.supportData),
-                      columns: _buildColumns()))
-            ],
-          )),
+          SizedBox(
+            height: 250,
+            child: SimpleContainer(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    columnText("Support Requests", 15.sp),
+                    InkWell(
+                      onTap: () {
+                        Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
+                            arguments: {"type": "support request"});
+                      },
+                      child: SimpleContainer(
+                          horizontal: 10,
+                          vertical: 5,
+                          color: AppColor.primary,
+                          child: Text(
+                            'VIEW ALL',
+                            style: TextStyle(
+                                fontSize: 10.sp,
+                                color: AppColor.primary,
+                                fontWeight: FontWeight.w500),
+                          )),
+                    ),
+                  ],
+                ),
+                12.height,
+                Obx(() => controller.supportData.isEmpty
+                    ? Center(
+                        child: columnText('No Support Requests', 11.sp),
+                      )
+                    : Expanded(
+                        child: SfDataGrid(
+                                columnWidthMode: ColumnWidthMode.fill,
+                                //  headerGridLinesVisibility: GridLinesVisibility.horizontal,
+                                gridLinesVisibility:
+                                    GridLinesVisibility.horizontal,
+                                isScrollbarAlwaysShown: true,
+                                source: SupportDataSource(
+                                    dataList: controller.supportData),
+                                columns: _buildColumns())
+                            .paddingOnly(bottom: 20),
+                      ))
+              ],
+            )),
+          ),
         ],
       );
     });
@@ -207,7 +228,12 @@ class DashboardView extends GetView<DashboardController> {
                 children: [
                   columnText("Today's Activities", 15.sp),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.rootDelegate
+                          .toNamed(Routes.ALL_ACTIVITIES, arguments: {
+                        "type": controller.todaysData.first.type,
+                      });
+                    },
                     child: SimpleContainer(
                         horizontal: 10,
                         vertical: 5,
@@ -235,7 +261,7 @@ class DashboardView extends GetView<DashboardController> {
                         children: controller.todaysData
                             .map((data) => WrapTodayContainer(
                                   count: data.count ?? '0',
-                                  label: data.type ?? '',
+                                  label: capitalizeLetter(data.type ?? ''),
                                   badgeCount: data.reminderCount ?? '0',
                                 ))
                             .toList()),
@@ -257,7 +283,8 @@ class DashboardView extends GetView<DashboardController> {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: controller.upcomingReminders
                       .map((item) => UpcomingContainer(
-                          count: item.count ?? '0', label: item.label ?? ''))
+                          count: item.count ?? '0',
+                          label: capitalizeLetter(item.label ?? '')))
                       .toList())),
         ]),
       ],
@@ -287,25 +314,46 @@ class DashboardView extends GetView<DashboardController> {
                         .toIso8601String()
                         .substring(0, 10); // Convert to "YYYY-MM-DD"
 
-                    bool isEventDay =
-                        controller.eventDates.contains(formattedDay);
-
-                    return Container(
-                      margin: EdgeInsets.all(4),
-                      alignment: Alignment.center,
+                    int index = controller.eventDates.indexOf(formattedDay);
+                    bool isEventDay = index != -1;
+                    String? eventType =
+                        isEventDay ? controller.eventTypes[index] : null;
+                    return Tooltip(
+                      message: isEventDay ? eventType : '',
                       decoration: BoxDecoration(
-                        color: isEventDay ? Colors.blue : Colors.transparent,
-                        shape:
-                            isEventDay ? BoxShape.circle : BoxShape.rectangle,
-                      ),
-                      child: Text(
-                        '${day.day}',
-                        style: TextStyle(
-                          color: isEventDay
-                              ? Colors.white
-                              : Colors.black, // Ensure text color changes
-                          fontWeight:
-                              isEventDay ? FontWeight.bold : FontWeight.normal,
+                          borderRadius: BorderRadius.circular(6),
+                          color: AppColor.primary),
+                      textStyle: TextStyle(color: Colors.white),
+                      child: InkWell(
+                        onTap: () {
+                          Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
+                              arguments: {
+                                "date": formattedDay,
+                                "type": eventType
+                              });
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(4),
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: isEventDay
+                                ? AppColor.primary
+                                : Colors.transparent,
+                            shape: isEventDay
+                                ? BoxShape.circle
+                                : BoxShape.rectangle,
+                          ),
+                          child: Text(
+                            '${day.day}',
+                            style: TextStyle(
+                              color: isEventDay
+                                  ? Colors.white
+                                  : Colors.black, // Ensure text color changes
+                              fontWeight: isEventDay
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
                         ),
                       ),
                     );

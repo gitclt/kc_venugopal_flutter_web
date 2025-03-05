@@ -19,14 +19,16 @@ class DashboardController extends GetxController {
   RxList<CasesData> programData = <CasesData>[].obs;
   RxList<CasesData> supportData = <CasesData>[].obs;
   RxList<CasesData> activityData = <CasesData>[].obs;
-  RxList<String> eventDates = <String>[].obs;
+  RxList<String> eventDates = <String>[].obs; // Stores only dates
+  RxList<String> eventTypes = <String>[].obs;
+
   var currentMonth = DateTime.now();
   late DateTime fromDate;
   late DateTime toDate;
+
   Rx<DateTime> focusedDay = DateTime.now().obs;
   Rxn<DateTime> selectedDay = Rxn<DateTime>(); // nullable DateTime
   Rx<CalendarFormat> calendarFormat = CalendarFormat.month.obs;
- 
 
   final repo = CasesRepository();
 
@@ -53,6 +55,7 @@ class DashboardController extends GetxController {
 
   getEvents() async {
     isLoading(true);
+    eventTypes.clear();
     eventDates.clear();
 
     final response = await repo.getCasesList(
@@ -65,15 +68,15 @@ class DashboardController extends GetxController {
       isLoading(false);
 
       if (resData.data != null) {
-        eventDates.assignAll(resData.data!.map((value) {
-          if (value.date != null) {
-            DateTime parsedDate = DateTime.parse(value.date!);
-            return parsedDate
-                .toIso8601String()
-                .substring(0, 10); // Convert to "YYYY-MM-DD"
+        for (var value in resData.data!) {
+          if (value.date != null && value.type != null) {
+            String formattedDate =
+                DateTime.parse(value.date!).toIso8601String().substring(0, 10);
+            eventDates.add(formattedDate);
+            eventTypes.add(value.type!);
           }
-          return ''; // Handle null dates
-        }).where((date) => date.isNotEmpty));
+        }
+       
       }
     });
   }
@@ -100,8 +103,6 @@ class DashboardController extends GetxController {
   void onFormatChanged(CalendarFormat format) {
     calendarFormat.value = format;
   }
-
-  
 
   /// Change selected type and update list
   void updateSelectedType(int index) {

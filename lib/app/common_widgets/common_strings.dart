@@ -9,7 +9,12 @@ Color getBgColor(int index) {
 
 String capitalizeLetter(String input) {
   if (input.isEmpty) return input; // Handle empty string
-  return input[0].toUpperCase() + input.substring(1).toLowerCase();
+  return input
+      .split(' ') // Split string into words
+      .map((word) => word.isNotEmpty
+          ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+          : '')
+      .join(' '); // Capitalize and join back
 }
 
 Color priorityColor(String value) {

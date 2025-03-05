@@ -22,13 +22,13 @@ class SupportDataSource extends DataGridSource {
       var item = entry.value;
 
       return DataGridRow(cells: [
-        DataGridCell<String>(columnName: 'NAME', value: item.name.toString()),
+        DataGridCell<String>(columnName: 'NAME', value: item.name ?? ''),
         DataGridCell<String>(
             columnName: 'DATE', value: dateFormatString(item.date.toString())),
         DataGridCell<String>(
-            columnName: 'CATEGORY', value: item.category.toString()),
+            columnName: 'CATEGORY', value: item.category ?? ''),
         DataGridCell<String>(
-            columnName: 'PRIORITY', value: item.priority.toString()),
+            columnName: 'PRIORITY', value: item.priority ?? ''),
         DataGridCell<String>(
             columnName: 'CONTACT PERSON',
             value: item.contactPerson!.isNotEmpty
@@ -38,7 +38,7 @@ class SupportDataSource extends DataGridSource {
                     .toString()
                 : ''),
         DataGridCell<String>(
-            columnName: 'STATUS', value: item.status.toString()),
+            columnName: 'STATUS', value: item.status ?? ''),
       ]);
     }).toList();
   }

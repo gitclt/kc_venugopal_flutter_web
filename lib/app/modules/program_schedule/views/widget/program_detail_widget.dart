@@ -12,9 +12,9 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/timeline_widget.dart
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/data/network/launch_url.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/widget/sidemenu_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_detail_controller.dart';
 
-class ProgramDetailWidget extends GetView<ProgramScheduleController> {
+class ProgramDetailWidget extends GetView<ProgramScheduleDetailController> {
   final BoxConstraints cons;
   const ProgramDetailWidget({super.key, required this.cons});
 

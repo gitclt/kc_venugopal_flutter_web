@@ -9,10 +9,11 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/shimmer/shimmer_buil
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_detail_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/views/widget/program_detail_widget.dart';
 
-class ProgramScheduleDetailView extends GetView<ProgramScheduleController> {
+class ProgramScheduleDetailView
+    extends GetView<ProgramScheduleDetailController> {
   const ProgramScheduleDetailView({super.key});
 
   @override

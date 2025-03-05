@@ -165,12 +165,12 @@ class SupportRequestView extends GetView<SupportRequestController> {
                     if (controller.error.value == 'No internet') {
                       return InterNetExceptionWidget(
                         onPress: () {
-                          //controller.getPriority();
+                          controller.getSupportRequests();
                         },
                       );
                     } else {
                       return GeneralExceptionWidget(onPress: () {
-                        // controller.getPriority();
+                        controller.getSupportRequests();
                       });
                     }
 
@@ -192,11 +192,9 @@ class SupportRequestView extends GetView<SupportRequestController> {
                                           final item = controller.data[index];
                                           return CaseListWidget(
                                             onTap: () async {
-                                              controller.supportId =
-                                                  item.id.toString();
-                                              controller.getSupportDetail();
+                                              
                                               Get.rootDelegate.toNamed(Routes
-                                                  .SUPPORT_REQUEST_DETAIL);
+                                                  .SUPPORT_REQUEST_DETAIL,arguments: {'id':item.id.toString()});
                                             },
                                             title: item.title ?? '',
                                             issue: item.category ?? '',

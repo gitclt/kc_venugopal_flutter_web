@@ -9,10 +9,10 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/shimmer/shimmer_buil
 import 'package:kc_venugopal_flutter_web/app/common_widgets/texts/text_widget.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_detail_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/support_request/views/widget/case_detail_widget.dart';
 
-class SupportRequestDetailView extends GetView<SupportRequestController> {
+class SupportRequestDetailView extends GetView<SupportRequestDetailController> {
   const SupportRequestDetailView({super.key});
 
   @override

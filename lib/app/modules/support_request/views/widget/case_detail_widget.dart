@@ -15,10 +15,10 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/timeline_widget.dart
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/data/network/launch_url.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/widget/sidemenu_view.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_detail_controller.dart';
 import 'package:sizer/sizer.dart';
 
-class CaseDetailWidget extends GetView<SupportRequestController> {
+class CaseDetailWidget extends GetView<SupportRequestDetailController> {
   final BoxConstraints cons;
   const CaseDetailWidget(this.cons, {super.key});
 

@@ -12,7 +12,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class DashboardController extends GetxController {
   final isLoading = false.obs;
-  var selectedType = 0.obs;
+ 
   final dashRepo = DashboardRepository();
   RxList<TodaysData> todaysData = <TodaysData>[].obs;
   RxList<Reminder> upcomingReminders = <Reminder>[].obs;
@@ -105,10 +105,7 @@ class DashboardController extends GetxController {
   }
 
   /// Change selected type and update list
-  void updateSelectedType(int index) {
-    selectedType.value = index;
-  }
-
+ 
   void getTodaysActivities() async {
     isLoading(true);
     todaysData.clear();

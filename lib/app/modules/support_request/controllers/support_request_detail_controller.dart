@@ -12,54 +12,61 @@ import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_detail_model
 import 'package:kc_venugopal_flutter_web/app/domain/entity/dropdown_entity.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/entity/status.dart';
 import 'package:kc_venugopal_flutter_web/app/domain/repositories/cases/cases_repository.dart';
-import 'package:kc_venugopal_flutter_web/app/modules/program_schedule/controllers/program_schedule_controller.dart';
+import 'package:kc_venugopal_flutter_web/app/modules/support_request/controllers/support_request_controller.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 
-class ProgramScheduleDetailController extends GetxController {
+class SupportRequestDetailController extends GetxController {
   final rxRequestStatus = Status.completed.obs;
+  final isDropLoading = false.obs;
+  var isLoading = false.obs;
+  var isStatusLoading = false.obs;
   RxString error = ''.obs;
-  final isStatusLoading = false.obs;
-  final isLoading = false.obs;
 
+  final TextEditingController activityController = TextEditingController();
+  final TextEditingController reminderDateController = TextEditingController();
+  final TextEditingController remindDocumentController =
+      TextEditingController();
   DropDownModel detailStatusDrop = DropDownModel();
-  final TextEditingController remarkController = TextEditingController();
-  RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
+  final SupportRequestController controller = Get.find();
+   RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
+
+//detail
   RxList<CaseDetailData> dataDetail = <CaseDetailData>[].obs;
   RxList<CaseDocument> detailDocument = <CaseDocument>[].obs;
   RxList<CaseStatus> detailStatus = <CaseStatus>[].obs;
   RxList<ContactPersonDetail> detailContactPerson = <ContactPersonDetail>[].obs;
-  final ProgramScheduleController programController = Get.find();
+
   final repo = CasesRepository();
-  var id = '';
+  RxString detailImagename = ''.obs;
+  var isReminder = false.obs;
+  var supportId = '';
 
   @override
   void onInit() {
+    super.onInit();
     for (var v in ConstValues().status) {
       statusDropList.add(DropDownModel(id: v.id.toString(), name: v.name));
     }
     if (Get.rootDelegate.arguments() != null) {
       var args = Get.rootDelegate.arguments();
-      id = args['id'] ?? '';
-      print(id);
+      supportId = args['id'] ?? '';
+      print(supportId);
     }
-    getProgramDetail();
-    super.onInit();
   }
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
   void setError(String value) => error.value = value;
 
-  void getProgramDetail() async {
+  void getSupportDetail() async {
     setRxRequestStatus(Status.loading);
     dataDetail.clear();
     detailStatus.clear();
     detailContactPerson.clear();
     detailDocument.clear();
-    //  addNew = '';
     final response = await repo.getCaseDetails(
       accountId: LocalStorageKey.userData.accountId.toString(),
-      id: id,
-      type: ConstValues.typeProgram,
+      id: supportId,
+      type: ConstValues.typeSupport,
     );
     response.fold((failure) {
       setRxRequestStatus(Status.completed);
@@ -85,6 +92,8 @@ class ProgramScheduleDetailController extends GetxController {
   RxString imageName = ''.obs; // Observable for the file name
   Uint8List? pickedFileBytes; // For file bytes
   String? encodedData;
+  String? addNew = '';
+
   Future<void> pickImage(
       ImageSource? imageSource, String type, String value) async {
     if (imageSource != null) {
@@ -95,9 +104,14 @@ class ProgramScheduleDetailController extends GetxController {
       // Set the image name and encode data to Base64
       if (image != null) {
         String dateFormat = getFormattedTimestamp();
-        if (value == 'add document') {
+        if (value == 'detailCase') {
+          detailImagename.value = "$dateFormat.${image.name.split('.').last}";
+          remindDocumentController.text = detailImagename.value;
+          pickedFileBytes = await image.readAsBytes();
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'add document') {
           imageName.value = "$dateFormat.${image.name.split('.').last}";
-
+          addNew = 'add new Document';
           pickedFileBytes = await image.readAsBytes();
           encodedData = base64Encode(pickedFileBytes!);
           addDocument();
@@ -113,10 +127,18 @@ class ProgramScheduleDetailController extends GetxController {
 
       if (result != null) {
         String dateFormat = getFormattedTimestamp();
-        if (value == 'add document') {
+        if (value == 'detailCase') {
+          detailImagename.value =
+              "$dateFormat.${result.files.single.name.split('.').last}";
+          pickedFileBytes = result.files.single.bytes;
+          remindDocumentController.text = detailImagename.value;
+
+          encodedData = base64Encode(pickedFileBytes!);
+        } else if (value == 'add document') {
           imageName.value =
               "$dateFormat.${result.files.single.name.split('.').last}";
           pickedFileBytes = result.files.single.bytes;
+          addNew = 'add new Document';
 
           encodedData = base64Encode(pickedFileBytes!);
           addDocument();
@@ -131,10 +153,10 @@ class ProgramScheduleDetailController extends GetxController {
     isLoading(true);
     final res = await repo.addDocument(
         accountId: LocalStorageKey.userData.accountId,
-        type: ConstValues.typeProgram,
+        type: ConstValues.typeSupport,
         document: imageName.value,
-        caseId: id,
         imageData: encodedData,
+        caseId: supportId,
         createdUserId: LocalStorageKey.userData.id);
     res.fold((failure) {
       isLoading(false);
@@ -142,7 +164,8 @@ class ProgramScheduleDetailController extends GetxController {
     }, (resData) {
       isLoading(false);
       if (resData.status!) {
-        getProgramDetail();
+      } else {
+        isLoading(false);
       }
     });
   }
@@ -150,24 +173,33 @@ class ProgramScheduleDetailController extends GetxController {
   void updateStatus() async {
     isStatusLoading(true);
     final res = await repo.updateStatus(
-      id: id,
-      type: ConstValues.typeProgram,
-      status: detailStatusDrop.name ?? '',
-      accountId: LocalStorageKey.userData.accountId.toString(),
-      remark: remarkController.text.trim(),
-      createdUserId: LocalStorageKey.userData.id.toString(),
-    );
+        id: supportId,
+        type: ConstValues.typeSupport,
+        status: detailStatusDrop.name ?? '',
+        accountId: LocalStorageKey.userData.accountId.toString(),
+        remark: activityController.text.trim(),
+        createdUserId: LocalStorageKey.userData.id.toString(),
+        reminderDate: reminderDateController.text.trim(),
+        document: detailImagename.value,
+        fileData: encodedData ?? '');
     res.fold((failure) {
       isStatusLoading(false);
       setError(error.toString());
     }, (resData) {
       isStatusLoading(false);
       if (resData.status!) {
-        remarkController.clear();
-        detailStatusDrop = DropDownModel();
-        programController.getProgramSchedules();
-        Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
+        detailClear();
+        controller.getSupportRequests();
+        Get.rootDelegate.toNamed(Routes.SUPPORT_REQUEST);
       }
     });
+  }
+
+  detailClear() {
+    activityController.clear();
+    detailStatusDrop = DropDownModel();
+    remindDocumentController.clear();
+    remindDocumentController.clear();
+    detailImagename.value = '';
   }
 }

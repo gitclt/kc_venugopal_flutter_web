@@ -47,7 +47,7 @@ class ProgramScheduleController extends GetxController {
   DropDownModel addAssemblyDrop = DropDownModel();
   DropDownModel addCategoryDrop = DropDownModel();
   DropDownModel addPriorityDrop = DropDownModel();
-  DropDownModel detailStatusDrop = DropDownModel();
+//  DropDownModel detailStatusDrop = DropDownModel();
   RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
   RxList<DropDownModel> categoryDropList = <DropDownModel>[].obs;
   RxList<DropDownModel> priorityDropList = <DropDownModel>[].obs;
@@ -72,7 +72,6 @@ class ProgramScheduleController extends GetxController {
   RxString error = ''.obs;
   var isReminder = false.obs;
   String caseId = '';
-  String programId = '';
 
   var persons = <AddPersonModel>[].obs;
   var contactPersons = <Map<String, String>>[].obs;
@@ -175,7 +174,7 @@ class ProgramScheduleController extends GetxController {
   RxString imageName = ''.obs; // Observable for the file name
   Uint8List? pickedFileBytes; // For file bytes
   String? encodedData;
-  String? addNew = '';
+  //String? addNew = '';
 
   Future<void> pickImage(
       ImageSource? imageSource, String type, String value) async {
@@ -192,13 +191,14 @@ class ProgramScheduleController extends GetxController {
           uploadController.text = imageName.value;
           pickedFileBytes = await image.readAsBytes();
           encodedData = base64Encode(pickedFileBytes!);
-        } else if (value == 'add document') {
-          imageName.value = "$dateFormat.${image.name.split('.').last}";
-          addNew = 'add new Document';
-          pickedFileBytes = await image.readAsBytes();
-          encodedData = base64Encode(pickedFileBytes!);
-          addDocument();
         }
+        // else if (value == 'add document') {
+        //   imageName.value = "$dateFormat.${image.name.split('.').last}";
+        //   addNew = 'add new Document';
+        //   pickedFileBytes = await image.readAsBytes();
+        //   encodedData = base64Encode(pickedFileBytes!);
+        //   addDocument();
+        // }
       } else {
         imageName.value = '';
       }
@@ -217,16 +217,16 @@ class ProgramScheduleController extends GetxController {
           uploadController.text = imageName.value;
 
           encodedData = base64Encode(pickedFileBytes!);
-         
-        } else if (value == 'add document') {
-          imageName.value =
-              "$dateFormat.${result.files.single.name.split('.').last}";
-          pickedFileBytes = result.files.single.bytes;
-          addNew = 'add new Document';
-
-          encodedData = base64Encode(pickedFileBytes!);
-          addDocument();
         }
+        // else if (value == 'add document') {
+        //   imageName.value =
+        //       "$dateFormat.${result.files.single.name.split('.').last}";
+        //   pickedFileBytes = result.files.single.bytes;
+        //   addNew = 'add new Document';
+
+        //   encodedData = base64Encode(pickedFileBytes!);
+        //   addDocument();
+        // }
       } else {
         imageName.value = '';
       }
@@ -326,7 +326,7 @@ class ProgramScheduleController extends GetxController {
         accountId: LocalStorageKey.userData.accountId,
         type: ConstValues.typeProgram,
         document: imageName.value,
-        caseId: addNew != '' ? programId : caseId,
+        caseId: caseId,
         imageData: encodedData,
         createdUserId: LocalStorageKey.userData.id);
     res.fold((failure) {
@@ -334,11 +334,7 @@ class ProgramScheduleController extends GetxController {
       setError(error.toString());
     }, (resData) {
       isLoading(false);
-      if (resData.status!) {
-        if (addNew != '') {
-          getProgramDetail();
-        }
-      }
+      if (resData.status!) {}
     });
   }
 
@@ -367,63 +363,5 @@ class ProgramScheduleController extends GetxController {
       pageIndex.value = page; // Update current page
       getProgramSchedules(); // Fetch the employee list for the new page
     }
-  }
-
-  void getProgramDetail() async {
-    setRxRequestStatus(Status.loading);
-    dataDetail.clear();
-    detailStatus.clear();
-    detailContactPerson.clear();
-    detailDocument.clear();
-    addNew = '';
-    final response = await repo.getCaseDetails(
-      accountId: LocalStorageKey.userData.accountId.toString(),
-      id: programId,
-      type: ConstValues.typeProgram,
-    );
-    response.fold((failure) {
-      setRxRequestStatus(Status.completed);
-      setError(error.toString());
-    }, (resData) {
-      setRxRequestStatus(Status.completed);
-
-      if (resData.data != null) {
-        dataDetail.addAll(resData.data!);
-        if (resData.data!.first.caseStatus!.isNotEmpty) {
-          detailStatus.addAll(resData.data!.first.caseStatus!);
-        }
-        if (resData.data!.first.contactPerson!.isNotEmpty) {
-          detailContactPerson.addAll(resData.data!.first.contactPerson!);
-        }
-        if (resData.data!.first.caseDocuments!.isNotEmpty) {
-          detailDocument.addAll(resData.data!.first.caseDocuments!);
-        }
-      }
-    });
-  }
-
-  void updateStatus() async {
-    isStatusLoading(true);
-    final res = await repo.updateStatus(
-      id: programId,
-      type: ConstValues.typeProgram,
-      status: detailStatusDrop.name ?? '',
-      accountId: LocalStorageKey.userData.accountId.toString(),
-      remark: remarkController.text.trim(),
-      createdUserId: LocalStorageKey.userData.id.toString(),
-    );
-    res.fold((failure) {
-      isStatusLoading(false);
-      setError(error.toString());
-    }, (resData) {
-      isStatusLoading(false);
-      if (resData.status!) {
-        remarkController.clear();
-        detailStatusDrop = DropDownModel();
-        addNew = '';
-        getProgramSchedules();
-        Get.rootDelegate.toNamed(Routes.PROGRAM_SCHEDULE);
-      }
-    });
   }
 }

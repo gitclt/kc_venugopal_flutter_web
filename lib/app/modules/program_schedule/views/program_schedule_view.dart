@@ -42,7 +42,6 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                 Get.rootDelegate.toNamed(Routes.ADD_PROGRAM_SCHEDULE);
               },
             ),
-          
             SimpleContainer(
                 color: AppColor.borderColor,
                 child: Column(
@@ -215,12 +214,13 @@ class ProgramScheduleView extends GetView<ProgramScheduleController> {
                                             date: item.date ?? '',
                                             mobile: item.mobile ?? '',
                                             status: item.status ?? '',
-                                            onTap: () {
-                                              controller.programId =
-                                                  item.id.toString();
-                                              controller.getProgramDetail();
-                                              Get.rootDelegate.toNamed(Routes
-                                                  .PROGRAM_SCHEDULE_DETAIL);
+                                            onTap: () async{
+                                              Get.rootDelegate.toNamed(
+                                                  Routes
+                                                      .PROGRAM_SCHEDULE_DETAIL,
+                                                  arguments: {
+                                                    "id": item.id.toString()
+                                                  });
                                             },
                                           );
                                         }).paddingOnly(top: 10),

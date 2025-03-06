@@ -19,9 +19,6 @@ class ConstValues {
     DropDownModel(id: '7', name: "Action 1"),
     DropDownModel(id: '8', name: "Followup"),
     DropDownModel(id: '9', name: "Closed"),
-    DropDownModel(id: '10', name: "created_user_id"),
-    DropDownModel(id: '11', name: "app_version_code"),
-    DropDownModel(id: '12', name: "Pending"),
   ];
 
   List<DropDownModel> reminderTypes = [

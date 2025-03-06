@@ -28,7 +28,7 @@ class SupportRequestDetailController extends GetxController {
       TextEditingController();
   DropDownModel detailStatusDrop = DropDownModel();
   final SupportRequestController controller = Get.find();
-   RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
+  RxList<DropDownModel> statusDropList = <DropDownModel>[].obs;
 
 //detail
   RxList<CaseDetailData> dataDetail = <CaseDetailData>[].obs;
@@ -52,6 +52,7 @@ class SupportRequestDetailController extends GetxController {
       supportId = args['id'] ?? '';
       print(supportId);
     }
+    getSupportDetail();
   }
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;

@@ -192,9 +192,11 @@ class SupportRequestView extends GetView<SupportRequestController> {
                                           final item = controller.data[index];
                                           return CaseListWidget(
                                             onTap: () async {
-                                              
-                                              Get.rootDelegate.toNamed(Routes
-                                                  .SUPPORT_REQUEST_DETAIL,arguments: {'id':item.id.toString()});
+                                              Get.rootDelegate.toNamed(
+                                                  Routes.SUPPORT_REQUEST_DETAIL,
+                                                  arguments: {
+                                                    'id': item.id.toString()
+                                                  });
                                             },
                                             title: item.title ?? '',
                                             issue: item.category ?? '',

@@ -7,3 +7,8 @@ A new Flutter project.
 Postman
 
 https://documenter.getpostman.com/view/41511450/2sAYX5LhiJ
+
+**FileZilla FTP:**
+Host: 103.20.213.74
+user: kcgitgroup
+pass: kcgitgroup

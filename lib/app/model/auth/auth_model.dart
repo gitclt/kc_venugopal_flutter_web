@@ -48,76 +48,79 @@ class Data {
       };
 }
 
-
-
-UserResponse userResponseFromJson(String str) => UserResponse.fromJson(json.decode(str));
+UserResponse userResponseFromJson(String str) =>
+    UserResponse.fromJson(json.decode(str));
 
 String userResponseToJson(UserResponse data) => json.encode(data.toJson());
 
 class UserResponse {
-    bool? status;
-    String? message;
-    UserData? data;
+  bool? status;
+  String? message;
+  UserData? data;
 
-    UserResponse({
-        this.status,
-        this.message,
-        this.data,
-    });
+  UserResponse({
+    this.status,
+    this.message,
+    this.data,
+  });
 
-    factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
+  factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
         status: json["status"],
         message: json["message"],
         data: json["data"] == null ? null : UserData.fromJson(json["data"]),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
         "data": data?.toJson(),
-    };
+      };
 }
 
 class UserData {
-    String? id;
-    String? username;
-    String? accountId;
-    dynamic name;
-    dynamic mobile;
-    String? account;
-    String? email;
-    String? description;
+  String? id;
+  String? username;
+  String? accountId;
+  String? type;
+  String? name;
+  String? mobile;
+  String? account;
+  String? email;
+  String? description;
 
-    UserData({
-        this.id,
-        this.username,
-        this.accountId,
-        this.name,
-        this.mobile,
-        this.account,
-        this.email,
-        this.description,
-    });
+  UserData({
+    this.id,
+    this.username,
+    this.accountId,
+    this.name,
+    this.type,
+    this.mobile,
+    this.account,
+    this.email,
+    this.description,
+  });
 
-    factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"]?.toString(),
         username: json["username"]?.toString(),
         accountId: json["account_id"]?.toString(),
         name: json["name"]?.toString(),
+        type: json["type"],
         mobile: json["mobile"]?.toString(),
         account: json["account"]?.toString(),
         email: json["email"]?.toString(),
         description: json["description"]?.toString(),
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "username": username,
         "account_id": accountId,
         "name": name,
+        "type": type,
         "mobile": mobile,
         "account": account,
         "email": email,
         "description": description,
-    };
+      };
 }

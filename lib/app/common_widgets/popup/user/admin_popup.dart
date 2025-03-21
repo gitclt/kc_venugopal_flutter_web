@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/container/common_circle_container.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
+import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 
 class AdminPopUp extends StatelessWidget {
   final Function(String) onSelected;
@@ -23,10 +24,11 @@ class AdminPopUp extends StatelessWidget {
               maxWidth: MediaQuery.of(context).size.width * 0.45,
               maxHeight: MediaQuery.of(context).size.width * 0.40),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: [
               Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.centerRight,
                 child: IconButton(
                     onPressed: () {
                       Navigator.pop(context);
@@ -42,7 +44,7 @@ class AdminPopUp extends StatelessWidget {
                         iconColor: AppColor.primary,
                         bgColor: AppColor.secondaryBackground),
                     Text(
-                      'admin'.tr,
+                      LocalStorageKey.userData.type!.toUpperCase(),
                       style: const TextStyle(
                           fontWeight: FontWeight.w700, fontSize: 15),
                     )

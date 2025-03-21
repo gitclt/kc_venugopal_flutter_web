@@ -4,6 +4,7 @@ import 'package:kc_venugopal_flutter_web/app/common_widgets/container/simple_con
 import 'package:kc_venugopal_flutter_web/app/common_widgets/popup/common_popup.dart';
 import 'package:kc_venugopal_flutter_web/app/common_widgets/popup/user/admin_popup.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
+import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 import 'package:kc_venugopal_flutter_web/app/core/extention.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/responsive.dart';
@@ -100,8 +101,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       5.width,
                       Text(
-                        'Admin',
-                        // LocalStorageKey.userData.studentname!.toUpperCase(),
+                        LocalStorageKey.userData.type!.toUpperCase(),
                         style: const TextStyle(
                             color: AppColor.textGrayColor, fontSize: 12),
                       ),

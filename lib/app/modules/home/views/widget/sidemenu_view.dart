@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/colors.dart';
+import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
 import 'package:kc_venugopal_flutter_web/app/core/assets/image_assets.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/controllers/sidemenu_state.dart';
 import 'package:kc_venugopal_flutter_web/app/modules/home/views/widget/sidemenu_text_widget.dart';
@@ -63,7 +64,7 @@ class _SidemenuViewState extends State<SidemenuView> {
                           item.onClick!();
                         },
                       ));
-                } else {
+                } else if (LocalStorageKey.userData.type! != 'subadmin') {
                   // Add ExpandedTileWidget at the end
                   return ExpandedTileWidget(
                     label: "Master",

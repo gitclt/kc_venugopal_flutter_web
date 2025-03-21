@@ -73,7 +73,7 @@ class DashboardView extends GetView<DashboardController> {
           ),
           25.height,
           SizedBox(
-            height: 250,
+            height: 300,
             child: SimpleContainer(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,25 +103,30 @@ class DashboardView extends GetView<DashboardController> {
                   ],
                 ),
                 12.height,
-                Obx(() => controller.programData.isEmpty
+                Obx(() => controller.isRequestLoading.value
                     ? Center(
-                        child: columnText('No Program Schedules', 11.sp),
+                        child: CircularProgressIndicator(),
                       )
-                    : Expanded(
-                        child: SfDataGrid(
-                            columnWidthMode: ColumnWidthMode.fill,
-                            gridLinesVisibility: GridLinesVisibility.horizontal,
-                            isScrollbarAlwaysShown: true,
-                            source: ProgramDataSource(
-                                dataList: controller.programData),
-                            columns: _buildColumns()),
-                      ))
+                    : controller.programData.isEmpty
+                        ? Center(
+                            child: columnText('No Program Schedules', 11.sp),
+                          )
+                        : Expanded(
+                            child: SfDataGrid(
+                                columnWidthMode: ColumnWidthMode.fill,
+                                gridLinesVisibility:
+                                    GridLinesVisibility.horizontal,
+                                isScrollbarAlwaysShown: true,
+                                source: ProgramDataSource(
+                                    dataList: controller.programData),
+                                columns: _buildColumns()),
+                          ))
               ],
             )),
           ),
           15.height,
           SizedBox(
-            height: 250,
+            height: 350,
             child: SimpleContainer(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,22 +155,26 @@ class DashboardView extends GetView<DashboardController> {
                   ],
                 ),
                 12.height,
-                Obx(() => controller.supportData.isEmpty
+                Obx(() => controller.isRequestLoading.value
                     ? Center(
-                        child: columnText('No Support Requests', 11.sp),
+                        child: CircularProgressIndicator(),
                       )
-                    : Expanded(
-                        child: SfDataGrid(
-                                columnWidthMode: ColumnWidthMode.fill,
-                                //  headerGridLinesVisibility: GridLinesVisibility.horizontal,
-                                gridLinesVisibility:
-                                    GridLinesVisibility.horizontal,
-                                isScrollbarAlwaysShown: true,
-                                source: SupportDataSource(
-                                    dataList: controller.supportData),
-                                columns: _buildColumns())
-                            .paddingOnly(bottom: 20),
-                      ))
+                    : controller.supportData.isEmpty
+                        ? Center(
+                            child: columnText('No Support Requests', 11.sp),
+                          )
+                        : Expanded(
+                            child: SfDataGrid(
+                                    columnWidthMode: ColumnWidthMode.fill,
+                                    //  headerGridLinesVisibility: GridLinesVisibility.horizontal,
+                                    gridLinesVisibility:
+                                        GridLinesVisibility.horizontal,
+                                    isScrollbarAlwaysShown: true,
+                                    source: SupportDataSource(
+                                        dataList: controller.supportData),
+                                    columns: _buildColumns())
+                                .paddingOnly(bottom: 20),
+                          ))
               ],
             )),
           ),
@@ -229,11 +238,11 @@ class DashboardView extends GetView<DashboardController> {
                   columnText("Today's Activities", 15.sp),
                   InkWell(
                     onTap: () {
-                      Get.rootDelegate
-                          .toNamed(Routes.ALL_ACTIVITIES, arguments: {
-                        "type": controller.todaysData.first.type,
-                        "timeRange":'day'
-                      });
+                      Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
+                          arguments: {
+                            "type": controller.todaysData.first.type,
+                            "timeRange": 'day'
+                          });
                     },
                     child: SimpleContainer(
                         horizontal: 10,
@@ -276,17 +285,19 @@ class DashboardView extends GetView<DashboardController> {
           15.height,
           Obx(() => controller.isLoading.value
               ? CircularProgressIndicator()
-              : Wrap(
-                  spacing: Responsive.isDesktop(context)
-                      ? 1.8.w
-                      : 2.w, // Horizontal spacing
-                  runSpacing: 15, // Vertical spacing
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: controller.upcomingReminders
-                      .map((item) => UpcomingContainer(
-                          count: item.count ?? '0',
-                          label: capitalizeLetter(item.label ?? '')))
-                      .toList())),
+              : controller.upcomingReminders.isEmpty
+                  ? Center(child: Text('No Upcoming Activities'))
+                  : Wrap(
+                      spacing: Responsive.isDesktop(context)
+                          ? 1.8.w
+                          : 2.w, // Horizontal spacing
+                      runSpacing: 15, // Vertical spacing
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: controller.upcomingReminders
+                          .map((item) => UpcomingContainer(
+                              count: item.count ?? '0',
+                              label: capitalizeLetter(item.label ?? '')))
+                          .toList())),
         ]),
       ],
     );
@@ -294,74 +305,75 @@ class DashboardView extends GetView<DashboardController> {
 
   /// **Calendar Section**
   Widget _buildCalendar(Size size) {
-    return SimpleContainer(
-      // Adjust based on screen size
-      child: Obx(
-        () => controller.isLoading.value
-            ? CircularProgressIndicator(
-                color: Colors.white,
-              )
-            : TableCalendar(
-                focusedDay: DateTime.now(),
-                firstDay: DateTime(2000),
-                lastDay: DateTime(2100),
-                selectedDayPredicate: (day) => false,
-                onDaySelected: (selectedDay, focusedDay) {},
-                calendarFormat: CalendarFormat.month,
-                headerStyle: HeaderStyle(formatButtonVisible: false),
-                calendarBuilders: CalendarBuilders(
-                  defaultBuilder: (context, day, focusedDay) {
-                    String formattedDay = day
-                        .toIso8601String()
-                        .substring(0, 10); // Convert to "YYYY-MM-DD"
+    return Obx(
+      () => controller.isLoading.value
+          ? CircularProgressIndicator(
+              color: Colors.white,
+            )
+          : GetBuilder<DashboardController>(builder: (_) {
+              return SimpleContainer(
+                child: TableCalendar(
+                  focusedDay: DateTime.now(),
+                  firstDay: DateTime(2000),
+                  lastDay: DateTime(2100),
+                  selectedDayPredicate: (day) => false,
+                  onDaySelected: (selectedDay, focusedDay) {},
+                  calendarFormat: CalendarFormat.month,
+                  headerStyle: HeaderStyle(formatButtonVisible: false),
+                  calendarBuilders: CalendarBuilders(
+                    defaultBuilder: (context, day, focusedDay) {
+                      String formattedDay = day
+                          .toIso8601String()
+                          .substring(0, 10); // Convert to "YYYY-MM-DD"
 
-                    int index = controller.eventDates.indexOf(formattedDay);
-                    bool isEventDay = index != -1;
-                    String? eventType =
-                        isEventDay ? controller.eventTypes[index] : null;
-                    return Tooltip(
-                      message: isEventDay ? eventType : '',
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6),
-                          color: AppColor.primary),
-                      textStyle: TextStyle(color: Colors.white),
-                      child: InkWell(
-                        onTap: () {
-                          Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
-                              arguments: {
-                                "date": formattedDay,
-                                "type": eventType
-                              });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.all(4),
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: isEventDay
-                                ? AppColor.primary
-                                : Colors.transparent,
-                            shape: isEventDay
-                                ? BoxShape.circle
-                                : BoxShape.rectangle,
-                          ),
-                          child: Text(
-                            '${day.day}',
-                            style: TextStyle(
+                      int index = controller.eventDates.indexOf(formattedDay);
+                      bool isEventDay = index != -1;
+                      String? eventType =
+                          isEventDay ? controller.eventTypes[index] : null;
+                      return Tooltip(
+                        message: isEventDay ? eventType : '',
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            color: AppColor.primary),
+                        textStyle: TextStyle(color: Colors.white),
+                        child: InkWell(
+                          onTap: () {
+                            Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
+                                arguments: {
+                                  "date": formattedDay,
+                                  "type": eventType
+                                });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(4),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
                               color: isEventDay
-                                  ? Colors.white
-                                  : Colors.black, // Ensure text color changes
-                              fontWeight: isEventDay
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+                                  ? AppColor.primary
+                                  : Colors.transparent,
+                              shape: isEventDay
+                                  ? BoxShape.circle
+                                  : BoxShape.rectangle,
+                            ),
+                            child: Text(
+                              '${day.day}',
+                              style: TextStyle(
+                                color: isEventDay
+                                    ? Colors.white
+                                    : Colors.black, // Ensure text color changes
+                                fontWeight: isEventDay
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-      ),
+              );
+            }),
     );
   }
 }

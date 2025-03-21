@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/const_values.dart';
 import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
-import 'package:kc_venugopal_flutter_web/app/core/globals/date_time_formating.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/cases/cases_view_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/dashboard/todays_activity_model.dart';
 import 'package:kc_venugopal_flutter_web/app/data/model/dashboard/upcoming_activity_model.dart';
@@ -12,6 +11,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 class DashboardController extends GetxController {
   final isLoading = false.obs;
+  final isRequestLoading = false.obs;
 
   final dashRepo = DashboardRepository();
   RxList<TodaysData> todaysData = <TodaysData>[].obs;
@@ -33,7 +33,7 @@ class DashboardController extends GetxController {
   final repo = CasesRepository();
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     constValues();
     getEvents();
@@ -77,6 +77,7 @@ class DashboardController extends GetxController {
           }
         }
       }
+      update();
     });
   }
 
@@ -137,8 +138,8 @@ class DashboardController extends GetxController {
     });
   }
 
-  void getProgramSchedules() async {
-    isLoading(true);
+  Future<void> getProgramSchedules() async {
+    isRequestLoading(true);
     programData.clear();
 
     final response = await repo.getCasesList(
@@ -150,9 +151,9 @@ class DashboardController extends GetxController {
         toDate: '');
 
     response.fold((failure) {
-      isLoading(false);
+      isRequestLoading(false);
     }, (resData) {
-      isLoading(false);
+      isRequestLoading(false);
 
       if (resData.data != null) {
         programData.addAll(resData.data!);
@@ -160,8 +161,8 @@ class DashboardController extends GetxController {
     });
   }
 
-  void getSupportRequest() async {
-    isLoading(true);
+  Future<void> getSupportRequest() async {
+    isRequestLoading(true);
     supportData.clear();
 
     final response = await repo.getCasesList(
@@ -173,9 +174,9 @@ class DashboardController extends GetxController {
       toDate: '',
     );
     response.fold((failure) {
-      isLoading(false);
+      isRequestLoading(false);
     }, (resData) {
-      isLoading(false);
+      isRequestLoading(false);
 
       if (resData.data != null) {
         supportData.addAll(resData.data!);

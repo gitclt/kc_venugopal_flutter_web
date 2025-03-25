@@ -33,7 +33,13 @@ class AssemblyController extends GetxController {
     data.clear();
     dataCopy.clear();
     final res = await catRepo
-        .getAssembly(LocalStorageKey.userData.accountId.toString());
+        .getAssembly(  accountId: LocalStorageKey.userData.accountId.toString(),
+      subadminId: LocalStorageKey.userData.type == 'subadmin'
+          ? LocalStorageKey.userData.id.toString()
+          : null,
+      type: LocalStorageKey.userData.type == 'subadmin'
+          ? 'subadmin'
+          : null,);
     res.fold((failure) {
       setRxRequestStatus(Status.completed);
       setError(error.toString());

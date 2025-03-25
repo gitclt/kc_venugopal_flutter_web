@@ -71,10 +71,13 @@ class SupportRequestController extends GetxController
   RxString detailImagename = ''.obs;
   var isReminder = false.obs;
   late TabController tabController;
+  var assemblyId = '';
 
   @override
   void onInit() {
     super.onInit();
+    assemblyId =
+        LocalStorageKey.userAssembly.map((e) => e.assemblyId).join(',');
     getDropDownValues();
     getSupportRequests();
     tabController = TabController(length: 2, vsync: this);
@@ -141,7 +144,13 @@ class SupportRequestController extends GetxController
     assemblyDropList.clear();
     assemblyDropList.add(DropDownModel(id: '', name: '--Select Assembly--'));
     final res = await assemblyRepo
-        .getAssembly(LocalStorageKey.userData.accountId.toString());
+        .getAssembly(  accountId: LocalStorageKey.userData.accountId.toString(),
+      subadminId: LocalStorageKey.userData.type == 'subadmin'
+          ? LocalStorageKey.userData.id.toString()
+          : null,
+      type: LocalStorageKey.userData.type == 'subadmin'
+          ? 'subadmin'
+          : null,);
     res.fold((failure) {
       isDropLoading(false);
       setError(error.toString());
@@ -166,7 +175,7 @@ class SupportRequestController extends GetxController
     setRxRequestStatus(Status.loading);
     data.clear();
     dataCopy.clear();
-    final assemblyId = LocalStorageKey.userData.assemblyId.toString();
+
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),

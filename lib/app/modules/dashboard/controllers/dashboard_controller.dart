@@ -36,7 +36,8 @@ class DashboardController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    assemblyId = LocalStorageKey.userData.assemblyId.toString();
+    assemblyId =
+        LocalStorageKey.userAssembly.map((e) => e.assemblyId).join(',');
     constValues();
     getEvents();
     getTodaysActivities();
@@ -145,7 +146,6 @@ class DashboardController extends GetxController {
   Future<void> getProgramSchedules() async {
     isRequestLoading(true);
     programData.clear();
-   
 
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
@@ -177,8 +177,8 @@ class DashboardController extends GetxController {
       page: '1',
       pageSize: '10',
       type: ConstValues.typeSupport,
-       assemblyId:
-            LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
+      assemblyId:
+          LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
       fromDate: '',
       toDate: '',
     );

@@ -20,10 +20,13 @@ class AllActivityController extends GetxController {
   var date = '';
   var type = '';
   var timeRange = '';
+  var assemblyId = '';
 
   @override
   void onInit() {
     super.onInit();
+    assemblyId =
+        LocalStorageKey.userAssembly.map((e) => e.assemblyId).join(',');
     if (Get.rootDelegate.arguments() != null) {
       var args = Get.rootDelegate.arguments();
       date = args['date'] ?? '';
@@ -77,7 +80,6 @@ class AllActivityController extends GetxController {
   Future<void> getActivityData({String? type}) async {
     isLoading(true);
     activityData.clear();
-    String assemblyId = LocalStorageKey.userData.assemblyId.toString();
 
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
@@ -85,7 +87,8 @@ class AllActivityController extends GetxController {
         pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
         timeRange: timeRange != '' ? timeRange : '',
         type: type,
-        assemblyId: LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
+        assemblyId:
+            LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
         date: date);
     response.fold((failure) {
       isLoading(false);

@@ -75,10 +75,14 @@ class ProgramScheduleController extends GetxController {
 
   var persons = <AddPersonModel>[].obs;
   var contactPersons = <Map<String, String>>[].obs;
+  var assemblyId = '';
 
   @override
   void onInit() {
     super.onInit();
+    assemblyId =
+        LocalStorageKey.userAssembly.map((e) => e.assemblyId).join(',');
+
     getDropDownValues();
     getProgramSchedules();
   }
@@ -101,8 +105,16 @@ class ProgramScheduleController extends GetxController {
     isDropLoading(true);
     assemblyDropList.clear();
     assemblyDropList.add(DropDownModel(id: '', name: '--Select Assembly--'));
-    final res = await assemblyRepo
-        .getAssembly(LocalStorageKey.userData.accountId.toString());
+    final res = await assemblyRepo.getAssembly(
+      accountId: LocalStorageKey.userData.accountId.toString(),
+      subadminId: LocalStorageKey.userData.type == 'subadmin'
+          ? LocalStorageKey.userData.id.toString()
+          : null,
+      type: LocalStorageKey.userData.type == 'subadmin'
+          ? 'subadmin'
+          : null,
+
+    );
     res.fold((failure) {
       isDropLoading(false);
       setError(error.toString());
@@ -237,7 +249,7 @@ class ProgramScheduleController extends GetxController {
     setRxRequestStatus(Status.loading);
     data.clear();
     dataCopy.clear();
-   
+
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
@@ -246,8 +258,8 @@ class ProgramScheduleController extends GetxController {
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
         status: statusFilter.name ?? '',
-         assemblyId:
-            LocalStorageKey.userData.type == 'subadmin' ? '' : null,
+        assemblyId:
+            LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
         categoryId: categoryFilter.id ?? '',
         priorityId: priorityFilter.id ?? '',
         keyword: keywordController.text.trim());

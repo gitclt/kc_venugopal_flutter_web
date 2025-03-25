@@ -29,10 +29,11 @@ class AssemblyRepository {
     }
   }
 
-  Future<Either<Failure, AssemblyModel>> getAssembly(String accountId) async {
+  Future<Either<Failure, AssemblyModel>> getAssembly(
+      {required String accountId, String? subadminId, String? type}) async {
     try {
       dynamic response = await _apiServices.getApi(
-        '${MasterUrl.assemblyListApi}?account_id=$accountId',
+        '${MasterUrl.assemblyListApi}?account_id=$accountId${subadminId != null ? '&subadmin_id =$subadminId' : ''}${type != null ? '&type=$type' : ''}',
       );
 
       if (response != null && response["status"] == true) {

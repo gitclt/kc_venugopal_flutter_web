@@ -15,6 +15,6 @@ class LocalStorageKey {
   static String accountId = "ACCOUNT_ID";
   static UserData userData = UserData();
 
-  // static List<Branch> userBranch = [];
+   static List<Assembly> userAssembly = [];
   // static List<Privilage> privilage = [];
 }

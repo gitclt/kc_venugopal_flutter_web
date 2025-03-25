@@ -11,6 +11,7 @@ class UserPreference {
   ) async {
     LocalStorageKey.accountId = userData.accountId ?? '';
     LocalStorageKey.userData = userData;
+    LocalStorageKey.userAssembly = userData.assemblies ?? [];
 
     return true;
   }

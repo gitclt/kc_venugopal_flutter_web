@@ -86,9 +86,8 @@ class UserData {
   String? mobile;
   String? account;
   String? email;
-    String? assemblyId;
-    String? assembly;
-    String? description;
+  String? description;
+  List<Assembly>? assemblies;
 
   UserData({
     this.id,
@@ -98,10 +97,9 @@ class UserData {
     this.type,
     this.mobile,
     this.account,
-   this.email,
-        this.assemblyId,
-        this.assembly,
-        this.description,
+    this.email,
+    this.description,
+    this.assemblies,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -110,12 +108,14 @@ class UserData {
         accountId: json["account_id"]?.toString(),
         name: json["name"]?.toString(),
         type: json["type"],
-        mobile: json["mobile"]?.toString(),
-        account: json["account"]?.toString(),
-        email: json["email"]?.toString(),
-        assemblyId: json["assembly_id"]?.toString(),
-        assembly: json["assembly"]?.toString(),
-        description: json["description"]?.toString(),
+        mobile: json["mobile"],
+        account: json["account"],
+        email: json["email"],
+        description: json["description"],
+        assemblies: json["assemblies"] == null
+            ? []
+            : List<Assembly>.from(
+                json["assemblies"]!.map((x) => Assembly.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -127,8 +127,29 @@ class UserData {
         "mobile": mobile,
         "account": account,
         "email": email,
-         "assembly_id": assemblyId,
-        "assembly": assembly,
         "description": description,
+        "assemblies": assemblies == null
+            ? []
+            : List<dynamic>.from(assemblies!.map((x) => x.toJson())),
+      };
+}
+
+class Assembly {
+  String? assemblyId;
+  String? assembly;
+
+  Assembly({
+    this.assemblyId,
+    this.assembly,
+  });
+
+  factory Assembly.fromJson(Map<String, dynamic> json) => Assembly(
+        assemblyId: json["assembly_id"],
+        assembly: json["assembly"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "assembly_id": assemblyId,
+        "assembly": assembly,
       };
 }

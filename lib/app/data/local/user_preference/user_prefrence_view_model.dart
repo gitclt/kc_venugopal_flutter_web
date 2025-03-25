@@ -1,5 +1,5 @@
 import 'package:kc_venugopal_flutter_web/app/constants/strings.dart';
-import 'package:kc_venugopal_flutter_web/app/model/auth/auth_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/auth/auth_model.dart';
 import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';

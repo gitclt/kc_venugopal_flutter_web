@@ -1,6 +1,6 @@
 // const String kBaseUrl = "https://crmtrail.demospro2023.tk";
 
-import 'package:kc_venugopal_flutter_web/app/model/auth/auth_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/auth/auth_model.dart';
 
 const String kBaseUrl = s1;
 const String kBaseUrlForImage = "$kBaseUrl/public/assets/web";

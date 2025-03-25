@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:kc_venugopal_flutter_web/app/core/failure/failure.dart';
 import 'package:kc_venugopal_flutter_web/app/data/app_url/auth/auth_url.dart';
 import 'package:kc_venugopal_flutter_web/app/data/network/network_api_services.dart';
-import 'package:kc_venugopal_flutter_web/app/model/auth/auth_model.dart';
+import 'package:kc_venugopal_flutter_web/app/data/model/auth/auth_model.dart';
 
 class ProfileRepository {
   final _apiServices = NetworkApiServices();

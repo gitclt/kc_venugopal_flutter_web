@@ -151,12 +151,15 @@ class ReminderController extends GetxController {
     setRxRequestStatus(Status.loading);
     data.clear();
     dataCopy.clear();
+    final assemblyId = LocalStorageKey.userData.assemblyId.toString();
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
         pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
         type: typeFilter.name?.toLowerCase() ??
             typeDropList.join(',').toLowerCase(),
+             assemblyId:
+            LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
         status: statusFilter.name?.toLowerCase() ?? '',

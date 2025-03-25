@@ -25,6 +25,7 @@ class CasesRepository {
       String? timeRange,
       String? month,
       String? date,
+      String? assemblyId,
       String? keyword}) async {
     try {
       var body = {
@@ -40,7 +41,8 @@ class CasesRepository {
         "timeRange": timeRange ?? '',
         "month": month ?? '',
         if (date != null) "date": date,
-        if (keyword != null) "keyword": keyword
+        if (keyword != null) "keyword": keyword,
+        if (assemblyId != null) "assembly_id": assemblyId
       };
       dynamic response = await _apiServices.postApi(body, CasesUrl.viewCases);
 

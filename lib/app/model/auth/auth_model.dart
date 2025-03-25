@@ -86,7 +86,9 @@ class UserData {
   String? mobile;
   String? account;
   String? email;
-  String? description;
+    String? assemblyId;
+    String? assembly;
+    String? description;
 
   UserData({
     this.id,
@@ -96,8 +98,10 @@ class UserData {
     this.type,
     this.mobile,
     this.account,
-    this.email,
-    this.description,
+   this.email,
+        this.assemblyId,
+        this.assembly,
+        this.description,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) => UserData(
@@ -109,6 +113,8 @@ class UserData {
         mobile: json["mobile"]?.toString(),
         account: json["account"]?.toString(),
         email: json["email"]?.toString(),
+        assemblyId: json["assembly_id"]?.toString(),
+        assembly: json["assembly"]?.toString(),
         description: json["description"]?.toString(),
       );
 
@@ -121,6 +127,8 @@ class UserData {
         "mobile": mobile,
         "account": account,
         "email": email,
+         "assembly_id": assemblyId,
+        "assembly": assembly,
         "description": description,
       };
 }

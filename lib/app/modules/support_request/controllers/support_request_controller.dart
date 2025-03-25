@@ -24,7 +24,7 @@ class SupportRequestController extends GetxController
   var isLoading = false.obs;
   var isStatusLoading = false.obs;
   final formkey = GlobalKey<FormState>();
-   final formkey1 = GlobalKey<FormState>();
+  final formkey1 = GlobalKey<FormState>();
   final TextEditingController fromDateController = TextEditingController();
   final TextEditingController toDateController = TextEditingController();
   final TextEditingController keywordController = TextEditingController();
@@ -42,7 +42,6 @@ class SupportRequestController extends GetxController
   final TextEditingController uploadController = TextEditingController();
 
   //update
- 
 
   DropDownModel statusFilter = DropDownModel();
   DropDownModel categoryFilter = DropDownModel();
@@ -58,7 +57,6 @@ class SupportRequestController extends GetxController
 
   RxList<CasesData> data = <CasesData>[].obs;
   RxList<CasesData> dataCopy = <CasesData>[].obs;
-  
 
   final repo = CasesRepository();
   final catRepo = CategoryRepository();
@@ -168,11 +166,14 @@ class SupportRequestController extends GetxController
     setRxRequestStatus(Status.loading);
     data.clear();
     dataCopy.clear();
+    final assemblyId = LocalStorageKey.userData.assemblyId.toString();
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
         pageSize: pageSize.value == 0 ? '0' : pageSize.value.toString(),
         type: ConstValues.typeSupport,
+        assemblyId:
+            LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
         status: statusFilter.name == '--Select Status--'
@@ -201,7 +202,6 @@ class SupportRequestController extends GetxController
   Uint8List? pickedFileBytes; // For file bytes
   String? encodedData;
 
-
   Future<void> pickImage(
       ImageSource? imageSource, String type, String value) async {
     if (imageSource != null) {
@@ -217,7 +217,7 @@ class SupportRequestController extends GetxController
           uploadController.text = imageName.value;
           pickedFileBytes = await image.readAsBytes();
           encodedData = base64Encode(pickedFileBytes!);
-        } 
+        }
         // else if (value == 'detailCase') {
         //   detailImagename.value = "$dateFormat.${image.name.split('.').last}";
         //  // remindDocumentController.text = detailImagename.value;
@@ -248,7 +248,7 @@ class SupportRequestController extends GetxController
           uploadController.text = imageName.value;
 
           encodedData = base64Encode(pickedFileBytes!);
-        } 
+        }
         // else if (value == 'detailCase') {
         //   detailImagename.value =
         //       "$dateFormat.${result.files.single.name.split('.').last}";
@@ -321,7 +321,6 @@ class SupportRequestController extends GetxController
     }, (resData) {
       isLoading(false);
       if (resData.status!) {
-       
       } else {
         isLoading(false);
       }
@@ -334,8 +333,6 @@ class SupportRequestController extends GetxController
       getSupportRequests(); // Fetch the employee list for the new page
     }
   }
-
-  
 
   clear() {
     nameController.clear();
@@ -353,6 +350,4 @@ class SupportRequestController extends GetxController
     uploadController.clear();
     imageName.value = '';
   }
-
- 
 }

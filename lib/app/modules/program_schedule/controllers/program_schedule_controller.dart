@@ -237,6 +237,7 @@ class ProgramScheduleController extends GetxController {
     setRxRequestStatus(Status.loading);
     data.clear();
     dataCopy.clear();
+    final assemblyId = LocalStorageKey.userData.assemblyId.toString();
     final response = await repo.getCasesList(
         accountId: LocalStorageKey.userData.accountId.toString(),
         page: pageSize.value == 0 ? '0' : pageIndex.value.toString(),
@@ -245,6 +246,8 @@ class ProgramScheduleController extends GetxController {
         fromDate: fromDateController.text.trim(),
         toDate: toDateController.text.trim(),
         status: statusFilter.name ?? '',
+         assemblyId:
+            LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
         categoryId: categoryFilter.id ?? '',
         priorityId: priorityFilter.id ?? '',
         keyword: keywordController.text.trim());

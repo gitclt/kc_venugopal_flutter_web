@@ -326,12 +326,14 @@ class DashboardView extends GetView<DashboardController> {
                           .toIso8601String()
                           .substring(0, 10); // Convert to "YYYY-MM-DD"
 
-                      int index = controller.eventDates.indexOf(formattedDay);
-                      bool isEventDay = index != -1;
-                      String? eventType =
-                          isEventDay ? controller.eventTypes[index] : null;
+                      bool isEventDay =
+                          controller.eventMap.containsKey(formattedDay);
+                      List<String> eventTypes = isEventDay
+                          ? controller.eventMap[formattedDay]!.toList()
+                          : []; // Convert Set to List
+                      String eventText = eventTypes.join(", ");
                       return Tooltip(
-                        message: isEventDay ? eventType : '',
+                        message: isEventDay ? eventText : '',
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
                             color: AppColor.primary),
@@ -341,7 +343,7 @@ class DashboardView extends GetView<DashboardController> {
                             Get.rootDelegate.toNamed(Routes.ALL_ACTIVITIES,
                                 arguments: {
                                   "date": formattedDay,
-                                  "type": eventType
+                                  "type": eventText
                                 });
                           },
                           child: Container(

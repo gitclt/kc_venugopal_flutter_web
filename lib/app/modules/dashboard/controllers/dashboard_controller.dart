@@ -29,6 +29,7 @@ class DashboardController extends GetxController {
   Rx<DateTime> focusedDay = DateTime.now().obs;
   Rxn<DateTime> selectedDay = Rxn<DateTime>(); // nullable DateTime
   Rx<CalendarFormat> calendarFormat = CalendarFormat.month.obs;
+  Map<String, Set<String>> eventMap = {};
 
   final repo = CasesRepository();
   var assemblyId = '';
@@ -58,15 +59,13 @@ class DashboardController extends GetxController {
 
   getEvents() async {
     isLoading(true);
-    eventTypes.clear();
-    eventDates.clear();
+    eventMap.clear();
 
     final response = await repo.getCasesList(
       accountId: LocalStorageKey.userData.accountId.toString(),
       timeRange: 'month',
-      assemblyId:
-          LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
     );
+
     response.fold((failure) {
       isLoading(false);
     }, (resData) {
@@ -77,14 +76,47 @@ class DashboardController extends GetxController {
           if (value.date != null && value.type != null) {
             String formattedDate =
                 DateTime.parse(value.date!).toIso8601String().substring(0, 10);
-            eventDates.add(formattedDate);
-            eventTypes.add(value.type!);
+
+            eventMap.putIfAbsent(formattedDate,
+                () => <String>{}); // Initialize Set if not exists
+            eventMap[formattedDate]!
+                .add(value.type!); // Add all event types for the same date
           }
         }
       }
       update();
     });
   }
+
+  // getEvents() async {
+  //   isLoading(true);
+  //   eventTypes.clear();
+  //   eventDates.clear();
+
+  //   final response = await repo.getCasesList(
+  //     accountId: LocalStorageKey.userData.accountId.toString(),
+  //     timeRange: 'month',
+  //     // assemblyId:
+  //     //     LocalStorageKey.userData.type == 'subadmin' ? assemblyId : null,
+  //   );
+  //   response.fold((failure) {
+  //     isLoading(false);
+  //   }, (resData) {
+  //     isLoading(false);
+
+  //     if (resData.data != null) {
+  //       for (var value in resData.data!) {
+  //         if (value.date != null && value.type != null) {
+  //           String formattedDate =
+  //               DateTime.parse(value.date!).toIso8601String().substring(0, 10);
+  //           eventDates.add(formattedDate);
+  //           eventTypes.add(value.type!);
+  //         }
+  //       }
+  //     }
+  //     update();
+  //   });
+  // }
 
   List<DateTime> getEventDays() {
     return eventDates

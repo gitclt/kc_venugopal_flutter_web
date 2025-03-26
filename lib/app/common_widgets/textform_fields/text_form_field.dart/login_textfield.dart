@@ -42,6 +42,7 @@ class LoginTextField extends StatelessWidget {
           ],
         ),
         hintText: 'Enter $label',
+        hintStyle: TextStyle(color: Colors.grey.shade500),
         suffixIcon: suffixIcon,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         border: OutlineInputBorder(

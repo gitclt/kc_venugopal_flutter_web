@@ -10,8 +10,8 @@ import 'package:kc_venugopal_flutter_web/app/routes/app_pages.dart';
 import 'package:kc_venugopal_flutter_web/app/utils/utils.dart';
 
 class LoginController extends GetxController {
-  final emailController = TextEditingController(text: 'admin').obs;
-  final passwordController = TextEditingController(text: 'admin123').obs;
+  final emailController = TextEditingController(text: '').obs;
+  final passwordController = TextEditingController(text: '').obs;
   final isLoading = false.obs;
   final isVisiblePassword = false.obs;
   final formkey = GlobalKey<FormState>();
@@ -20,7 +20,6 @@ class LoginController extends GetxController {
   final loginRepo = LoginRepository();
   final apiServices = NetworkApiServices();
   UserPreference userPreference = UserPreference();
-  String type = 'admin';
 
   void login() async {
     isLoading(true);
@@ -29,7 +28,7 @@ class LoginController extends GetxController {
       String password =
           passwordController.value.text.trim().replaceAll('&', 'amp;');
       String temp =
-          "username=${emailController.value.text.trim()}&password=$password&type=$type";
+          "username=${emailController.value.text.trim()}&password=$password";
 
       List<int> encDataByte =
           utf8.encode(temp); // Convert string to UTF-8 bytes

@@ -73,14 +73,9 @@ class SubAdminController extends GetxController {
     setRxRequestStatus(Status.loading);
     assemblyData.clear();
 
-    final res = await assemblyRepo
-        .getAssembly(  accountId: LocalStorageKey.userData.accountId.toString(),
-      subadminId: LocalStorageKey.userData.type == 'subadmin'
-          ? LocalStorageKey.userData.id.toString()
-          : null,
-      type: LocalStorageKey.userData.type == 'subadmin'
-          ? 'subadmin'
-          : null,);
+    final res = await assemblyRepo.getAssembly(
+      accountId: LocalStorageKey.userData.accountId.toString(),
+    );
     res.fold((failure) {
       setRxRequestStatus(Status.completed);
       setError(error.toString());
